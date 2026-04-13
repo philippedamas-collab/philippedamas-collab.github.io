@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>REX #1 — Certification GSMA-SM | Philippe Damas</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#f5f0e8;color:#1a1a1a;font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7}
+a{text-decoration:none;color:inherit}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;padding:0 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(245,240,232,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06)}
+.nav-logo{font-family:'DM Sans',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase}
+.nav-logo span{color:#7c3aed}
+.nav-back{display:flex;align-items:center;gap:6px;font-size:.8rem;color:#666;font-weight:500;transition:color .2s}
+.nav-back:hover{color:#7c3aed}
+.hero{padding:100px 40px 60px;max-width:780px;margin:0 auto}
+.rex-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.25);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#7c3aed;margin-bottom:24px;font-weight:600}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(2.2rem,4vw,3.2rem);line-height:1.15;letter-spacing:-.02em;margin-bottom:16px}
+.hero-title em{font-style:italic;color:#7c3aed}
+.hero-sub{font-size:1.05rem;color:#555;line-height:1.8;max-width:640px;margin-bottom:32px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:.78rem;color:#999;padding-top:20px;border-top:1px solid rgba(0,0,0,.08)}
+.hero-meta strong{color:#1a1a1a}
+.article{max-width:780px;margin:0 auto;padding:0 40px 80px}
+.insight{background:#1a1a1a;color:#fff;border-radius:20px;padding:32px 36px;margin:40px 0;position:relative;overflow:hidden}
+.insight::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(124,58,237,.3) 0%,transparent 70%)}
+.insight-label{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:#c4b5fd;font-weight:700;margin-bottom:10px}
+.insight-text{font-size:1.05rem;line-height:1.8;color:rgba(255,255,255,.9)}
+.section{margin:48px 0}
+.section-num{font-family:'DM Serif Display',serif;font-size:4rem;color:#e8e3db;line-height:1;margin-bottom:-8px;display:block}
+.section-title{font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.25rem;color:#0f0f0f;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #e8e3db}
+.section p{font-size:.97rem;color:#444;line-height:1.85;margin-bottom:14px}
+.checklist{background:#fff;border-radius:16px;padding:28px 32px;margin:24px 0;border:1px solid rgba(0,0,0,.06)}
+.checklist-title{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#7c3aed;font-weight:700;margin-bottom:16px}
+.check-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.05)}
+.check-item:last-child{border-bottom:none}
+.check-icon{width:22px;height:22px;border-radius:6px;background:rgba(124,58,237,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.check-text{font-size:.9rem;color:#333;line-height:1.6}
+.check-text strong{color:#0f0f0f;font-weight:600}
+.warning{background:#fff8ed;border:1px solid #f59e0b;border-left:4px solid #f59e0b;border-radius:12px;padding:20px 24px;margin:24px 0;display:flex;gap:14px}
+.warning-text{font-size:.9rem;color:#78350f;line-height:1.7}
+.warning-text strong{font-weight:700;display:block;margin-bottom:4px}
+.pull-quote{border-left:3px solid #7c3aed;padding:16px 24px;margin:32px 0;background:rgba(124,58,237,.04);border-radius:0 12px 12px 0}
+.pull-quote p{font-family:'DM Serif Display',serif;font-size:1.15rem;font-style:italic;color:#333;line-height:1.7}
+.pull-quote cite{display:block;font-size:.72rem;color:#999;margin-top:8px;font-style:normal;letter-spacing:.06em;text-transform:uppercase}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:32px 0}
+.tag{padding:6px 14px;border-radius:20px;font-size:.72rem;background:#ece7dd;color:#666;font-weight:500}
+.tag-main{background:rgba(124,58,237,.1);color:#7c3aed}
+.cta-box{background:linear-gradient(135deg,#2a1a4a 0%,#1a0f2e 100%);border-radius:20px;padding:40px;margin:48px 0;text-align:center}
+.cta-box h3{font-family:'DM Serif Display',serif;font-size:1.6rem;color:#fff;margin-bottom:12px}
+.cta-box p{font-size:.9rem;color:rgba(255,255,255,.6);margin-bottom:24px;line-height:1.7}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#7c3aed;color:#fff;border-radius:30px;font-size:.82rem;font-weight:600;transition:opacity .2s}
+.cta-btn:hover{opacity:.85}
+.nav-articles{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:48px 0}
+.nav-art{background:#fff;border-radius:16px;padding:24px;border:1px solid rgba(0,0,0,.06);transition:all .2s}
+.nav-art:hover{border-color:#7c3aed;transform:translateY(-2px)}
+.nav-art-label{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:#999;margin-bottom:8px}
+.nav-art-title{font-size:.9rem;font-weight:600;color:#1a1a1a;line-height:1.4}
+.nav-art-arrow{font-size:.8rem;color:#7c3aed;margin-top:8px;display:block}
+footer{text-align:center;padding:24px;font-size:.65rem;color:#bbb;letter-spacing:.06em;border-top:1px solid rgba(0,0,0,.06)}
+@media(max-width:680px){.hero,.article{padding-left:20px;padding-right:20px}nav{padding:0 20px}.nav-articles{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">P.<span>Damas</span></a>
+  <a href="blog.html" class="nav-back">← Blog IT</a>
+</nav>
+
+<div class="hero">
+  <div class="rex-tag">REX #1 · Retour d'expérience</div>
+  <h1 class="hero-title">Certification <em>GSMA-SM</em> :<br>les points clés pour réussir</h1>
+  <p class="hero-sub">Installer et certifier une cage sécurisée from scratch dans un datacenter Tier IV n'est pas qu'un projet technique. C'est un exercice de rigueur opérationnelle, de gestion de fournisseurs et de documentation exhaustive. Voici ce que j'ai appris sur le terrain.</p>
+  <div class="hero-meta">
+    <span>Par <strong>Philippe Damas</strong></span>
+    <span>· <strong>IDEMIA</strong> · Equinix PA3/PA4</span>
+    <span>· 2025</span>
+    <span>· ~8 min de lecture</span>
+  </div>
+</div>
+
+<div class="article">
+
+  <div class="insight">
+    <div class="insight-label">L'essentiel</div>
+    <p class="insight-text">Une certification GSMA-SM se gagne sur le terrain, pas derrière un bureau. La rigueur du procurement, la surveillance active des travaux et la minutie du handover sont les trois piliers qui font la différence entre une cage certifiée et un audit raté.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Le procurement : le nerf de la guerre</h2>
+    <p>Tout commence bien avant l'arrivée sur site. La gestion du procurement matériel est critique : chaque baie, chaque équipement réseau, chaque système de climatisation et de sécurité doit être commandé, suivi et réceptionné selon un planning précis articulé avec les travaux Equinix.</p>
+    <p>Un retard de livraison d'un PDU ou d'un switch peut bloquer l'ensemble de la certification. Il faut maintenir un tableau de suivi des commandes en temps réel, avec dates de livraison, numéros de série attendus et points de contact fournisseurs. Chaque item doit être vérifié à la réception sur le DC — pas dans un entrepôt intermédiaire.</p>
+    <div class="warning">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">⚠️</div>
+      <div class="warning-text">
+        <strong>Piège classique</strong>
+        Ne jamais déléguer la réception matérielle sans validation contradictoire. Des équipements peuvent être livrés avec des numéros de série incorrects — une erreur découverte le jour de l'audit GSMA peut tout bloquer.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Surveiller les travaux Equinix : être présent, pas passif</h2>
+    <p>Equinix est un fournisseur professionnel, mais cela ne dispense pas d'un suivi actif. Se déplacer régulièrement sur le DC — à chaque étape clé — permet de détecter les écarts avant qu'ils ne deviennent des non-conformités GSMA.</p>
+    <p>Il faut valider la position des baies, l'absence de vis-à-vis avec d'autres cages (exigence GSMA-SM explicite), la conformité électrique (dual-feed, disjoncteurs étiquetés) et l'intégration du système CCTV indépendant dédié à la cage.</p>
+
+    <div class="insight" style="margin:24px 0">
+      <div class="insight-label">🔐 Exigence GSMA — Statut RESTRICTED</div>
+      <p class="insight-text" style="font-size:.95rem;color:rgba(255,255,255,.9)">Dès la remise des clés (Handover), la cage doit être officiellement taguée <strong style="color:#fff">« RESTRICTED »</strong> dans le système Equinix. Cela signifie qu'<strong style="color:#fff">Equinix lui-même n'est plus autorisé à pénétrer dans la cage sans une validation préalable explicite du client</strong>. Ce statut est une exigence GSMA non-négociable. Il faut s'assurer que le process d'accès est correctement implémenté avec les équipes Equinix avant le jour du Handover : qui valide, par quel canal, dans quel délai, et avec quelle traçabilité. Vérifiez également que la cage apparaît bien comme RESTRICTED dans leur portail client — une capture d'écran de confirmation est une preuve utile pour l'auditeur.</p>
+    </div>
+
+    <div class="warning">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">⚠️</div>
+      <div class="warning-text">
+        <strong>Ne pas confondre "livraison de la cage" et "activation du statut RESTRICTED"</strong>
+        Equinix peut livrer physiquement la cage sans que le statut RESTRICTED soit encore actif dans leur système. Ces deux étapes doivent être validées séparément et simultanément lors du Handover. Un oubli sur ce point est un motif de non-conformité immédiat lors de l'audit GSMA.
+      </div>
+    </div>
+
+    <div class="checklist">
+      <div class="checklist-title">Points de contrôle à chaque visite terrain</div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Avancement physique</strong> — Position des baies, câblage structuré, étiquetage conforme</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Isolation visuelle</strong> — Vérification de l'absence de vis-à-vis avec les cages adjacentes</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Système CCTV indépendant</strong> — Caméras dédiées, angles de couverture, enregistrement local 90 jours</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Conformité électrique</strong> — Dual power feed, PDU redondants, protections différentielles</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Climatisation</strong> — Unités dédiées ou conformes, mesure des températures, alarmes</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Gestion des accès et cahier des intervenants</h2>
+    <p>La GSMA-SM impose une traçabilité totale des accès à la cage. Cela commence dès la phase travaux : chaque intervenant doit être enregistré dans un cahier d'inventaire avec son identité, son habilitation, la date/heure d'entrée-sortie, et la nature de son intervention.</p>
+    <p>Ce document devient une pièce maîtresse lors de l'audit. Il démontre que le contrôle d'accès était opérationnel avant la mise en service. Le processus de validation des accès permanents (badges, clés crypto, dual-control) doit être testé et documenté avant le jour J.</p>
+    <div class="pull-quote">
+      <p>« Un auditeur GSMA ne vérifie pas seulement que le système d'accès fonctionne. Il vérifie que vous savez exactement qui est entré dans votre cage et pourquoi, depuis le premier jour des travaux. »</p>
+      <cite>Retour terrain — Mission IDEMIA 2025</cite>
+    </div>
+  </div>
+
+  <div class="section">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Le Handover : la réception méticuleuse de la cage</h2>
+    <p>C'est l'étape la plus critique, et souvent la plus sous-estimée. Le handover n'est pas une formalité — c'est la validation formelle que chaque élément est conforme aux exigences GSMA-SM avant de prendre la responsabilité opérationnelle.</p>
+    <p>Il est indispensable de travailler avec un <strong>fichier de suivi de réception item par item</strong>. Chaque élément a sa ligne : statut (conforme / non-conforme / réserve), numéro de série constaté vs attendu, photos de preuve, signature en dual-contrôle.</p>
+    <div class="checklist">
+      <div class="checklist-title">Checklist Handover — Items à valider obligatoirement</div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Statut RESTRICTED activé</strong> — Cage taguée "RESTRICTED" dans le système Equinix, confirmation écrite, capture portail client</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Process d'accès Equinix validé</strong> — Procédure de demande d'accès documentée, canal de validation défini, délais convenus par écrit</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Baies et racks</strong> — Dimensions, verrouillage, étiquetage, solidarisation au sol</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Climatisation dédiée</strong> — Test fonctionnement, alarmes, redondance N+1</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Réseau & câblage</strong> — Patch panels, TOE, labellisation de chaque câble</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Normes électriques</strong> — Conformité des prises, protection différentielle, mise à la terre</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Sécurité physique de la cage</strong> — Serrures, alarme intrusion, absence de vis-à-vis</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>CCTV indépendant</strong> — Angles de vue, enregistrement continu, rétention 90 jours minimum</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Dual-contrôle des racks</strong> — Validation croisée à deux personnes habilitées, procès-verbal signé</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Crypto Cards & Key Custodian</strong> — Remise en dual-contrôle, coffre sécurisé, registre de signatures</div>
+      </div>
+    </div>
+    <div class="warning">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">⚠️</div>
+      <div class="warning-text">
+        <strong>Ne signez jamais un handover avec des réserves non documentées</strong>
+        Toute réserve doit avoir une date de correction engagée et un responsable nommé. Un handover signé sans réserve documentée engage votre responsabilité sur des non-conformités que vous n'avez pas constatées.
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Les 5 règles d'or</h2>
+    <div class="checklist">
+      <div class="checklist-title">Synthèse opérationnelle</div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Soyez présent sur le terrain</strong> — Aucun rapport d'avancement ne remplace une visite physique</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Tout se documente</strong> — Procurement, accès, travaux, handover : chaque action a sa trace écrite</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Le dual-contrôle est non-négociable</strong> — Crypto cards, racks, handover : toujours à deux personnes habilitées</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Anticipez les délais fournisseurs</strong> — Commandez avec 30% de marge sur les délais annoncés</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Le handover est une cérémonie</strong> — Traitez-le avec le même sérieux qu'un audit — parce que c'en est un</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag tag-main">GSMA-SM</span><span class="tag tag-main">Datacenter</span><span class="tag tag-main">Certification</span><span class="tag">Equinix</span><span class="tag">Procurement</span><span class="tag">Handover</span><span class="tag">CCTV</span><span class="tag">Dual-Control</span><span class="tag">Sécurité physique</span><span class="tag">REX</span>
+  </div>
+
+  <div class="cta-box">
+    <h3>Vous avez un projet de certification DC ?</h3>
+    <p>Fort de cette expérience terrain sur la certification GSMA-SM, je peux vous accompagner dans la préparation et la conduite de votre audit. Prenons 30 minutes pour en parler.</p>
+    <a href="index.html#contact" class="cta-btn">Me contacter →</a>
+  </div>
+
+  <div class="nav-articles">
+    <a href="blog.html" class="nav-art">
+      <div class="nav-art-label">← Retour</div>
+      <div class="nav-art-title">Tous les articles</div>
+      <span class="nav-art-arrow">Voir le blog →</span>
+    </a>
+    <a href="rex2-vpn.html" class="nav-art">
+      <div class="nav-art-label">Article suivant →</div>
+      <div class="nav-art-title">REX #2 — Renouvellement VPN à l'échelle groupe : pièges à éviter</div>
+      <span class="nav-art-arrow">Lire →</span>
+    </a>
+  </div>
+
+</div>
+<footer>© 2025 Philippe Damas · Senior IT Program Manager · PMP® · GSMA-SM</footer>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>REX #2 — Réussir un Carve-In | Philippe Damas</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#f5f0e8;color:#1a1a1a;font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7}
+a{text-decoration:none;color:inherit}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;padding:0 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(245,240,232,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06)}
+.nav-logo{font-family:'DM Sans',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase}
+.nav-logo span{color:#7c3aed}
+.nav-back{display:flex;align-items:center;gap:6px;font-size:.8rem;color:#666;font-weight:500;transition:color .2s}
+.nav-back:hover{color:#7c3aed}
+.hero{padding:100px 40px 60px;max-width:780px;margin:0 auto}
+.rex-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.25);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#7c3aed;margin-bottom:24px;font-weight:600}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(2.2rem,4vw,3.2rem);line-height:1.15;letter-spacing:-.02em;margin-bottom:16px}
+.hero-title em{font-style:italic;color:#7c3aed}
+.hero-sub{font-size:1.05rem;color:#555;line-height:1.8;max-width:640px;margin-bottom:32px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:.78rem;color:#999;padding-top:20px;border-top:1px solid rgba(0,0,0,.08)}
+.hero-meta strong{color:#1a1a1a}
+.article{max-width:780px;margin:0 auto;padding:0 40px 80px}
+.insight{background:#1a1a1a;color:#fff;border-radius:20px;padding:32px 36px;margin:40px 0;position:relative;overflow:hidden}
+.insight::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(124,58,237,.3) 0%,transparent 70%)}
+.insight-label{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:#c4b5fd;font-weight:700;margin-bottom:10px}
+.insight-text{font-size:1.05rem;line-height:1.8;color:rgba(255,255,255,.9)}
+.insight-text strong{color:#fff}
+.section{margin:52px 0}
+.section-num{font-family:'DM Serif Display',serif;font-size:4rem;color:#e8e3db;line-height:1;margin-bottom:-8px;display:block}
+.section-title{font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.25rem;color:#0f0f0f;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #e8e3db}
+.section p{font-size:.97rem;color:#444;line-height:1.85;margin-bottom:14px}
+.section p:last-child{margin-bottom:0}
+.checklist{background:#fff;border-radius:16px;padding:28px 32px;margin:24px 0;border:1px solid rgba(0,0,0,.06)}
+.checklist-title{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#7c3aed;font-weight:700;margin-bottom:16px}
+.check-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.05)}
+.check-item:last-child{border-bottom:none}
+.check-icon{width:22px;height:22px;border-radius:6px;background:rgba(124,58,237,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.check-text{font-size:.9rem;color:#333;line-height:1.6}
+.check-text strong{color:#0f0f0f;font-weight:600}
+.warning{background:#fff8ed;border:1px solid #f59e0b;border-left:4px solid #f59e0b;border-radius:12px;padding:20px 24px;margin:24px 0;display:flex;gap:14px}
+.warning-text{font-size:.9rem;color:#78350f;line-height:1.7}
+.warning-text strong{font-weight:700;display:block;margin-bottom:4px}
+.info{background:#eff6ff;border:1px solid #93c5fd;border-left:4px solid #3b82f6;border-radius:12px;padding:20px 24px;margin:24px 0;display:flex;gap:14px}
+.info-text{font-size:.9rem;color:#1e3a5f;line-height:1.7}
+.info-text strong{font-weight:700;display:block;margin-bottom:4px}
+.pull-quote{border-left:3px solid #7c3aed;padding:16px 24px;margin:32px 0;background:rgba(124,58,237,.04);border-radius:0 12px 12px 0}
+.pull-quote p{font-family:'DM Serif Display',serif;font-size:1.15rem;font-style:italic;color:#333;line-height:1.7}
+.pull-quote cite{display:block;font-size:.72rem;color:#999;margin-top:8px;font-style:normal;letter-spacing:.06em;text-transform:uppercase}
+/* Timeline pour migration Filer */
+.timeline{margin:24px 0}
+.tl-item{display:flex;gap:20px;margin-bottom:0}
+.tl-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:40px}
+.tl-circle{width:36px;height:36px;border-radius:50%;background:#7c3aed;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:1rem;color:#fff;font-weight:700;flex-shrink:0}
+.tl-line{width:2px;background:#e8e3db;flex:1;margin:4px 0}
+.tl-item:last-child .tl-line{display:none}
+.tl-content{background:#fff;border-radius:14px;padding:18px 22px;margin-bottom:12px;border:1px solid rgba(0,0,0,.06);flex:1}
+.tl-content h4{font-size:.9rem;font-weight:700;color:#1a1a1a;margin-bottom:6px}
+.tl-content p{font-size:.85rem;color:#555;line-height:1.7;margin:0}
+.tl-content .tl-tag{display:inline-block;padding:2px 10px;border-radius:10px;font-size:.65rem;font-weight:600;background:rgba(124,58,237,.1);color:#7c3aed;margin-top:8px;letter-spacing:.06em;text-transform:uppercase}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:32px 0}
+.tag{padding:6px 14px;border-radius:20px;font-size:.72rem;background:#ece7dd;color:#666;font-weight:500}
+.tag-main{background:rgba(124,58,237,.1);color:#7c3aed}
+.cta-box{background:linear-gradient(135deg,#2a1a4a 0%,#1a0f2e 100%);border-radius:20px;padding:40px;margin:48px 0;text-align:center}
+.cta-box h3{font-family:'DM Serif Display',serif;font-size:1.6rem;color:#fff;margin-bottom:12px}
+.cta-box p{font-size:.9rem;color:rgba(255,255,255,.6);margin-bottom:24px;line-height:1.7}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#7c3aed;color:#fff;border-radius:30px;font-size:.82rem;font-weight:600;transition:opacity .2s}
+.cta-btn:hover{opacity:.85}
+.nav-articles{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:48px 0}
+.nav-art{background:#fff;border-radius:16px;padding:24px;border:1px solid rgba(0,0,0,.06);transition:all .2s}
+.nav-art:hover{border-color:#7c3aed;transform:translateY(-2px)}
+.nav-art-label{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:#999;margin-bottom:8px}
+.nav-art-title{font-size:.9rem;font-weight:600;color:#1a1a1a;line-height:1.4}
+.nav-art-arrow{font-size:.8rem;color:#7c3aed;margin-top:8px;display:block}
+footer{text-align:center;padding:24px;font-size:.65rem;color:#bbb;letter-spacing:.06em;border-top:1px solid rgba(0,0,0,.06)}
+@media(max-width:680px){.hero,.article{padding-left:20px;padding-right:20px}nav{padding:0 20px}.nav-articles{grid-template-columns:1fr}.tl-item{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">P.<span>Damas</span></a>
+  <a href="blog.html" class="nav-back">← Blog IT</a>
+</nav>
+
+<div class="hero">
+  <div class="rex-tag">REX #2 · Retour d'expérience</div>
+  <h1 class="hero-title">Réussir un <em>Carve-In</em> :<br>les 3 clés d'une intégration IT réussie</h1>
+  <p class="hero-sub">Intégrer une entité nouvellement rachetée dans le SI d'un grand groupe est l'un des exercices les plus complexes du management IT. Entre la pression des métiers, la dette technique de l'entité, et les exigences sécurité du groupe, chaque décision compte. Voici les trois piliers qui font la différence.</p>
+  <div class="hero-meta">
+    <span>Par <strong>Philippe Damas</strong></span>
+    <span>· Carve-In grands comptes</span>
+    <span>· ~10 min de lecture</span>
+  </div>
+</div>
+
+<div class="article">
+
+  <div class="insight">
+    <div class="insight-label">L'essentiel</div>
+    <p class="insight-text">Un Carve-In réussi repose sur trois piliers indissociables : <strong>un cadrage métier rigoureux</strong> qui respecte l'histoire de l'entité rachetée, <strong>une migration des données sécurisée en trois temps</strong> qui ne laisse rien au hasard, et <strong>un chronogramme co-construit</strong> avec toutes les parties prenantes — incluant un plan de rollback testé avant le jour J.</p>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Cadrage du besoin : partir de l'existant, pas des standards du groupe</h2>
+    <p>C'est l'erreur la plus fréquente dans les projets de Carve-In : arriver avec les standards du groupe et vouloir les appliquer immédiatement à l'entité intégrée. Or, chaque société rachetée arrive avec son histoire, ses habitudes, sa flotte PC, ses applications critiques — et ses utilisateurs qui ont peur de perdre leurs outils.</p>
+    <p>La phase de cadrage est donc fondamentalement une phase d'écoute. Il faut organiser des ateliers de recueil des besoins avec les équipes locales : inventaire des applications métier, identification des outils de Digital Workplace spécifiques, cartographie des cas d'usage IT qui ne doivent pas être interrompus.</p>
+
+    <div class="info">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">🤝</div>
+      <div class="info-text">
+        <strong>Le facteur humain est souvent sous-estimé</strong>
+        L'intégration dans un grand groupe est une source de stress importante pour les collaborateurs de l'entité rachetée. Ils craignent de perdre leurs outils, leurs habitudes, parfois leur emploi. L'équipe IT doit adopter une posture d'accompagnement et non d'imposition. L'écoute active des besoins terrain est un prérequis à toute décision technique.
+      </div>
+    </div>
+
+    <div class="checklist">
+      <div class="checklist-title">Points clés du cadrage initial</div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Inventaire complet de la flotte PC</strong> — Modèles, OS, logiciels installés, licences en cours</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Cartographie des applications critiques</strong> — ERP, outils de facturation, applications métier spécifiques</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Cas d'usage Digital Workplace</strong> — Outils collaboratifs, partages de fichiers, boîtes mail, VPN</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Dépendances inter-systèmes</strong> — Interfaces entre ERP et autres outils, flux automatisés</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Posture sécurité de l'entité</strong> — Niveau de maturité, bonnes pratiques déjà en place, écarts vs standards groupe</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Plan d'adoption sécurité</strong> — Communiquer les bonnes pratiques du groupe avec pédagogie, pas en rupture</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Normes et réglementations locales</strong> — Ne pas transposer les standards groupe sans vérifier les spécificités légales du pays. En Allemagne par exemple, les procédures d'<strong>Export Control</strong> sont strictement encadrées et doivent être validées avant toute migration de données ou d'applications sensibles. Chaque pays peut avoir ses propres contraintes : RGPD local, réglementation sectorielle, comité d'entreprise à consulter (Betriebsrat en Allemagne). Ces validations doivent être anticipées dans le planning, elles peuvent prendre plusieurs semaines.</div>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>« On n'intègre pas une société, on intègre des femmes et des hommes avec leurs outils. La technique vient en second. »</p>
+      <cite>Retour terrain — Carve-In grands comptes</cite>
+    </div>
+
+    <div class="info">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">🌍</div>
+      <div class="info-text">
+        <strong>Attention aux spécificités réglementaires locales — elles peuvent bloquer votre projet</strong>
+        Dans un <b>Carve-In international</b>, les normes locales ne sont pas optionnelles. En <b>Allemagne</b>, les procédures d'<b>Export Control</b> (contrôle des exportations de technologies et données sensibles) sont strictement encadrées et doivent être validées avant toute migration. Le <b>Betriebsrat</b> (comité d'entreprise allemand) dispose d'un droit de consultation obligatoire sur tout changement d'outils IT impactant les salariés — sans cette consultation, le projet peut être bloqué légalement. Ces démarches peuvent prendre plusieurs semaines : anticipez-les dès la phase de cadrage, pas après.
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Migration des données : sécuriser en trois temps</h2>
+    <p>Les données utilisateurs sont le patrimoine le plus sensible d'une entité. Leur migration vers le Filer cible du groupe ne peut pas être improvisée. Dans mon expérience, la seule approche fiable est une migration en trois temps distincts, avec des points de validation à chaque étape.</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-circle">A</div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <h4>Espace tampon — Pré-migration à chaud</h4>
+          <p>Déplacement des données utilisateurs vers un share tampon sur le Filer cible, en amont du cutover. Les utilisateurs continuent de travailler, les données sont déjà dans l'environnement cible mais dans une zone neutre. Cela permet de valider la connectivité, les performances réseau et les droits d'accès de base sans risque métier.</p>
+          <span class="tl-tag">À chaud — sans interruption</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-circle">B</div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <h4>Arrêt contrôlé — Migration des instances critiques</h4>
+          <p>Arrêt des applications de facturation et stop des instances de base de données, puis export et migration vers la cible. Cette étape se fait obligatoirement en dehors des périodes critiques métier.</p>
+          <div class="warning" style="margin:12px 0 0 0;padding:14px 18px">
+            <div style="font-size:1rem;flex-shrink:0">⚠️</div>
+            <div class="warning-text" style="font-size:.83rem">
+              <strong>Anticiper les clôtures comptables</strong>
+              Ne jamais planifier cette étape en fin de mois, fin de trimestre ou fin d'année fiscale. Une migration ratée pendant une clôture comptable peut bloquer toute la facturation du site pendant des jours.
+            </div>
+          </div>
+          <span class="tl-tag">À froid — fenêtre de maintenance</span>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-left">
+          <div class="tl-circle">C</div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <h4>Remédiation des droits — Réplication à l'identique</h4>
+          <p>Les droits d'accès dans le Filer cible doivent être recopiés à l'identique par rapport à l'ancien Filer, utilisateur par utilisateur, groupe par groupe. Ne pas rationaliser les droits pendant la migration : c'est un projet distinct qui se fera après la stabilisation. L'objectif du Carve-In est la continuité, pas l'optimisation.</p>
+          <span class="tl-tag">Avant cutover — validation croisée</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Le chronogramme : la clé du succès — et du rollback</h2>
+    <p>Un Carve-In sans chronogramme détaillé et co-signé par toutes les parties prenantes est un projet qui court à l'échec. Le plan de migration doit être construit en workshops avec tous les experts concernés — AD, réseau, poste de travail, serveurs Windows, infra, architecture — et validé par le client du site intégré.</p>
+    <p>Mais le chronogramme ne suffit pas : il faut également un <strong>plan de rollback complet et testé</strong> pour chaque domaine. La démolition de l'ancienne infrastructure ne peut intervenir qu'après validation complète du bon fonctionnement de tous les outils métier, ERP inclus.</p>
+
+    <div class="checklist">
+      <div class="checklist-title">Composantes du plan de rollback par domaine</div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Réseau</strong> — Retour vers l'ancien plan d'adressage IP, routes de secours pré-configurées et testées</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Postes de travail</strong> — Reprise des anciens profils workstation, procédure de re-jointure domaine documentée</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Données utilisateurs</strong> — Remontée des users vers l'ancien Filer si le Filer cible pose problème</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Applications critiques / ERP</strong> — Snapshot base de données pré-migration, procédure de restore testée</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Active Directory</strong> — Conservation de l'ancien AD le temps de la période de stabilisation post-cutover</div>
+      </div>
+    </div>
+
+    <div class="warning">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">⚠️</div>
+      <div class="warning-text">
+        <strong>Ne démanteler l'ancienne infrastructure qu'en toute dernière étape</strong>
+        L'ancien Filer, l'ancien AD, les anciens serveurs ne doivent être décommissionnés qu'après une période de stabilisation d'au moins 4 à 8 semaines post-cutover, et seulement après validation formelle par le client du site que tous les outils métier fonctionnent correctement — ERP en tête.
+      </div>
+    </div>
+
+    <div class="checklist">
+      <div class="checklist-title">Workshops à organiser en amont du chronogramme</div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>AD & Identity</strong> — Stratégie de fusion/migration des comptes, GPO, groupes de sécurité</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Réseau & plan d'adressage</strong> — Subnets cibles, VLAN, routage inter-site, BGP si applicable</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Poste de travail</strong> — Stratégie de re-master ou join domaine, gestion des profils locaux</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Serveurs Windows & Infra</strong> — Migration des rôles, plan de cohabitation ancien/nouveau SI</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Architecture lead</strong> — Validation de la cible technique globale, points de non-régression</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Client du site intégré</strong> — Validation du plan, engagement sur les fenêtres de maintenance, désignation d'un SPOC local</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag tag-main">Carve-In</span>
+    <span class="tag tag-main">Intégration IT</span>
+    <span class="tag tag-main">Migration</span>
+    <span class="tag">Filer</span>
+    <span class="tag">Active Directory</span>
+    <span class="tag">ERP</span>
+    <span class="tag">Rollback</span>
+    <span class="tag">Digital Workplace</span>
+    <span class="tag">Gestion du changement</span>
+    <span class="tag">REX</span>
+  </div>
+
+  <div class="cta-box">
+    <h3>Vous pilotez un projet d'intégration IT ?</h3>
+    <p>Fort de plusieurs Carve-In sur des périmètres internationaux, je peux vous accompagner dans le cadrage, la planification et l'exécution de votre projet. Discutons-en.</p>
+    <a href="index.html#contact" class="cta-btn">Me contacter →</a>
+  </div>
+
+  <div class="nav-articles">
+    <a href="rex1-gsma-sm.html" class="nav-art">
+      <div class="nav-art-label">← Article précédent</div>
+      <div class="nav-art-title">REX #1 — Certification GSMA-SM : les points clés</div>
+      <span class="nav-art-arrow">Lire →</span>
+    </a>
+    <a href="rex3-vpn.html" class="nav-art">
+      <div class="nav-art-label">Article suivant →</div>
+      <div class="nav-art-title">REX #3 — Renouvellement VPN à l'échelle groupe : pièges à éviter</div>
+      <span class="nav-art-arrow">Lire →</span>
+    </a>
+  </div>
+
+</div>
+<footer>© 2025 Philippe Damas · Senior IT Program Manager · PMP® · GSMA-SM</footer>
+</body>
+</html>

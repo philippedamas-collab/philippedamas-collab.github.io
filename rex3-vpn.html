@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>REX #3 — Migration VPN à l'échelle groupe | Philippe Damas</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#f5f0e8;color:#1a1a1a;font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7}
+a{text-decoration:none;color:inherit}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;padding:0 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(245,240,232,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06)}
+.nav-logo{font-family:'DM Sans',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase}
+.nav-logo span{color:#7c3aed}
+.nav-back{font-size:.8rem;color:#666;font-weight:500;transition:color .2s}
+.nav-back:hover{color:#7c3aed}
+.hero{padding:100px 40px 60px;max-width:780px;margin:0 auto}
+.rex-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.25);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#7c3aed;margin-bottom:24px;font-weight:600}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(2.2rem,4vw,3.2rem);line-height:1.15;letter-spacing:-.02em;margin-bottom:16px}
+.hero-title em{font-style:italic;color:#7c3aed}
+.hero-sub{font-size:1.05rem;color:#555;line-height:1.8;max-width:640px;margin-bottom:32px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:.78rem;color:#999;padding-top:20px;border-top:1px solid rgba(0,0,0,.08)}
+.hero-meta strong{color:#1a1a1a}
+.article{max-width:780px;margin:0 auto;padding:0 40px 80px}
+.insight{background:#1a1a1a;color:#fff;border-radius:20px;padding:32px 36px;margin:40px 0;position:relative;overflow:hidden}
+.insight::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(124,58,237,.3) 0%,transparent 70%)}
+.insight-label{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:#c4b5fd;font-weight:700;margin-bottom:10px}
+.insight-text{font-size:1.05rem;line-height:1.8;color:rgba(255,255,255,.9)}
+.insight-text strong{color:#fff}
+.section{margin:52px 0}
+.section-num{font-family:'DM Serif Display',serif;font-size:4rem;color:#e8e3db;line-height:1;margin-bottom:-8px;display:block}
+.section-title{font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.25rem;color:#0f0f0f;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #e8e3db}
+.section p{font-size:.97rem;color:#444;line-height:1.85;margin-bottom:14px}
+.section p:last-child{margin-bottom:0}
+.checklist{background:#fff;border-radius:16px;padding:28px 32px;margin:24px 0;border:1px solid rgba(0,0,0,.06)}
+.checklist-title{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#7c3aed;font-weight:700;margin-bottom:16px}
+.check-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.05)}
+.check-item:last-child{border-bottom:none}
+.check-icon{width:22px;height:22px;border-radius:6px;background:rgba(124,58,237,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.check-text{font-size:.9rem;color:#333;line-height:1.6}
+.check-text strong{color:#0f0f0f;font-weight:600}
+.warning{background:#fff0f0;border:1px solid #f87171;border-left:4px solid #ef4444;border-radius:12px;padding:20px 24px;margin:24px 0;display:flex;gap:14px}
+.warning-text{font-size:.9rem;color:#7f1d1d;line-height:1.7}
+.warning-text strong{font-weight:700;display:block;margin-bottom:4px}
+.info{background:#eff6ff;border:1px solid #93c5fd;border-left:4px solid #3b82f6;border-radius:12px;padding:20px 24px;margin:24px 0;display:flex;gap:14px}
+.info-text{font-size:.9rem;color:#1e3a5f;line-height:1.7}
+.info-text strong{font-weight:700;display:block;margin-bottom:4px}
+.pull-quote{border-left:3px solid #7c3aed;padding:16px 24px;margin:32px 0;background:rgba(124,58,237,.04);border-radius:0 12px 12px 0}
+.pull-quote p{font-family:'DM Serif Display',serif;font-size:1.15rem;font-style:italic;color:#333;line-height:1.7}
+.pull-quote cite{display:block;font-size:.72rem;color:#999;margin-top:8px;font-style:normal;letter-spacing:.06em;text-transform:uppercase}
+/* Déploiement waves */
+.waves{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:24px 0}
+.wave{background:#fff;border-radius:12px;padding:16px 12px;text-align:center;border:1px solid rgba(0,0,0,.06)}
+.wave-pct{font-family:'DM Serif Display',serif;font-size:1.4rem;color:#7c3aed;font-weight:700;display:block}
+.wave-label{font-size:.65rem;color:#999;letter-spacing:.06em;text-transform:uppercase;margin-top:4px;display:block}
+.wave-bar{height:4px;border-radius:2px;background:rgba(124,58,237,.15);margin-top:10px}
+.wave-fill{height:100%;border-radius:2px;background:#7c3aed}
+.budget-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:20px;background:#1a1a1a;color:#fff;font-size:.8rem;font-weight:600;margin:8px 4px 8px 0}
+.budget-badge span{color:#c4b5fd}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:32px 0}
+.tag{padding:6px 14px;border-radius:20px;font-size:.72rem;background:#ece7dd;color:#666;font-weight:500}
+.tag-main{background:rgba(124,58,237,.1);color:#7c3aed}
+.cta-box{background:linear-gradient(135deg,#2a1a4a 0%,#1a0f2e 100%);border-radius:20px;padding:40px;margin:48px 0;text-align:center}
+.cta-box h3{font-family:'DM Serif Display',serif;font-size:1.6rem;color:#fff;margin-bottom:12px}
+.cta-box p{font-size:.9rem;color:rgba(255,255,255,.6);margin-bottom:24px;line-height:1.7}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#7c3aed;color:#fff;border-radius:30px;font-size:.82rem;font-weight:600;transition:opacity .2s}
+.cta-btn:hover{opacity:.85}
+.nav-articles{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:48px 0}
+.nav-art{background:#fff;border-radius:16px;padding:24px;border:1px solid rgba(0,0,0,.06);transition:all .2s}
+.nav-art:hover{border-color:#7c3aed;transform:translateY(-2px)}
+.nav-art-label{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:#999;margin-bottom:8px}
+.nav-art-title{font-size:.9rem;font-weight:600;color:#1a1a1a;line-height:1.4}
+.nav-art-arrow{font-size:.8rem;color:#7c3aed;margin-top:8px;display:block}
+footer{text-align:center;padding:24px;font-size:.65rem;color:#bbb;letter-spacing:.06em;border-top:1px solid rgba(0,0,0,.06)}
+@media(max-width:680px){.hero,.article{padding-left:20px;padding-right:20px}nav{padding:0 20px}.nav-articles{grid-template-columns:1fr}.waves{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">P.<span>Damas</span></a>
+  <a href="blog.html" class="nav-back">← Blog IT</a>
+</nav>
+
+<div class="hero">
+  <div class="rex-tag">REX #3 · Retour d'expérience</div>
+  <h1 class="hero-title">Migration <em>VPN</em> à l'échelle groupe : les 4 clés pour réussir</h1>
+  <p class="hero-sub">Migrer la solution VPN d'un groupe de 30 000 utilisateurs ne se résume pas à un projet technique. C'est un programme à part entière — avec ses enjeux contractuels, son POC, sa gestion des éditeurs et son plan de déploiement par vagues. Voici ce que j'ai appris sur le terrain chez ENGIE et Orano.</p>
+  <div class="hero-meta">
+    <span>Par <strong>Philippe Damas</strong></span>
+    <span>· <strong>ENGIE / Orano</strong> · Grands comptes</span>
+    <span>· ~10 min de lecture</span>
+  </div>
+</div>
+
+<div class="article">
+
+  <div class="insight">
+    <div class="insight-label">L'essentiel</div>
+    <p class="insight-text">Un projet VPN à l'échelle groupe engage souvent <strong>plus de 800 K€</strong>. À ce niveau de budget, quatre piliers sont non-négociables : une <strong>pré-étude RFI/RFP rigoureuse</strong> avec les équipes Achats et Legal, un <strong>POC exhaustif</strong> avant tout engagement, un <strong>éditeur maintenu dans la boucle</strong> jusqu'à la fin, et un <strong>plan de communication par vagues</strong> sur l'ensemble du déploiement.</p>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Pré-étude RFI/RFP : un projet contractuel avant d'être technique</h2>
+    <p>Dans les grands groupes, un projet de transformation VPN dépasse systématiquement les seuils budgétaires qui imposent un processus d'appel d'offres formel. Un <b style="color:#7c3aed">RFI/RFP</b> est donc incontournable — et c'est une bonne chose, car il structure la sélection et protège le projet.</p>
+    <p>La collaboration avec les équipes <b style="color:#7c3aed">Procurement</b> et <b style="color:#7c3aed">Legal</b> est indispensable dès le début. Il ne s'agit pas seulement de choisir la meilleure solution technique : il faut obtenir le meilleur contrat possible en termes de prix, de SLA, de conditions de sortie et de support. La phase de négociation avec le couple Éditeur/Intégrateur est souvent sous-estimée — c'est pourtant là que se joue une grande partie de la valeur du projet.</p>
+
+    <div class="info">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">💡</div>
+      <div class="info-text">
+        <strong>Les budgets engagés sur ce type de projet</strong>
+        <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px">
+          <span class="budget-badge">Pré-étude, RFP & POC <span>~50–100 K€</span></span>
+          <span class="budget-badge">Licences & abonnements <span>~300–600 K€</span></span>
+          <span class="budget-badge">Intégration & déploiement <span>~80–100 K€</span></span>
+          <span class="budget-badge">Total programme <span>> 800 K€</span></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="checklist">
+      <div class="checklist-title">Points clés du RFI/RFP &amp; Gestion Procurement</div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Gestion Procurement intégrée dès le départ</strong> — Impliquer le Procurement dès la rédaction du cahier des charges : sourcing, homologation fournisseurs, processus d'appel d'offres, validation Legal</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Exigences techniques exhaustives</strong> — QoS, charge par utilisateur, nombre de connexions simultanées, pays couverts, profils VPN</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Exigences Cyber/RSSI</strong> — Chiffrement, conformité, intégration SIEM, posture de sécurité des endpoints</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Critères contractuels</strong> — SLA de disponibilité, pénalités, conditions de résiliation, portabilité des données</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Grille de notation Achats/Technique</strong> — Pondération entre le critère prix et les critères techniques, validée avec Legal</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Shortlist d'éditeurs</strong> — 3 à 5 éditeurs max (ex. Cisco, Netskope, Zscaler, Palo Alto) avec une phase de démonstration encadrée</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Le POC : la ceinture et les bretelles avant tout engagement</h2>
+    <p>Quand on engage plus de 800 K€ sur une solution, valider la promesse de l'éditeur en conditions réelles n'est pas une option — c'est une obligation. Le <b>POC (Proof of Concept)</b> est la seule façon de s'assurer que la solution choisie est capable d'absorber le trafic cible et de respecter les exigences métier avant de signer quoi que ce soit.</p>
+    <p>La bonne nouvelle : la plupart des éditeurs proposent une option <b>Try-and-Buy</b> (en moyenne 90 jours). Ne pas hésiter à le demander lors des négociations — c'est un argument de poids pour le Sponsor et le CTO, car cela démontre une volonté de mitiger le risque technique avant tout engagement financier définitif.</p>
+
+    <div class="pull-quote">
+      <p>« Proposer un POC au Sponsor, c'est la preuve d'un professionnalisme et d'une vraie volonté de mitiger le risque. Aucun CTO sérieux ne peut refuser ça. »</p>
+      <cite>Retour terrain — Migration VPN grands comptes</cite>
+    </div>
+
+    <div class="checklist">
+      <div class="checklist-title">Cas d'usage à couvrir impérativement dans le POC</div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Charge & QoS</strong> — Tests de montée en charge simulant le pic d'utilisation réel (connexions simultanées, bande passante)</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Authentification AD/MFA</strong> — Intégration avec l'Active Directory du groupe, MFA, SSO, gestion des comptes de service</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Profils VPN par pays et par usage</strong> — Split tunneling, full tunnel, profils nomades, profils site-to-site</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Posture & Certificats</strong> — Vérification de la conformité du poste avant connexion, gestion des certificats client</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Compatibilité poste de travail</strong> — Windows, macOS, Linux, compatibilité avec les suites bureautiques et outils métier existants</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Ergonomie utilisateur</strong> — Expérience de connexion, messages d'erreur, comportement en cas de perte réseau</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Zéro régression</strong> — Le nouveau client VPN doit fonctionner sans régression dans l'écosystème existant du groupe</div>
+      </div>
+    </div>
+
+    <div class="warning">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">⚠️</div>
+      <div class="warning-text">
+        <strong>Prendre le temps de tout tester — vraiment tout</strong>
+        Un POC expédié en 2 semaines sur 10 utilisateurs ne vaut rien. Il faut couvrir tous les profils, tous les OS, tous les cas d'usage métier critiques. Un bug découvert après le déploiement sur 30 000 postes coûte infiniment plus cher qu'un POC prolongé de 30 jours.
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Garder l'éditeur dans la boucle — jusqu'à la fin</h2>
+    <p>C'est l'un des pièges les plus fréquents sur ce type de projet : une fois le contrat signé et l'intégrateur en place, l'éditeur est progressivement écarté des ateliers techniques. C'est une erreur.</p>
+    <p>L'éditeur — qu'il s'agisse de <b>Cisco</b>, <b>Netskope</b>, <b>Zscaler</b> ou un autre — reste le seul garant de sa solution en cas de problème d'intégration. En cas de bug complexe ou de comportement inattendu pendant le POC ou le déploiement, c'est lui qui a les clés. L'intégrateur, aussi compétent soit-il, ne peut pas se substituer au support niveau 3 de l'éditeur.</p>
+
+    <div class="checklist">
+      <div class="checklist-title">Règles d'or pour la gestion éditeur/intégrateur</div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Éditeur dans tous les ateliers de debug</strong> — Pas de réunion de résolution de problème sans le TAC ou l'ingénieur éditeur</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Démantèlement des anciennes GW en dernier</strong> — Les anciennes passerelles (ex. ASA Cisco) ne sont désactivées qu'après une période de stabilisation validée</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Build-to-RUN validé avec l'infogérant</strong> — Le passage en exploitation ne se fait qu'après une validation formelle avec l'équipe RUN</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Documentation complète avant transfert</strong> — CMDB à jour, runbooks, procédures d'escalade éditeur documentées pour l'infogérant</div>
+      </div>
+    </div>
+
+    <div class="warning">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">⚠️</div>
+      <div class="warning-text">
+        <strong>Ne jamais démanteler l'ancienne infrastructure avant la fin de la période de stabilisation</strong>
+        Les anciennes passerelles VPN (ASA, Fortinet, etc.) doivent rester opérationnelles en parallèle jusqu'à ce que le nouveau système soit validé en production réelle. Une coupure prématurée sans rollback disponible peut paralyser l'accès distant de milliers d'utilisateurs.
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Le plan de communication et le déploiement par vagues</h2>
+    <p>Sur un projet touchant 30 000 utilisateurs, la communication n'est pas un à-côté — c'est un workstream à part entière. Elle doit être structurée à deux niveaux : le niveau <b>Copil/Sponsor</b> pour le suivi du programme, et le niveau <b>utilisateurs sur sites locaux</b> pour accompagner chaque vague de déploiement.</p>
+    <p>Le déploiement par vagues via <b>SCCM</b> (ou équivalent) est la seule approche viable à cette échelle. Chaque vague est une opportunité de détecter les anomalies avant qu'elles ne touchent la masse des utilisateurs. Le pourcentage de chaque vague doit être défini en fonction de la criticité des sites et de la capacité du support à absorber les incidents.</p>
+
+    <div class="waves">
+      <div class="wave" style="border-top:3px solid #6366f1;background:linear-gradient(160deg,#eef2ff,#fff)">
+        <span class="wave-pct" style="color:#6366f1">5%</span>
+        <span class="wave-label">Pré-pilote</span>
+        <div class="wave-bar" style="background:rgba(99,102,241,.15)"><div class="wave-fill" style="width:5%;background:#6366f1"></div></div>
+      </div>
+      <div class="wave" style="border-top:3px solid #8b5cf6;background:linear-gradient(160deg,#f5f3ff,#fff)">
+        <span class="wave-pct" style="color:#8b5cf6">10%</span>
+        <span class="wave-label">Pilote</span>
+        <div class="wave-bar" style="background:rgba(139,92,246,.15)"><div class="wave-fill" style="width:10%;background:#8b5cf6"></div></div>
+      </div>
+      <div class="wave" style="border-top:3px solid #0ea5e9;background:linear-gradient(160deg,#f0f9ff,#fff)">
+        <span class="wave-pct" style="color:#0ea5e9">25%</span>
+        <span class="wave-label">Vague 1</span>
+        <div class="wave-bar" style="background:rgba(14,165,233,.15)"><div class="wave-fill" style="width:25%;background:#0ea5e9"></div></div>
+      </div>
+      <div class="wave" style="border-top:3px solid #10b981;background:linear-gradient(160deg,#f0fdf4,#fff)">
+        <span class="wave-pct" style="color:#10b981">50%</span>
+        <span class="wave-label">Vague 2</span>
+        <div class="wave-bar" style="background:rgba(16,185,129,.15)"><div class="wave-fill" style="width:50%;background:#10b981"></div></div>
+      </div>
+      <div class="wave" style="border-top:3px solid #f59e0b;background:linear-gradient(160deg,#fffbeb,#fff)">
+        <span class="wave-pct" style="color:#f59e0b">100%</span>
+        <span class="wave-label">Généralisation</span>
+        <div class="wave-bar" style="background:rgba(245,158,11,.15)"><div class="wave-fill" style="width:100%;background:#f59e0b"></div></div>
+      </div>
+    </div>
+
+    <div class="checklist">
+      <div class="checklist-title">Plan de communication — Ce qui doit être couvert</div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Communication Sponsor/Copil</strong> — Reporting d'avancement à chaque jalon, indicateurs de déploiement et taux d'incidents par vague</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Communication utilisateurs</strong> — Email d'annonce, guide de prise en main, FAQ, contact support dédié — au moins 5 jours avant chaque vague</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Référents locaux (Key Users)</strong> — Désigner un point de contact IT sur chaque site pour remonter les anomalies terrain rapidement</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Dashboard de suivi par vague</strong> — Taux de déploiement, incidents ouverts/fermés, utilisateurs bloqués — mis à jour en temps réel</div>
+      </div>
+    </div>
+
+    <div class="warning">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">⚠️</div>
+      <div class="warning-text">
+        <strong>Éviter absolument les périodes de congés pour les vagues de déploiement</strong>
+        Déployer en juillet-août génère une masse de faux positifs : utilisateurs absents, postes non connectés, tickets ouverts par des collègues qui ne savent pas pourquoi l'outil a changé. Préférez les périodes de rentrée (septembre, janvier) où les taux de présence sont maximaux et les retours terrain fiables.
+      </div>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag tag-main">VPN</span>
+    <span class="tag tag-main">Migration</span>
+    <span class="tag tag-main">Grands comptes</span>
+    <span class="tag tag-main">RFI/RFP</span>
+    <span class="tag tag-main">Procurement</span>
+    <span class="tag tag-main">POC</span>
+    <span class="tag">Cisco</span>
+    <span class="tag">Netskope</span>
+    <span class="tag">Zscaler</span>
+    <span class="tag">SCCM</span>
+    <span class="tag">Try-and-Buy</span>
+    <span class="tag">Build-to-RUN</span>
+    <span class="tag">Cyber</span>
+    <span class="tag">RSSI</span>
+    <span class="tag">REX</span>
+  </div>
+
+  <div class="cta-box">
+    <h3>Vous pilotez un projet de transformation réseau ?</h3>
+    <p>Fort de plusieurs migrations VPN à l'échelle groupe (30 000+ users), je peux vous accompagner de la pré-étude jusqu'au déploiement final. Discutons-en.</p>
+    <a href="index.html#contact" class="cta-btn">Me contacter →</a>
+  </div>
+
+  <div class="nav-articles">
+    <a href="rex2-carvein.html" class="nav-art">
+      <div class="nav-art-label">← Article précédent</div>
+      <div class="nav-art-title">REX #2 — Réussir un Carve-In IT</div>
+      <span class="nav-art-arrow">Lire →</span>
+    </a>
+    <a href="rex4-migration-dc.html" class="nav-art">
+      <div class="nav-art-label">Article suivant →</div>
+      <div class="nav-art-title">REX #4 — Migration d'infrastructure DC à DC : les pièges à éviter</div>
+      <span class="nav-art-arrow">Lire →</span>
+    </a>
+  </div>
+
+</div>
+<footer>© 2025 Philippe Damas · Senior IT Program Manager · PMP® · GSMA-SM</footer>
+</body>
+</html>

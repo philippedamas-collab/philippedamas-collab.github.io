@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Offre PM IA — Philippe Damas</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#f5f0e8;font-family:'Segoe UI',Arial,sans-serif;display:flex;flex-direction:column;align-items:center;padding:100px 20px 40px;gap:32px}
+.nav-slides{display:flex;gap:12px;margin-bottom:8px}
+.nav-btn{padding:8px 20px;border-radius:20px;border:1.5px solid #444;background:transparent;color:#999;font-size:.75rem;cursor:pointer;transition:all .2s}
+.nav-btn.on{background:#7c3aed;color:#fff;border-color:#7c3aed}
+
+/* SLIDE */
+.slide{width:100%;max-width:900px;border-radius:20px;overflow:hidden;display:none;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.slide.active{display:block}
+
+/* SLIDE 1 — PROBLÈME */
+.s1{background:#f5f0e8}
+.s1-header{background:#16162a;padding:28px 40px;display:flex;justify-content:space-between;align-items:center}
+.s1-logo{font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:#f5f0e8}
+.s1-logo span{color:#7c3aed}
+.s1-tag{background:#7c3aed;color:#fff;padding:5px 14px;border-radius:20px;font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.s1-body{padding:48px 40px}
+.slide-num{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:#7c3aed;margin-bottom:10px}
+.slide-title{font-size:2.2rem;font-weight:700;color:#1a1a1a;line-height:1.1;margin-bottom:8px}
+.slide-title span{color:#7c3aed}
+.slide-sub{font-size:.9rem;color:#666;margin-bottom:36px}
+.pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:36px}
+.pain-card{background:#fff;border-radius:14px;padding:18px 20px;border:1px solid rgba(0,0,0,.06)}
+.pain-icon{font-size:1.4rem;margin-bottom:8px}
+.pain-title{font-size:.82rem;font-weight:700;color:#1a1a1a;margin-bottom:4px}
+.pain-desc{font-size:.72rem;color:#888;line-height:1.5}
+.pain-stat{font-size:1.6rem;font-weight:800;color:#7c3aed;margin-top:6px}
+.s1-footer{background:#16162a;padding:16px 40px;display:flex;justify-content:space-between;align-items:center}
+.s1-footer-txt{font-size:.65rem;color:#666;letter-spacing:.06em}
+.s1-footer-name{font-size:.65rem;color:#7c3aed;font-weight:600}
+
+/* SLIDE 2 — SOLUTION */
+.s2{background:#f5f0e8}
+.s2-header{background:#16162a;padding:28px 40px;display:flex;justify-content:space-between;align-items:center}
+.s2-logo{font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:#fff}
+.s2-tag{background:#7c3aed;color:#fff;padding:5px 14px;border-radius:20px;font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.s2-body{padding:48px 40px}
+.s2-title{font-size:2.2rem;font-weight:700;color:#1a1a1a;line-height:1.1;margin-bottom:8px}
+.s2-title span{color:#7c3aed}
+.s2-sub{font-size:.9rem;color:#666;margin-bottom:36px}
+.flow{display:flex;align-items:center;gap:0;margin-bottom:36px;flex-wrap:nowrap;overflow-x:auto}
+.flow-step{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:14px 16px;text-align:center;flex:1;min-width:100px}
+.flow-icon{font-size:1.4rem;margin-bottom:6px}
+.flow-label{font-size:.65rem;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.flow-tool{font-size:.72rem;font-weight:600;color:#7c3aed}
+.flow-arrow{color:#bbb;font-size:1.2rem;padding:0 6px;flex-shrink:0}
+.result-box{background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.2);border-radius:14px;padding:20px 24px}
+.result-title{font-size:.75rem;font-weight:700;color:#7c3aed;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px}
+.result-items{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ri{display:flex;align-items:center;gap:8px;font-size:.78rem;color:#444}
+.ri-dot{width:6px;height:6px;border-radius:50%;background:#7c3aed;flex-shrink:0}
+.s2-footer{background:#16162a;padding:16px 40px;display:flex;justify-content:space-between;align-items:center}
+
+/* SLIDE 3 — ROI */
+.s3{background:#f5f0e8}
+.s3-header{background:#16162a;padding:28px 40px;display:flex;justify-content:space-between;align-items:center}
+.s3-logo{font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:#fff}
+.s3-body{padding:48px 40px}
+.s3-title{font-size:2.2rem;font-weight:700;color:#1a1a1a;line-height:1.1;margin-bottom:8px}
+.s3-title span{color:#7c3aed}
+.s3-sub{font-size:.9rem;color:#666;margin-bottom:36px}
+.roi-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:28px}
+.roi-card{background:#fff;border-radius:14px;padding:20px;text-align:center;border:1px solid rgba(0,0,0,.06)}
+.roi-val{font-size:2.4rem;font-weight:800;color:#7c3aed;line-height:1}
+.roi-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:#999;margin-top:4px}
+.roi-desc{font-size:.72rem;color:#666;margin-top:8px;line-height:1.4}
+.offer-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:28px}
+.offer-card{background:#fff;border-radius:14px;padding:18px;border:1px solid rgba(0,0,0,.06);position:relative}
+.offer-card.featured{background:#1a1a2e;border-color:#7c3aed}
+.offer-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#7c3aed;color:#fff;padding:3px 12px;border-radius:20px;font-size:.58rem;font-weight:700;white-space:nowrap}
+.offer-name{font-size:.75rem;font-weight:700;color:#1a1a1a;margin-bottom:4px}
+.offer-card.featured .offer-name{color:#fff}
+.offer-price{font-size:1.4rem;font-weight:800;color:#7c3aed;margin-bottom:8px}
+.offer-items{list-style:none}
+.offer-items li{font-size:.65rem;color:#888;padding:2px 0}
+.offer-card.featured .offer-items li{color:rgba(255,255,255,.6)}
+.offer-items li::before{content:'✓ ';color:#7c3aed}
+.cta-box{background:#1a1a2e;border-radius:14px;padding:20px 24px;display:flex;justify-content:space-between;align-items:center}
+.cta-text{font-size:.9rem;font-weight:700;color:#fff}
+.cta-text span{color:#7c3aed}
+.cta-contact{font-size:.72rem;color:rgba(255,255,255,.5);margin-top:3px}
+.cta-btn{padding:10px 22px;background:#7c3aed;color:#fff;border-radius:20px;font-size:.72rem;font-weight:600;border:none;cursor:pointer;white-space:nowrap}
+.s3-footer{background:#16162a;padding:16px 40px;display:flex;justify-content:space-between;align-items:center}
+
+/* PRINT */
+@media print{
+  body{background:#fff;padding:0;gap:0}
+  .nav-slides{display:none}
+  .slide{display:block!important;break-after:page;box-shadow:none;border-radius:0;max-width:100%}
+}
+</style>
+</head>
+<body>
+<nav style="position:fixed;top:0;left:0;right:0;z-index:100;height:56px;padding:0 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(245,240,232,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06)">
+  <a href="index.html" style="font-weight:700;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase;color:#1a1a1a;text-decoration:none">P.<span style="color:#7c3aed">Damas</span></a>
+  <a href="index.html" style="font-size:.78rem;color:#666;font-weight:500;text-decoration:none">← Portfolio</a>
+</nav>
+
+<div class="nav-slides">
+  <button class="nav-btn on" onclick="showSlide(1)">Slide 1 — Problème</button>
+  <button class="nav-btn" onclick="showSlide(2)">Slide 2 — Solution</button>
+  <button class="nav-btn" onclick="showSlide(3)">Slide 3 — ROI & Offre</button>
+</div>
+
+<!-- SLIDE 1 — PROBLÈME -->
+<div class="slide s1 active" id="s1">
+  <div class="s1-header">
+    <div class="s1-logo">P.<span>Damas</span> · IT & IA Consulting</div>
+    <div class="s1-tag">IT Meeting Intelligence</div>
+  </div>
+  <div class="s1-body">
+    <div class="slide-num">01 / 03</div>
+    <div class="slide-title">Vos réunions IT coûtent<br><span>trop cher en temps</span></div>
+    <div class="slide-sub">Et les comptes-rendus ne sont jamais à jour</div>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-icon">⏱️</div>
+        <div class="pain-title">Temps perdu sur le CR</div>
+        <div class="pain-desc">Rédaction manuelle après chaque réunion</div>
+        <div class="pain-stat">45–90 min</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">❌</div>
+        <div class="pain-title">Actions oubliées</div>
+        <div class="pain-desc">Sans suivi structuré, les décisions se perdent</div>
+        <div class="pain-stat">30% des actions</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">📋</div>
+        <div class="pain-title">Formats inconsistants</div>
+        <div class="pain-desc">Chaque PM a son propre style de CR</div>
+        <div class="pain-stat">0 standard</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">💸</div>
+        <div class="pain-title">Coût caché par équipe</div>
+        <div class="pain-desc">5 PMs × 3h/semaine × 52 semaines</div>
+        <div class="pain-stat">780h/an</div>
+      </div>
+    </div>
+  </div>
+  <div class="s1-footer">
+    <div class="s1-footer-txt">Philippe Damas — Consultant IT & IA · PMP® · ITIL · GSMA-SM</div>
+    <div class="s1-footer-name"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7e0e161712170e0e1b501a1f131f0d3e19131f1712501d1113">[email&#160;protected]</a></div>
+  </div>
+</div>
+
+<!-- SLIDE 2 — SOLUTION -->
+<div class="slide s2" id="s2">
+  <div class="s2-header">
+    <div class="s2-logo">P.Damas · IT & IA Consulting</div>
+    <div class="s2-tag">La solution</div>
+  </div>
+  <div class="s2-body">
+    <div class="slide-num" style="color:#999">02 / 03</div>
+    <div class="s2-title"><span>IT Meeting Intelligence</span><br>Vos CR en 2 minutes</div>
+    <div class="s2-sub">Automatisation complète · Aucun changement d'outil · Branché sur Microsoft 365</div>
+    <div class="flow">
+      <div class="flow-step"><div class="flow-icon">📹</div><div class="flow-label">Réunion</div><div class="flow-tool">Teams</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-icon">☁️</div><div class="flow-label">Stockage</div><div class="flow-tool">OneDrive</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-icon">🎙️</div><div class="flow-label">Transcription</div><div class="flow-tool">Whisper AI</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-icon">🤖</div><div class="flow-label">Analyse</div><div class="flow-tool">Claude IA</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-icon">📧</div><div class="flow-label">Envoi</div><div class="flow-tool">Outlook</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step"><div class="flow-icon">📁</div><div class="flow-label">Archivage</div><div class="flow-tool">SharePoint</div></div>
+    </div>
+    <div class="result-box">
+      <div class="result-title">📄 Le CR généré contient automatiquement</div>
+      <div class="result-items">
+        <div class="ri"><div class="ri-dot"></div>Résumé exécutif (3 lignes)</div>
+        <div class="ri"><div class="ri-dot"></div>Décisions prises</div>
+        <div class="ri"><div class="ri-dot"></div>Plan d'actions (resp. + deadline)</div>
+        <div class="ri"><div class="ri-dot"></div>Risques identifiés + criticité</div>
+        <div class="ri"><div class="ri-dot"></div>Points en suspens</div>
+        <div class="ri"><div class="ri-dot"></div>Prochaine réunion</div>
+      </div>
+    </div>
+  </div>
+  <div class="s2-footer">
+    <div class="s1-footer-txt" style="color:rgba(255,255,255,.5)">Philippe Damas — Consultant IT & IA · PMP® · ITIL · GSMA-SM</div>
+    <div class="s1-footer-name"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="82f2eaebeeebf2f2e7ace6e3efe3f1c2e5efe3ebeeace1edef">[email&#160;protected]</a></div>
+  </div>
+</div>
+
+<!-- SLIDE 3 — ROI & OFFRE -->
+<div class="slide s3" id="s3">
+  <div class="s3-header">
+    <div class="s3-logo">P.Damas · IT & IA Consulting</div>
+    <div class="s1-tag" style="background:#7c3aed;color:#fff">ROI & Investissement</div>
+  </div>
+  <div class="s3-body">
+    <div class="slide-num">03 / 03</div>
+    <div class="s3-title">Rentabilisé en <span>moins de 2 semaines</span></div>
+    <div class="s3-sub">Pour une équipe de 5 chefs de projet IT</div>
+    <div class="roi-grid">
+      <div class="roi-card">
+        <div class="roi-val">-80%</div>
+        <div class="roi-label">Temps admin</div>
+        <div class="roi-desc">90 min → 2 min par réunion</div>
+      </div>
+      <div class="roi-card">
+        <div class="roi-val">750h</div>
+        <div class="roi-label">Économisées/an</div>
+        <div class="roi-desc">5 PMs × 3h/semaine × 50 semaines</div>
+      </div>
+      <div class="roi-card">
+        <div class="roi-val">75k€</div>
+        <div class="roi-label">Valeur créée/an</div>
+        <div class="roi-desc">750h × 100€/h (coût moyen PM)</div>
+      </div>
+    </div>
+    <div class="offer-grid">
+      <div class="offer-card">
+        <div class="offer-name">🔍 Diagnostic IA</div>
+        <div class="offer-price">800€</div>
+        <ul class="offer-items">
+          <li>Audit processus réunions</li>
+          <li>Rapport opportunités</li>
+          <li>Roadmap priorisée</li>
+          <li>Durée : 1 jour</li>
+        </ul>
+      </div>
+      <div class="offer-card featured">
+        <div class="offer-badge">⭐ Recommandé</div>
+        <div class="offer-name">🚀 Setup clé en main</div>
+        <div class="offer-price">3 000€</div>
+        <ul class="offer-items">
+          <li>Installation complète</li>
+          <li>Prompts personnalisés</li>
+          <li>Formation équipe 2h</li>
+          <li>Support 30 jours</li>
+        </ul>
+      </div>
+      <div class="offer-card">
+        <div class="offer-name">🔄 Maintenance</div>
+        <div class="offer-price">300€/mois</div>
+        <ul class="offer-items">
+          <li>Optimisations mensuelles</li>
+          <li>Évolutions prompts</li>
+          <li>Support illimité</li>
+          <li>Nouveaux cas d'usage</li>
+        </ul>
+      </div>
+    </div>
+    <div class="cta-box">
+      <div>
+        <div class="cta-text">Démo gratuite <span>30 minutes</span> sur vos réunions</div>
+        <div class="cta-contact"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="38485051545148485d165c5955594b785f55595154165b5755">[email&#160;protected]</a> · +33 6 32 41 81 28 · linkedin.com/in/philippe.damas</div>
+      </div>
+      <button class="cta-btn">Réserver la démo →</button>
+    </div>
+  </div>
+  <div class="s3-footer">
+    <div class="s1-footer-txt" style="color:#666">Philippe Damas — Consultant IT & IA · PMP® · ITIL · GSMA-SM</div>
+    <div class="s1-footer-name">philippe.damas@gmail.com</div>
+  </div>
+</div>
+
+<script>
+function showSlide(n){
+  document.querySelectorAll('.slide').forEach(function(s){s.classList.remove('active');});
+  document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('on');});
+  document.getElementById('s'+n).classList.add('active');
+  document.querySelectorAll('.nav-btn')[n-1].classList.add('on');
+}
+</script>
+</body>
+</html>

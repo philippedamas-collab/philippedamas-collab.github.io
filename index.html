@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Philippe Damas — Senior IT Program Manager</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=DM+Sans:wght@400;500;700&family=Nunito:wght@800&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#f5f0e8;color:#1a1a1a;font-family:'Inter',Arial,sans-serif;font-size:15px;font-weight:300;line-height:1.6}
+a{text-decoration:none;color:inherit}
+.engie-text{font-family:'Nunito',sans-serif;font-weight:800}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;padding:0 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(245,240,232,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06)}
+.logo{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:1rem;letter-spacing:.06em;text-transform:uppercase}
+.logo span{color:#7c3aed}
+.nav-c{display:flex;align-items:center;gap:16px}
+.nav-links{display:flex;gap:16px}
+.nav-links a{font-size:.65rem;color:#666;letter-spacing:.03em;text-transform:uppercase;cursor:pointer;transition:color .2s}
+.nav-links a:hover{color:#1a1a1a}
+.nav-sep{width:1px;height:16px;background:rgba(0,0,0,.12);margin:0 4px}
+.nav-ext{color:#7c3aed!important;font-weight:600;font-size:.65rem!important}
+.nav-ext:hover{color:#5b21b6!important}
+.lang-sw{display:flex;gap:2px}
+.lang-sw button{font-size:.65rem;padding:4px 9px;background:transparent;color:#999;border:1px solid #ddd;cursor:pointer;border-radius:4px}
+.lang-sw button.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.talk-btn{padding:9px 20px;background:#7c3aed;color:#fff;border-radius:30px;font-size:.72rem;font-weight:600;border:none;cursor:pointer;display:flex;align-items:center;gap:6px}
+.talk-btn::after{content:'→'}
+.page{max-width:1200px;margin:0 auto;padding:80px 40px 60px}
+.hero-section{min-height:70vh;display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:center;padding:20px 0 40px;border-bottom:1px solid rgba(0,0,0,.08);margin-bottom:40px}
+.hero-left{padding-right:40px}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.25);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:#7c3aed;margin-bottom:24px}
+.hero-tag-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:blink 2s infinite}
+.hero-name{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:clamp(2.2rem,4vw,3.5rem);line-height:1;letter-spacing:-.02em;margin-bottom:0}
+.hero-name-orange{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:clamp(2.2rem,4vw,3.5rem);line-height:1;letter-spacing:-.02em;color:#7c3aed;margin-bottom:6px}
+.hero-sub-title{font-family:'DM Sans',Arial,sans-serif;font-weight:600;font-size:clamp(1.3rem,2.2vw,1.8rem);color:#bbb;line-height:1.3;font-style:normal;margin-bottom:18px}
+.hero-sub{font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;color:#333;font-weight:700;margin-bottom:12px}
+.hero-desc{font-size:.9rem;color:#555;line-height:1.8;max-width:420px;margin-bottom:28px}
+.hero-btns{display:flex;gap:10px;flex-wrap:wrap}
+.hbp{padding:11px 24px;background:#1a1a1a;color:#fff;border-radius:30px;font-size:.72rem;font-weight:600;border:none;cursor:pointer}
+.hbs{padding:11px 24px;background:transparent;color:#1a1a1a;border-radius:30px;font-size:.72rem;font-weight:600;border:1.5px solid #ccc;cursor:pointer}
+.hbs:hover{border-color:#1a1a1a}
+.hero-right{position:relative}
+.hero-img-wrap{border-radius:24px;overflow:hidden;height:480px;background:#ddd}
+.hero-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:center 12%;display:block}
+.sayhi{padding:20px 0;border-bottom:1px solid rgba(0,0,0,.06);margin-bottom:36px}
+.sayhi-text{font-size:1.05rem;color:#444;line-height:1.8;max-width:700px}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#e0dbd0;border-radius:16px;overflow:hidden;margin-bottom:60px}
+.sc{background:#f5f0e8;padding:24px 20px;text-align:center}
+.sc:hover{background:#fff}
+.sn{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:2.2rem;color:#7c3aed}
+.sl{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:#999;margin-top:4px}
+.section{margin-bottom:60px}
+.section-header{display:flex;align-items:baseline;gap:16px;margin-bottom:28px;padding-bottom:14px;border-bottom:1px solid rgba(0,0,0,.08)}
+.sh-num{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:3rem;color:#e0dbd0;line-height:1;margin-right:4px}
+.sh-title{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:1.6rem;letter-spacing:-.01em}
+.sh-sub{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#999;margin-left:auto}
+.accomp-card{background:#1a1a1a;color:#fff;border-radius:24px;padding:36px;position:relative;overflow:hidden}
+.accomp-card::before{content:'';position:absolute;top:-80px;right:-80px;width:280px;height:280px;background:radial-gradient(circle,rgba(124,58,237,.2) 0%,transparent 70%)}
+.ac-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:#fff;margin-bottom:12px}
+.ac-title{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:1.4rem;color:#fff;margin-bottom:4px}
+.ac-role{font-size:.7rem;color:rgba(255,255,255,.5);margin-bottom:20px;letter-spacing:.04em}
+.ac-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.apt{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px 14px}
+.apt-t{font-size:.76rem;font-weight:600;color:#fff;margin-bottom:2px}
+.apt-d{font-size:.68rem;color:rgba(255,255,255,.55);line-height:1.5}
+.ac-cta{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;background:#7c3aed;border-radius:20px;font-size:.7rem;font-weight:600;color:#fff;border:none;cursor:pointer;margin-top:4px}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.tag{padding:4px 10px;border-radius:20px;font-size:.6rem;letter-spacing:.04em;background:#ece7dd;color:#666;border:none}
+.tag-o{background:rgba(124,58,237,.12);color:#7c3aed}
+.tag-w{background:rgba(255,255,255,.1);color:rgba(255,255,255,.8)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:60px;scroll-margin-top:80px}
+.card{background:#fff;border-radius:20px;padding:28px;border:1px solid rgba(0,0,0,.05)}
+.skrow{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.05)}
+.skrow:last-child{border-bottom:none}
+.skic{width:32px;height:32px;border-radius:8px;background:#f5f0e8;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.skic svg{width:18px;height:18px}
+.sknm{font-size:.76rem;font-weight:600;color:#1a1a1a;margin-bottom:3px}
+.ap{font-size:.84rem;color:#666;line-height:1.8;margin-bottom:8px}
+.cd{display:flex;align-items:center;gap:8px;font-size:.74rem;color:#666;margin-bottom:6px}
+.cdic{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:#f5f0e8}
+.cdic svg{width:14px;height:14px}
+.hlr{display:flex;align-items:center;gap:8px;padding:8px 12px;background:#f5f0e8;border-radius:10px;margin-bottom:5px}
+.hld{width:6px;height:6px;border-radius:50%;background:#7c3aed;flex-shrink:0}
+.hlt{font-size:.75rem;font-weight:600;color:#1a1a1a;margin-right:4px}
+.hls{font-size:.7rem;color:#999}
+.tli{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:16px 0;border-bottom:1px solid rgba(0,0,0,.05)}
+.tli:last-child{border-bottom:none}
+.tldt{font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:#7c3aed;padding-top:2px}
+.tlco{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:.88rem;color:#1a1a1a;margin-bottom:2px}
+.tlro{font-size:.68rem;color:#999;margin-bottom:5px}
+.tldesc{font-size:.75rem;color:#666;line-height:1.65;margin-bottom:5px}
+.svgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.svi{padding:20px;background:#f5f0e8;border-radius:14px;border:1px solid rgba(0,0,0,.05);transition:all .2s}
+.svi:hover{background:#fff;border-color:rgba(124,58,237,.2);transform:translateY(-2px)}
+.svic{margin-bottom:12px;display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:rgba(124,58,237,.08);border-radius:10px}
+.svic svg{width:20px;height:20px}
+.svnm{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:.85rem;color:#1a1a1a;margin-bottom:4px}
+.svds{font-size:.72rem;color:#666;line-height:1.6;margin-bottom:6px}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(152px,1fr));gap:10px}
+.ci{padding:14px;background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:14px;transition:all .2s}
+.ci:hover{border-color:#7c3aed;transform:translateY(-2px)}
+.cdot{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:800;color:#fff;margin-bottom:8px}
+.cnm{font-size:.76rem;font-weight:600;color:#1a1a1a;margin-bottom:2px}
+.csb{font-size:.6rem;color:#999;line-height:1.4;margin-bottom:3px}
+.cyr{font-size:.6rem;color:#7c3aed;font-weight:600}
+.cyr.gold{color:#f59e0b}
+.ct-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.ct-left{background:#fff;border-radius:20px;padding:32px;border:1px solid rgba(0,0,0,.05)}
+.ct-right{background:linear-gradient(160deg,#2a2a3a 0%,#1a1a2e 60%,#0f0f1a 100%);border-radius:20px;padding:32px;display:flex;flex-direction:column;justify-content:space-between}
+.ct-big{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:clamp(1.4rem,2.5vw,2rem);line-height:1.15;margin-bottom:14px}
+.ct-rt-title{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:1.4rem;color:#fff;line-height:1.2;margin-bottom:20px}
+.ct-rt-title span{color:#7c3aed}
+.sbtns{display:flex;flex-wrap:wrap;gap:8px}
+.sbtn{padding:9px 16px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:20px;font-size:.7rem;font-weight:500;color:#fff;cursor:pointer;transition:all .2s}
+.sbtn:hover{background:rgba(124,58,237,.2);border-color:#7c3aed}
+.lbdg{display:inline-block;padding:4px 10px;border-radius:6px;background:#f5f0e8;font-size:.62rem;color:#666;margin-right:5px;margin-top:5px}
+.clients-band{background:#1a1a1a;border-radius:20px;padding:20px 32px;margin-bottom:60px;display:flex;align-items:center;overflow:hidden}
+.cb-label{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:.9rem;color:#fff;white-space:nowrap;margin-right:28px;flex-shrink:0}
+.cb-track-wrap{flex:1;overflow:hidden;mask-image:linear-gradient(to right,transparent,black 5%,black 95%,transparent)}
+.cb-track{display:flex;gap:40px;align-items:center;width:max-content;animation:scroll-logos 22s linear infinite}
+.cb-track:hover{animation-play-state:paused}
+.cb-item{display:flex;align-items:center;opacity:.75;transition:opacity .2s;flex-shrink:0}
+.cb-item:hover{opacity:1}
+.cb-item svg{height:28px;width:auto;display:block}
+@keyframes scroll-logos{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+footer{text-align:center;padding:24px;font-size:.6rem;color:#bbb;letter-spacing:.06em;border-top:1px solid rgba(0,0,0,.06)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+@media(max-width:768px){
+.hero-section,.two-col,.ct-grid{grid-template-columns:1fr}
+.hero-right{display:none}
+.stats-row{grid-template-columns:repeat(2,1fr)}
+.ac-grid,.svgrid{grid-template-columns:1fr}
+.tli{grid-template-columns:1fr}
+.nav-links{display:none}
+.page{padding:70px 18px 40px}
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">P.<span>Damas</span></div>
+  <div class="nav-c">
+    <div class="nav-links" id="navLinks"></div>
+    <div class="nav-sep"></div>
+    <a href="blog.html" class="nav-ext" style="font-size:.65rem;letter-spacing:.03em;text-transform:uppercase;font-weight:600;color:#7c3aed;transition:color .2s;white-space:nowrap">Blog IT</a>
+    <div class="lang-sw">
+      <button id="bFR" class="on" onclick="setLang('fr')">FR</button>
+      <button id="bEN" onclick="setLang('en')">EN</button>
+    </div>
+    <button class="talk-btn" onclick="s('contact')" id="talkBtn"></button>
+  </div>
+</nav>
+<div class="page">
+  <section class="hero-section" id="about">
+    <div class="hero-left">
+      <div class="hero-tag"><span class="hero-tag-dot"></span><span id="hBadge"></span></div>
+      <div class="hero-name">Philippe</div>
+      <div class="hero-name-orange">Damas</div>
+      <div class="hero-sub-title">IT Program Manager<br>Senior Consultant</div>
+      <p class="hero-sub" id="hRole"></p>
+      <p class="hero-desc" id="hDesc"></p>
+      <div class="hero-btns">
+        <button class="hbp" onclick="s('contact')" id="hCta1"></button>
+        <button class="hbs" onclick="s('experience')" id="hCta2"></button>
+        <button class="hbs" onclick="s('services')" id="hCta3"></button>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-img-wrap"><div style="width:100%;height:100%;background:linear-gradient(160deg,#2a2a3a 0%,#1a1a2e 60%,#0f0f1a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;">
+      <div style="width:90px;height:90px;border-radius:50%;background:rgba(124,58,237,.2);border:2px solid rgba(124,58,237,.4);display:flex;align-items:center;justify-content:center;font-size:2.5rem;">👤</div>
+      <div style="font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.1rem;color:rgba(255,255,255,.7);letter-spacing:.05em">Philippe Damas</div>
+      <div style="font-size:.7rem;color:rgba(255,255,255,.3);letter-spacing:.1em;text-transform:uppercase">Senior IT Consultant</div>
+    </div></div>
+    </div>
+  </section>
+  <div class="sayhi">
+    <p class="sayhi-text" id="sayHiTxt"></p>
+  </div>
+  <div class="stats-row" id="statsRow"></div>
+  <div class="clients-band">
+    <div class="cb-label" id="cbLbl"></div>
+    <div class="cb-track-wrap">
+      <div class="cb-track">
+
+        <!-- Série 1 -->
+        <span class="cb-item" title="Orano"><svg viewBox="0 0 90 34" xmlns="http://www.w3.org/2000/svg"><g transform="translate(17,17)"><ellipse rx="15" ry="13" fill="none" stroke="#f5c400" stroke-width="2" transform="rotate(-20)"/><ellipse rx="11" ry="9" fill="none" stroke="#f5c400" stroke-width="2.2" transform="rotate(10)"/><ellipse rx="7" ry="5.5" fill="none" stroke="#f5c400" stroke-width="1.6" transform="rotate(-15)"/></g><text x="36" y="20" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="#fff" letter-spacing=".2">orano</text></svg></span>
+        <span class="cb-item" title="ENGIE"><svg viewBox="0 0 90 34" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="eg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00c9c8"/><stop offset="100%" stop-color="#0070ba"/></linearGradient></defs><rect x="0" y="0" width="90" height="34" rx="6" fill="url(#eg)"/><path d="M15 7 Q45 1 75 7" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.8" stroke-linecap="round"/><text x="45" y="28" class="engie-text" font-size="17" fill="#fff" text-anchor="middle" letter-spacing="0.5">eNGie</text></svg></span>
+        <span class="cb-item" title="Société Générale"><svg viewBox="0 0 86 34" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="86" height="17" fill="#e2001a"/><rect x="0" y="17" width="86" height="17" fill="#111"/><text x="43" y="13.5" font-family="Arial,sans-serif" font-weight="800" font-size="10" fill="#fff" text-anchor="middle" letter-spacing="0.5">SOCIETE</text><text x="43" y="28.5" font-family="Arial,sans-serif" font-weight="800" font-size="10" fill="#fff" text-anchor="middle" letter-spacing="0.5">GENERALE</text></svg></span>
+        <span class="cb-item" title="Crédit Agricole"><svg viewBox="0 0 148 34" xmlns="http://www.w3.org/2000/svg"><path d="M16 6 Q4 6 4 17 Q4 28 16 28" fill="none" stroke="#006a4e" stroke-width="3.5" stroke-linecap="round"/><path d="M22 28 L30 6 L38 28" fill="none" stroke="#006a4e" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="25" y1="20" x2="35" y2="20" stroke="#006a4e" stroke-width="3"/><line x1="34" y1="7" x2="41" y2="14" stroke="#e2001a" stroke-width="3" stroke-linecap="round"/><line x1="2" y1="31" x2="40" y2="31" stroke="#006a4e" stroke-width="2.5"/><text x="48" y="22" font-family="Arial,sans-serif" font-weight="700" font-size="11.5" fill="#fff" letter-spacing=".2">Crédit Agricole</text></svg></span>
+        <span class="cb-item" title="IDEMIA"><svg viewBox="0 0 90 34" xmlns="http://www.w3.org/2000/svg"><path d="M6 17 L13 8 M6 17 L13 26" fill="none" stroke="#7c5cbf" stroke-width="2.5" stroke-linecap="round"/><line x1="16" y1="8" x2="16" y2="26" stroke="#7c5cbf" stroke-width="2.5" stroke-linecap="round"/><path d="M20 8 L27 17 L20 26" fill="none" stroke="#7c5cbf" stroke-width="2.5" stroke-linecap="round"/><text x="33" y="22" font-family="Arial,sans-serif" font-weight="900" font-size="15" fill="#fff" letter-spacing=".5">IDEMIA</text></svg></span>
+        <span class="cb-item" title="EADS Astrium"><svg viewBox="0 0 80 34" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="34" height="34" rx="4" fill="#003087"/><text x="17" y="26" font-family="Arial,sans-serif" font-weight="900" font-size="26" fill="#fff" text-anchor="middle">A</text><text x="42" y="22" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="#fff" letter-spacing=".3">airbus</text></svg></span>
+        <span class="cb-item" title="Orange Business Services"><svg viewBox="0 0 100 34" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="3" width="26" height="26" rx="5" fill="#ff7900"/><text x="30" y="21" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="#ff7900">orange</text></svg></span>
+        <span class="cb-item" title="SFR"><svg viewBox="0 0 60 34" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="60" height="34" rx="4" fill="#e2001a"/><text x="30" y="24" font-family="Arial,sans-serif" font-weight="900" font-size="20" fill="#fff" text-anchor="middle" letter-spacing="1">SFR</text></svg></span>
+
+        <!-- Série 2 — copie exacte pour boucle infinie -->
+        <span class="cb-item" title="Orano"><svg viewBox="0 0 90 34" xmlns="http://www.w3.org/2000/svg"><g transform="translate(17,17)"><ellipse rx="15" ry="13" fill="none" stroke="#f5c400" stroke-width="2" transform="rotate(-20)"/><ellipse rx="11" ry="9" fill="none" stroke="#f5c400" stroke-width="2.2" transform="rotate(10)"/><ellipse rx="7" ry="5.5" fill="none" stroke="#f5c400" stroke-width="1.6" transform="rotate(-15)"/></g><text x="36" y="20" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="#fff" letter-spacing=".2">orano</text></svg></span>
+        <span class="cb-item" title="ENGIE"><svg viewBox="0 0 90 34" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="eg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00c9c8"/><stop offset="100%" stop-color="#0070ba"/></linearGradient></defs><rect x="0" y="0" width="90" height="34" rx="6" fill="url(#eg)"/><path d="M15 7 Q45 1 75 7" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2.8" stroke-linecap="round"/><text x="45" y="28" class="engie-text" font-size="17" fill="#fff" text-anchor="middle" letter-spacing="0.5">eNGie</text></svg></span>
+        <span class="cb-item" title="Société Générale"><svg viewBox="0 0 86 34" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="86" height="17" fill="#e2001a"/><rect x="0" y="17" width="86" height="17" fill="#111"/><text x="43" y="13.5" font-family="Arial,sans-serif" font-weight="800" font-size="10" fill="#fff" text-anchor="middle" letter-spacing="0.5">SOCIETE</text><text x="43" y="28.5" font-family="Arial,sans-serif" font-weight="800" font-size="10" fill="#fff" text-anchor="middle" letter-spacing="0.5">GENERALE</text></svg></span>
+        <span class="cb-item" title="Crédit Agricole"><svg viewBox="0 0 148 34" xmlns="http://www.w3.org/2000/svg"><path d="M16 6 Q4 6 4 17 Q4 28 16 28" fill="none" stroke="#006a4e" stroke-width="3.5" stroke-linecap="round"/><path d="M22 28 L30 6 L38 28" fill="none" stroke="#006a4e" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="25" y1="20" x2="35" y2="20" stroke="#006a4e" stroke-width="3"/><line x1="34" y1="7" x2="41" y2="14" stroke="#e2001a" stroke-width="3" stroke-linecap="round"/><line x1="2" y1="31" x2="40" y2="31" stroke="#006a4e" stroke-width="2.5"/><text x="48" y="22" font-family="Arial,sans-serif" font-weight="700" font-size="11.5" fill="#fff" letter-spacing=".2">Crédit Agricole</text></svg></span>
+        <span class="cb-item" title="IDEMIA"><svg viewBox="0 0 90 34" xmlns="http://www.w3.org/2000/svg"><path d="M6 17 L13 8 M6 17 L13 26" fill="none" stroke="#7c5cbf" stroke-width="2.5" stroke-linecap="round"/><line x1="16" y1="8" x2="16" y2="26" stroke="#7c5cbf" stroke-width="2.5" stroke-linecap="round"/><path d="M20 8 L27 17 L20 26" fill="none" stroke="#7c5cbf" stroke-width="2.5" stroke-linecap="round"/><text x="33" y="22" font-family="Arial,sans-serif" font-weight="900" font-size="15" fill="#fff" letter-spacing=".5">IDEMIA</text></svg></span>
+        <span class="cb-item" title="EADS Astrium"><svg viewBox="0 0 80 34" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="34" height="34" rx="4" fill="#003087"/><text x="17" y="26" font-family="Arial,sans-serif" font-weight="900" font-size="26" fill="#fff" text-anchor="middle">A</text><text x="42" y="22" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="#fff" letter-spacing=".3">airbus</text></svg></span>
+        <span class="cb-item" title="Orange Business Services"><svg viewBox="0 0 100 34" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="3" width="26" height="26" rx="5" fill="#ff7900"/><text x="30" y="21" font-family="Arial,sans-serif" font-weight="700" font-size="14" fill="#ff7900">orange</text></svg></span>
+        <span class="cb-item" title="SFR"><svg viewBox="0 0 60 34" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="60" height="34" rx="4" fill="#e2001a"/><text x="30" y="24" font-family="Arial,sans-serif" font-weight="900" font-size="20" fill="#fff" text-anchor="middle" letter-spacing="1">SFR</text></svg></span>
+
+      </div>
+    </div>
+  </div>
+  <div class="section" id="accompagnement" style="scroll-margin-top:80px">
+    <div class="section-header">
+      <span class="sh-num">01</span>
+      <span class="sh-title" id="msLblTitle"></span>
+      <span class="sh-sub" id="msStarLbl"></span>
+    </div>
+    <div class="accomp-card">
+      <div class="ac-badge">⭐ <span id="msStarBadge"></span></div>
+      <div class="ac-title" id="msTtl"></div>
+      <div class="ac-role" id="msRole"></div>
+      <p id="msDesc" style="font-size:.8rem;color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:16px;max-width:680px"></p>
+      <div class="ac-grid" id="msPoints"></div>
+      <div class="tags" id="msTags"></div>
+      <button class="ac-cta" onclick="s('services')" id="msCtaTxt"></button>
+    </div>
+  </div>
+  <div class="two-col" id="skills">
+    <div class="card">
+      <div class="section-header" style="margin-bottom:16px">
+        <span class="sh-num">02</span><span class="sh-title" id="skTtl"></span>
+      </div>
+      <div id="skCards"></div>
+    </div>
+    <div class="card">
+      <div class="section-header" style="margin-bottom:16px">
+        <span class="sh-num">03</span><span class="sh-title" id="aTtl"></span>
+      </div>
+      <div id="aPs"></div>
+      <div id="aCt" style="margin-top:14px"></div>
+      <div id="aHl" style="margin-top:14px"></div>
+    </div>
+  </div>
+  <div class="section card" id="experience">
+    <div class="section-header" style="margin-bottom:16px">
+      <span class="sh-num">04</span><span class="sh-title" id="exTtl"></span>
+    </div>
+    <div id="exList"></div>
+  </div>
+  <div class="section card" style="margin-top:20px" id="services">
+    <div class="section-header" style="margin-bottom:16px">
+      <span class="sh-num">05</span><span class="sh-title" id="svTtl"></span>
+    </div>
+    <p style="font-size:.95rem;color:#555;margin-bottom:20px;line-height:1.8" id="svIntro"></p>
+    <div class="svgrid" id="svCards"></div>
+  </div>
+  <div class="section card" style="margin-top:20px" id="certifications">
+    <div class="section-header" style="margin-bottom:16px">
+      <span class="sh-num">06</span><span class="sh-title" id="ctTtl2"></span>
+    </div>
+    <div class="cgrid" id="certCards"></div>
+  </div>
+  <div class="section" id="contact">
+    <div class="section-header" style="margin-bottom:20px">
+      <span class="sh-num">07</span><span class="sh-title" id="ctTtlHead"></span>
+    </div>
+    <div class="ct-grid">
+      <div class="ct-left">
+        <div class="ct-big" id="ctTtl"></div>
+        <div id="ctCards"></div>
+        <div style="margin-top:12px" id="ctLangs"></div>
+      </div>
+      <div class="ct-right">
+        <div class="ct-rt-title" id="ctSocTtl"></div>
+        <p style="font-size:.78rem;color:rgba(255,255,255,.65);margin-bottom:24px;line-height:1.8" id="ctText"></p>
+        <div class="sbtns">
+          <a href="/cdn-cgi/l/email-protection#90e0f8f9fcf9e0e0f5bef4f1fdf1e3d0f7fdf1f9fcbef3fffd" class="sbtn">✉️ Email</a>
+          <a href="https://linkedin.com/in/philippe.damas" target="_blank" class="sbtn">💼 LinkedIn</a>
+          <a href="tel:+33632418128" class="sbtn">📱 Téléphone</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer id="foot"></footer>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+var lang='fr';
+function s(id){var el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth'});}
+function tg(t,cls){return '<span class="tag'+(cls?' '+cls:'')+'">'+t+'</span>';}
+var D={
+fr:{
+  nav:["À propos","Accompagnements","Contact"],
+  ids:["about","accompagnement","contact"],
+  badge:"Disponible · Consultant IT & IA",
+  role:"Senior IT Program Manager & AI Automation Consultant | DC Expertise | PMP®",
+  desc:"25 ans de gestion de programmes IT pour Orano, ENGIE, Société Générale, IDEMIA. J'aide les DSI à automatiser leurs processus IT avec l'IA : reporting, CR, suivi risques, chatbots métier.",
+  stats:[{n:"25+",l:"Années d'exp."},{n:"60+",l:"Projets livrés"},{n:"20 ans",l:"Infra IT & DC"},{n:"5",l:"Pays"}],
+  cta1:"Me contacter",cta2:"Mon parcours",cta3:"Prestations",talkBtn:"Parlons-en →",
+  sayHiLbl:"Qui suis-je ?",
+  sayHiTxt:"Bienvenue sur mon portfolio. Vous trouverez ici mes missions récentes, mes compétences IT & IA, et mes prestations freelance. N'hésitez pas à me contacter pour discuter de vos projets.",
+  cbLbl:"Ils m'ont fait confiance",
+  msLblTitle:"Accompagnements & Audit",msStarLbl:"Mission en cours · 2025",msStarBadge:"IDEMIA — Mission en cours",
+  msTtl:"Mission d'Audit — IDEMIA",msRole:"Local Security Officer · Datacenter & Security Manager · Equinix PA3/PA4",msDesc:"Installation et certification d'une cage sécurisée from scratch sur le datacenter Equinix PA3/PA4. Gestion du procurement matériel, pilotage de la sécurité physique & logique, et application stricte des normes GSMA-SM sur site. Mission internationale avec coordination des équipes en Roumanie (BCP).",
+  msPoints:[
+    {ic:"🔐",ti:"Certification GSMA-SM",desc:"Cage Equinix, Key Custodian, EAP/TLS, Crypto Card."},
+    {ic:"🏗️",ti:"Sécurité physique & logique",desc:"CCTV, accès, Azure DRP, BCP Roumanie."},
+    {ic:"📋",ti:"Audit & conformité",desc:"Contrôles, actions correctives, reporting DSI."},
+    {ic:"⏱️",ti:"Mission courte, impact fort",desc:"Certification réussie."}],
+  msTags:["Equinix PA3/PA4","GSMA-SM","Azure DRP","EAP/TLS","Key Custodian","BCP","Audit","International 🌍"],
+  msCtaTxt:"Mission similaire ? Contactez-moi →",
+  skTtl:"Compétences",
+  skills:[
+    {ic:"🏗️",cat:"Management Projet & Programme",tags:["PMP®","ITIL v3","Prince2","Scrum","OTD/OBD","Risk Mgt"]},
+    {ic:"🖥️",cat:"Infrastructure & Datacenter",tags:["MS Azure","AWS","VMware","Equinix","Citrix","AD"]},
+    {ic:"🌐",cat:"Réseaux & Téléphonie",tags:["LAN/WAN","SD-WAN","VPN MPLS","Teams/SBC","Zscaler"]},
+    {ic:"🔒",cat:"Cybersécurité & Audits",tags:["CES+","GSMA-SM","PCI","Pentests","Nessus","OKTA MFA"]},
+    {ic:"🗄️",cat:"Apps & Outils",tags:["SAP HANA","ServiceNow","Confluence","Jira","Office 365"]},
+    {ic:"🤝",cat:"Management",tags:["Budget","Copil/Codir","Risk Review","Multi-pays","Bilingue"]}],
+  aTtl:"À propos",
+  aPs:["Chef de projet IT senior & AI Automation Consultant. 25 ans d'expérience en infrastructure, cybersécurité et transformation digitale. Grands comptes : nucléaire, banque, énergie, aéronautique, télécoms.","J'aide les DSI et chefs de projet à automatiser leurs processus IT avec l'IA : reporting, CR, suivi risques, assistants métier. Disponible pour missions courtes (audit, cadrage, renfort) ou programmes longs. FR · DE · UK · CH · BE."],
+  hl:[{t:"Portfolio",d:"Demand Mgt → RUN"},{t:"Infra & DC",d:"Azure, AWS, Equinix"},{t:"Cybersécurité",d:"GSMA-SM, CES+, PCI"},{t:"International",d:"FR/EN — 5 pays"}],
+  exTtl:"Expériences",
+  exps:[
+    {d:"Oct.2025→Présent",co:"IDEMIA — Audit Cybersécurité GSMA/SM",ro:"Local Security Officer",desc:"Certification cage Equinix, GSMA-SM, Key Custodian, CCTV, BCP Roumanie.",tags:["Equinix","GSMA-SM","International"]},
+    {d:"Oct.2020→Déc.2025",co:"AREVA Group — Orano, Framatome, SinerGIE",ro:"IT Project & Program Leader",desc:"Portefeuille Infrastructure, SI & Applications. Réseau France/Chine, migrations DC, Teams/SBC, CES+.",tags:["MS Azure","Equinix","CES+","International"]},
+    {d:"2013→2020",co:"ENGIE IT — Saint-Ouen",ro:"IT Project & Program Leader",desc:"~60 projets infra : AWS/Azure, Office 365 T2T, SD-WAN. France, Europe, Amériques.",tags:["AWS","Azure","SD-WAN","International"]},
+    {d:"2011→2013",co:"Société Générale — RESG/GTS/EUS",ro:"IT Program Leader — IOTA",desc:"~30 projets. Coordination AME/ASI/UK. Citrix, AD, VMware.",tags:["Citrix","AD","VMware","International"]},
+    {d:"2009→2011",co:"Crédit Agricole (CA-CIB)",ro:"IT Program Leader — MyDesk",desc:"18 000 postes XP→Win7, France + 17 pays.",tags:["Windows 7","Citrix","17 pays"]},
+    {d:"2008→2009",co:"Orange Business Service",ro:"PM Portfolio",desc:"B2B VPN-MPLS, Unified Defense. France, Égypte, USA, Anvers.",tags:["VPN MPLS","B2B"]},
+    {d:"2005→2007",co:"EADS Astrium SAT",ro:"IT Project Management",desc:"Déménagement DC Vélizy→Elancourt. LAN, WAN, VoIP.",tags:["LAN/WAN","VoIP","Défense"]},
+    {d:"1997→2005",co:"SFR / Bouygues / 9 Telecom",ro:"Ingénieur / Chef de Projet",desc:"Mobiles, xDSL, VPN MPLS, VoIP.",tags:["GSM","VPN MPLS","xDSL"]}],
+  svTtl:"Prestations sur mesure",svIntro:"Fort de 25 ans d'expérience sur des programmes IT complexes dans les secteurs nucléaire, bancaire, énergie et télécoms, j'interviens en mode consultant senior auprès des DSI et directions de programmes. Que ce soit pour sécuriser un audit critique, piloter une migration datacenter ou structurer une gouvernance IT, chaque mission est cadrée avec précision et livrée avec rigueur. Interventions ciblées pour DSI, CTO et directions de programmes :",
+  services:[
+    {ic:"🎯",ti:"Conseil Stratégique DSI",desc:"Cadrage, gouvernance, roadmap, make-or-buy.",tags:["Cadrage","Gouvernance","Roadmap"]},
+    {ic:"🔐",ti:"Audit Datacenter Critique",desc:"GSMA-SM, CES+, PCI DSS. Réf. IDEMIA 2025.",tags:["GSMA-SM","CES+","PCI"]},
+    {ic:"🏗️",ti:"Pilotage Programme Infra",desc:"Migrations DC, cloud, réseau. Renfort ou substitution PM.",tags:["Migration DC","Cloud","Build to RUN"]},
+    {ic:"🔄",ti:"Gouvernance & Restructuration",desc:"Audit programme, revue portefeuille, PMO.",tags:["PMO","Risk Review","Recovery"]}],
+  ctTtl2:"Certifications & Formation",
+  certs:[
+    {n:"PMP®",s:"Project Mgt Professional — PMI",y:"Actif",g:false,c:"#003087"},
+    {n:"ITIL v3",s:"IT Infrastructure Library",y:"Actif",g:false,c:"#5B2D8E"},
+    {n:"PRINCE2",s:"Axelos",y:"En cours",g:true,c:"#00544F"},
+    {n:"Scrum",s:"Agile Framework",y:"Actif",g:false,c:"#F26524"},
+    {n:"GSMA-SM",s:"Critical DC Cert.",y:"2025",g:false,c:"#003399"},
+    {n:"CES+",s:"Cyber Essentials Plus",y:"Actif",g:false,c:"#C8102E"},
+    {n:"Microsoft AI",s:"IA Outils Pro",y:"En cours ✦",g:true,c:"#0e7c5a"},
+    {n:"No-Code",s:"Alegria — Automatisation",y:"Fait ✓",g:false,c:"#7c3aed"},
+    {n:"Master ESGI",s:"Génie Informatique Paris",y:"1994–1997",g:false,c:"#1a2a4a"},
+    {n:"DUT GEII",s:"Univ. de Rouen",y:"1990–1993",g:false,c:"#334155"}],
+  ctTtlHead:"Contact",ctTtl:"Travaillons ensemble",
+  ctSocTtl:"Connectons-nous et parlons de votre projet",
+  ctText:"Disponible pour missions freelance IT & IA, audits cybersécurité, coordination internationale. Réponse sous 24h. Que vous ayez un projet à cadrer, un programme à sécuriser ou une transformation IT à piloter, je m'adapte à vos contraintes : mission courte ou longue durée, France ou international, remote ou sur site.",
+  langs:["🇫🇷 Français — natif","🇬🇧 English — fluent"],
+  foot:"© 2025 Philippe Damas · Senior IT Program Manager & AI Automation Consultant · PMP® · ITIL · GSMA-SM"
+},
+en:{
+  nav:["About","Engagements","Contact"],
+  ids:["about","accompagnement","contact"],
+  badge:"Available · IT & AI Consultant",
+  role:"Senior IT Program Manager & AI Automation Consultant | DC Expertise | PMP®",
+  desc:"25 years managing IT programs for Orano, ENGIE, Société Générale, IDEMIA. I help CIOs automate IT processes with AI: reporting, meeting notes, risk tracking, business chatbots.",
+  stats:[{n:"25+",l:"Years of exp."},{n:"60+",l:"Projects delivered"},{n:"20 yrs",l:"Infra IT & DC"},{n:"5",l:"Countries"}],
+  cta1:"Contact me",cta2:"My experience",cta3:"Services",talkBtn:"Let's talk →",
+  sayHiLbl:"Who am I?",
+  sayHiTxt:"Welcome to my portfolio. Here you'll find my recent missions, IT & AI skills, and freelance services. Feel free to reach out to discuss your projects.",
+  cbLbl:"Trusted by",
+  msLblTitle:"Engagements & Audit",msStarLbl:"Ongoing mission · 2025",msStarBadge:"IDEMIA — Ongoing mission",
+  msTtl:"Audit Mission — IDEMIA",msRole:"Local Security Officer · Datacenter & Security Manager · Equinix PA3/PA4",msDesc:"Installation and certification of a secure cage from scratch at Equinix PA3/PA4 datacenter. Hardware procurement management, physical & logical security oversight, and strict enforcement of GSMA-SM standards on site. International mission with coordination of teams in Romania (BCP).",
+  msPoints:[
+    {ic:"🔐",ti:"GSMA-SM Certification",desc:"Equinix cage, Key Custodian, EAP/TLS, Crypto Card."},
+    {ic:"🏗️",ti:"Physical & Logical Security",desc:"CCTV, access control, Azure DRP, BCP Romania."},
+    {ic:"📋",ti:"Audit & Compliance",desc:"Audit controls, corrective actions, CIO reporting."},
+    {ic:"⏱️",ti:"Short mission, strong impact",desc:"Certification achieved."}],
+  msTags:["Equinix PA3/PA4","GSMA-SM","Azure DRP","EAP/TLS","Key Custodian","BCP","Audit","International 🌍"],
+  msCtaTxt:"Similar mission? Contact me →",
+  skTtl:"Skills",
+  skills:[
+    {ic:"🏗️",cat:"Project & Program Management",tags:["PMP®","ITIL v3","Prince2","Scrum","OTD/OBD","Risk Mgt"]},
+    {ic:"🖥️",cat:"Infrastructure & Datacenter",tags:["MS Azure","AWS","VMware","Equinix","Citrix","AD"]},
+    {ic:"🌐",cat:"Networking & Telephony",tags:["LAN/WAN","SD-WAN","VPN MPLS","Teams/SBC","Zscaler"]},
+    {ic:"🔒",cat:"Cybersecurity & Audits",tags:["CES+","GSMA-SM","PCI","Pentests","Nessus","OKTA MFA"]},
+    {ic:"🗄️",cat:"Apps & Tools",tags:["SAP HANA","ServiceNow","Confluence","Jira","Office 365"]},
+    {ic:"🤝",cat:"Management",tags:["Budget","Steering Cmte","Risk Review","Multi-country","Bilingual"]}],
+  aTtl:"About me",
+  aPs:["Senior IT Program Manager & AI Automation Consultant. 25 years in infrastructure, cybersecurity and digital transformation. Major accounts: nuclear, banking, energy, aeronautics, telecoms.","I help CIOs and project managers automate IT processes with AI: reporting, meeting notes, risk tracking, business assistants. Available for short missions or longer programs. FR · DE · UK · CH · BE."],
+  hl:[{t:"Portfolio",d:"Demand Mgt → RUN"},{t:"Infra & DC",d:"Azure, AWS, Equinix"},{t:"Cybersecurity",d:"GSMA-SM, CES+, PCI"},{t:"International",d:"FR/EN — 5 countries"}],
+  exTtl:"Experience",
+  exps:[
+    {d:"Oct.2025→Present",co:"IDEMIA — Cybersecurity Audit GSMA/SM",ro:"Local Security Officer",desc:"Equinix cage, GSMA-SM, Key Custodian, CCTV, BCP Romania.",tags:["Equinix","GSMA-SM","International"]},
+    {d:"Oct.2020→Dec.2025",co:"AREVA Group — Orano, Framatome, SinerGIE",ro:"IT Project & Program Leader",desc:"Infrastructure, IS & Applications portfolio. Network France/China, DC migrations, Teams/SBC, CES+.",tags:["MS Azure","Equinix","CES+","International"]},
+    {d:"2013→2020",co:"ENGIE IT — Saint-Ouen",ro:"IT Project & Program Leader",desc:"~60 infra projects: AWS/Azure, Office 365 T2T, SD-WAN. France, Europe, Americas.",tags:["AWS","Azure","SD-WAN","International"]},
+    {d:"2011→2013",co:"Société Générale — RESG/GTS/EUS",ro:"IT Program Leader — IOTA",desc:"~30 projects. AME/ASI/UK. Citrix, AD, VMware.",tags:["Citrix","AD","VMware","International"]},
+    {d:"2009→2011",co:"Crédit Agricole (CA-CIB)",ro:"IT Program Leader — MyDesk",desc:"18,000 workstations XP→Win7, 17 countries.",tags:["Windows 7","Citrix","17 countries"]},
+    {d:"2008→2009",co:"Orange Business Service",ro:"PM Portfolio",desc:"B2B VPN-MPLS, Unified Defense. France, Egypt, USA, Antwerp.",tags:["VPN MPLS","B2B"]},
+    {d:"2005→2007",co:"EADS Astrium SAT",ro:"IT Project Management",desc:"DC relocation Vélizy→Elancourt. LAN, WAN, VoIP.",tags:["LAN/WAN","VoIP","Defence"]},
+    {d:"1997→2005",co:"SFR / Bouygues / 9 Telecom",ro:"Integration Engineer / PM",desc:"Mobile, xDSL, VPN MPLS, VoIP.",tags:["GSM","VPN MPLS","xDSL"]}],
+  svTtl:"Tailored Services",svIntro:"With 25 years of experience on complex IT programs across nuclear, banking, energy and telecoms sectors, I work as a senior consultant alongside CIOs and program directors. Whether securing a critical audit, driving a datacenter migration or structuring IT governance, every engagement is scoped with precision and delivered with rigour. Targeted engagements for CIOs, CTOs and program directors:",
+  services:[
+    {ic:"🎯",ti:"Strategic CIO Advisory",desc:"Scoping, governance, roadmap, make-or-buy.",tags:["Scoping","Governance","Roadmap"]},
+    {ic:"🔐",ti:"Critical Datacenter Audit",desc:"GSMA-SM, CES+, PCI DSS. Ref. IDEMIA 2025.",tags:["GSMA-SM","CES+","PCI"]},
+    {ic:"🏗️",ti:"Infrastructure Program Mgt",desc:"DC migrations, cloud, network. Reinforcement or PM substitution.",tags:["DC Migration","Cloud","Build to RUN"]},
+    {ic:"🔄",ti:"Governance & Recovery",desc:"Program audit, portfolio review, PMO setup.",tags:["PMO","Risk Review","Recovery"]}],
+  ctTtl2:"Certifications & Training",
+  certs:[
+    {n:"PMP®",s:"Project Mgt Professional — PMI",y:"Active",g:false,c:"#003087"},
+    {n:"ITIL v3",s:"IT Infrastructure Library",y:"Active",g:false,c:"#5B2D8E"},
+    {n:"PRINCE2",s:"Axelos",y:"In progress",g:true,c:"#00544F"},
+    {n:"Scrum",s:"Agile Framework",y:"Active",g:false,c:"#F26524"},
+    {n:"GSMA-SM",s:"Critical DC Cert.",y:"2025",g:false,c:"#003399"},
+    {n:"CES+",s:"Cyber Essentials Plus",y:"Active",g:false,c:"#C8102E"},
+    {n:"Microsoft AI",s:"AI Professional Tools",y:"In progress ✦",g:true,c:"#0e7c5a"},
+    {n:"No-Code",s:"Alegria — Automation",y:"Done ✓",g:false,c:"#7c3aed"},
+    {n:"Master ESGI",s:"Computer Engineering Paris",y:"1994–1997",g:false,c:"#1a2a4a"},
+    {n:"DUT GEII",s:"Univ. de Rouen",y:"1990–1993",g:false,c:"#334155"}],
+  ctTtlHead:"Contact",ctTtl:"Let's work together",
+  ctSocTtl:"Let's connect and talk about your project",
+  ctText:"Available for freelance IT & AI management, cybersecurity audits, international coordination. Response within 24h. Whether you need to scope a project, secure a program or drive an IT transformation, I adapt to your constraints: short or long-term mission, France or international, remote or on-site.",
+  langs:["🇫🇷 Français — natif","🇬🇧 English — fluent"],
+  foot:"© 2025 Philippe Damas · Senior IT Program Manager & AI Automation Consultant · PMP® · ITIL · GSMA-SM"
+}
+};
+
+var SVG_ICONS = {
+  '\u{1F3D7}\uFE0F': function(c,s){return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="'+c+'" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>';},
+  '\u{1F5A5}\uFE0F': function(c,s){return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="'+c+'" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>';},
+  '\u{1F310}': function(c,s){return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="'+c+'" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>';},
+  '\u{1F512}': function(c,s){return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="'+c+'" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>';},
+  '\u{1F5C4}\uFE0F': function(c,s){return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="'+c+'" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/></svg>';},
+  '\u{1F91D}': function(c,s){return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="'+c+'" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>';},
+  '\u{1F3AF}': function(c,s){return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="'+c+'" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>';},
+  '\u{1F510}': function(c,s){return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="'+c+'" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>';},
+  '\u{1F504}': function(c,s){return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="'+c+'" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>';},
+  '\u{1F4CB}': function(c,s){return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="'+c+'" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>';},
+  '\u{23F1}\uFE0F': function(c,s){return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="'+c+'" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 3"/></svg>';}
+};
+function getIcon(emoji, color, size) {
+  var fn = SVG_ICONS[emoji];
+  return fn ? fn(color, size) : emoji;
+}
+function render(){
+  var t=D[lang];
+  var nl='';t.nav.forEach(function(n,i){nl+='<a onclick="s(\''+t.ids[i]+'\')" style="cursor:pointer">'+n+'</a>';});
+  document.getElementById('navLinks').innerHTML=nl;
+  document.getElementById('bFR').className=lang==='fr'?'on':'';
+  document.getElementById('bEN').className=lang==='en'?'on':'';
+  document.getElementById('talkBtn').textContent=t.talkBtn;
+  document.getElementById('hBadge').textContent=t.badge;
+  document.getElementById('hRole').textContent=t.role;
+  document.getElementById('hDesc').textContent=t.desc;
+  document.getElementById('hCta1').textContent=t.cta1;
+  document.getElementById('hCta2').textContent=t.cta2;
+  document.getElementById('hCta3').textContent=t.cta3;
+  document.getElementById('sayHiTxt').textContent=t.sayHiTxt;
+  document.getElementById('cbLbl').textContent=t.cbLbl;
+  var sh='';t.stats.forEach(function(s){sh+='<div class="sc"><div class="sn">'+s.n+'</div><div class="sl">'+s.l+'</div></div>';});
+  document.getElementById('statsRow').innerHTML=sh;
+  document.getElementById('msLblTitle').textContent=t.msLblTitle;
+  document.getElementById('msStarLbl').textContent=t.msStarLbl;
+  document.getElementById('msStarBadge').textContent=t.msStarBadge;
+  document.getElementById('msTtl').textContent=t.msTtl;
+  document.getElementById('msRole').textContent=t.msRole;
+  document.getElementById('msDesc').textContent=t.msDesc;
+  var mp='';t.msPoints.forEach(function(p){mp+='<div class="apt"><div class="apt-t">'+getIcon(p.ic,'rgba(255,255,255,0.85)','14')+' '+p.ti+'</div><div class="apt-d">'+p.desc+'</div></div>';});
+  document.getElementById('msPoints').innerHTML=mp;
+  var mt='';t.msTags.forEach(function(x){mt+=tg(x,'tag-w');});
+  document.getElementById('msTags').innerHTML=mt;
+  document.getElementById('msCtaTxt').textContent=t.msCtaTxt;
+  document.getElementById('skTtl').textContent=t.skTtl;
+  var sk='';t.skills.forEach(function(s){var tgs='';s.tags.forEach(function(x){tgs+=tg(x,'tag-o');});sk+='<div class="skrow"><div class="skic">'+getIcon(s.ic,'#7c3aed','18')+'</div><div><div class="sknm">'+s.cat+'</div><div class="tags">'+tgs+'</div></div></div>';});
+  document.getElementById('skCards').innerHTML=sk;
+  document.getElementById('aTtl').textContent=t.aTtl;
+  var ps='';t.aPs.forEach(function(p){ps+='<p class="ap">'+p+'</p>';});
+  document.getElementById('aPs').innerHTML=ps;
+  document.getElementById('aCt').innerHTML=
+    '<div class="cd"><div class="cdic"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#7c3aed\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z\"/><polyline points=\"22,6 12,13 2,6\"/></svg></div><a href="mailto:philippe.damas@gmail.com" style="color:#7c3aed">philippe.damas@gmail.com</a></div>'+
+    '<div class="cd"><div class="cdic"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#7c3aed\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"5\" y=\"2\" width=\"14\" height=\"20\" rx=\"2\"/><line x1=\"12\" y1=\"18\" x2=\"12.01\" y2=\"18\"/></svg></div>+33 6 32 41 81 28</div>'+
+    '<div class="cd"><div class="cdic"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#7c3aed\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71\"/><path d=\"M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71\"/></svg></div><a href="https://linkedin.com/in/philippe.damas" target="_blank" style="color:#7c3aed">linkedin.com/in/philippe.damas</a></div>'+
+    '<div class="cd"><div class="cdic"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#7c3aed\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z\"/><circle cx=\"12\" cy=\"10\" r=\"3\"/></svg></div>Limeil-Brevannes, Île-de-France (FR)</div>';
+  var hl='';t.hl.forEach(function(h){hl+='<div class="hlr"><div class="hld"></div><span class="hlt">'+h.t+'</span><span class="hls">· '+h.d+'</span></div>';});
+  document.getElementById('aHl').innerHTML=hl;
+  document.getElementById('exTtl').textContent=t.exTtl;
+  var ex='';t.exps.forEach(function(e){var tgs='';e.tags.forEach(function(x){tgs+=tg(x);});ex+='<div class="tli"><div class="tldt">'+e.d+'</div><div><div class="tlco">'+e.co+'</div><div class="tlro">'+e.ro+'</div><div class="tldesc">'+e.desc+'</div><div class="tags">'+tgs+'</div></div></div>';});
+  document.getElementById('exList').innerHTML=ex;
+  document.getElementById('svTtl').textContent=t.svTtl;
+  document.getElementById('svIntro').textContent=t.svIntro;
+  var sv='';t.services.forEach(function(s){var tgs='';s.tags.forEach(function(x){tgs+=tg(x,'tag-o');});sv+='<div class="svi"><div class="svic">'+getIcon(s.ic,'#7c3aed','20')+'</div><div class="svnm">'+s.ti+'</div><div class="svds">'+s.desc+'</div><div class="tags">'+tgs+'</div></div>';});
+  document.getElementById('svCards').innerHTML=sv;
+  document.getElementById('ctTtl2').textContent=t.ctTtl2;
+  var cg='';t.certs.forEach(function(c){cg+='<div class="ci"><div class="cdot" style="background:'+c.c+'">'+c.n.substring(0,3)+'</div><div class="cnm">'+c.n+'</div><div class="csb">'+c.s+'</div><div class="cyr'+(c.g?' gold':'')+'">'+c.y+'</div></div>';});
+  document.getElementById('certCards').innerHTML=cg;
+  document.getElementById('ctTtlHead').textContent=t.ctTtlHead;
+  document.getElementById('ctTtl').textContent=t.ctTtl;
+  document.getElementById('ctText').textContent=t.ctText;
+  document.getElementById('ctSocTtl').innerHTML=t.ctSocTtl;
+  document.getElementById('ctCards').innerHTML=
+    '<div class="cd"><div class="cdic"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#7c3aed\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z\"/><polyline points=\"22,6 12,13 2,6\"/></svg></div><a href="mailto:philippe.damas@gmail.com" style="color:#7c3aed">philippe.damas@gmail.com</a></div>'+
+    '<div class="cd"><div class="cdic"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#7c3aed\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"5\" y=\"2\" width=\"14\" height=\"20\" rx=\"2\"/><line x1=\"12\" y1=\"18\" x2=\"12.01\" y2=\"18\"/></svg></div>+33 6 32 41 81 28</div>'+
+    '<div class="cd"><div class="cdic"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#7c3aed\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71\"/><path d=\"M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71\"/></svg></div><a href="https://linkedin.com/in/philippe.damas" target="_blank" style="color:#7c3aed">@philippe.damas</a></div>'+
+    '<div class="cd"><div class="cdic"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#7c3aed\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z\"/><circle cx=\"12\" cy=\"10\" r=\"3\"/></svg></div>Limeil-Brevannes, FR</div>';
+  var lg='';t.langs.forEach(function(l){lg+='<span class="lbdg">'+l+'</span>';});
+  document.getElementById('ctLangs').innerHTML=lg;
+  document.getElementById('foot').textContent=t.foot;
+}
+function setLang(l){lang=l;render();}
+render();
+</script>
+</body>
+</html>

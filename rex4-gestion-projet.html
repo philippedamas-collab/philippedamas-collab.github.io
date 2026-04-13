@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>REX #4 — Règles d'or Gestion de Projet IT | Philippe Damas</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#f5f0e8;color:#1a1a1a;font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7}
+a{text-decoration:none;color:inherit}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;padding:0 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(245,240,232,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06)}
+.nav-logo{font-family:'DM Sans',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase}
+.nav-logo span{color:#7c3aed}
+.nav-back{font-size:.8rem;color:#666;font-weight:500;transition:color .2s}
+.nav-back:hover{color:#7c3aed}
+.hero{padding:100px 40px 60px;max-width:780px;margin:0 auto}
+.rex-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.25);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#7c3aed;margin-bottom:24px;font-weight:600}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(2.2rem,4vw,3.2rem);line-height:1.15;letter-spacing:-.02em;margin-bottom:16px}
+.hero-title em{font-style:italic;color:#7c3aed}
+.hero-sub{font-size:1.05rem;color:#555;line-height:1.8;max-width:640px;margin-bottom:32px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:.78rem;color:#999;padding-top:20px;border-top:1px solid rgba(0,0,0,.08)}
+.hero-meta strong{color:#1a1a1a}
+.article{max-width:780px;margin:0 auto;padding:0 40px 80px}
+
+/* INSIGHT */
+.insight{background:#1a1a1a;color:#fff;border-radius:20px;padding:32px 36px;margin:40px 0;position:relative;overflow:hidden}
+.insight::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(124,58,237,.3) 0%,transparent 70%)}
+.insight-label{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:#c4b5fd;font-weight:700;margin-bottom:10px}
+.insight-text{font-size:1.05rem;line-height:1.8;color:rgba(255,255,255,.9)}
+.insight-text strong{color:#fff}
+
+/* 4 PILLARS OVERVIEW */
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:32px 0}
+.pillar{border-radius:16px;padding:20px 16px;text-align:center;border:1px solid rgba(0,0,0,.06)}
+.pillar-icon{font-size:1.6rem;margin-bottom:8px}
+.pillar-num{font-family:'DM Serif Display',serif;font-size:.75rem;color:#999;letter-spacing:.1em;text-transform:uppercase}
+.pillar-title{font-family:'DM Sans',sans-serif;font-weight:700;font-size:.88rem;margin-top:4px;line-height:1.3}
+
+/* SECTION */
+.section{margin:52px 0}
+.section-header{display:flex;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid #e8e3db}
+.section-num{font-family:'DM Serif Display',serif;font-size:3.5rem;color:#e8e3db;line-height:1;flex-shrink:0}
+.section-title-wrap{}
+.section-label{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:2px}
+.section-title{font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.25rem;color:#0f0f0f;line-height:1.2}
+.section p{font-size:.97rem;color:#444;line-height:1.85;margin-bottom:14px}
+.section p:last-child{margin-bottom:0}
+
+/* CHECKLIST */
+.checklist{background:#fff;border-radius:16px;padding:28px 32px;margin:24px 0;border:1px solid rgba(0,0,0,.06)}
+.checklist-title{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#7c3aed;font-weight:700;margin-bottom:16px}
+.check-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.05)}
+.check-item:last-child{border-bottom:none}
+.check-icon{width:22px;height:22px;border-radius:6px;background:rgba(124,58,237,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.check-text{font-size:.9rem;color:#333;line-height:1.6}
+.check-text strong{color:#0f0f0f;font-weight:600}
+
+/* WARNING / INFO */
+.warning{background:#fff0f0;border:1px solid #f87171;border-left:4px solid #ef4444;border-radius:12px;padding:20px 24px;margin:24px 0;display:flex;gap:14px}
+.warning-text{font-size:.9rem;color:#7f1d1d;line-height:1.7}
+.warning-text strong{font-weight:700;display:block;margin-bottom:4px}
+.info{background:#eff6ff;border:1px solid #93c5fd;border-left:4px solid #3b82f6;border-radius:12px;padding:20px 24px;margin:24px 0;display:flex;gap:14px}
+.info-text{font-size:.9rem;color:#1e3a5f;line-height:1.7}
+.info-text strong{font-weight:700;display:block;margin-bottom:4px}
+.success{background:#f0fdf4;border:1px solid #86efac;border-left:4px solid #22c55e;border-radius:12px;padding:20px 24px;margin:24px 0;display:flex;gap:14px}
+.success-text{font-size:.9rem;color:#14532d;line-height:1.7}
+.success-text strong{font-weight:700;display:block;margin-bottom:4px}
+
+/* PULL QUOTE */
+.pull-quote{border-left:3px solid #7c3aed;padding:16px 24px;margin:32px 0;background:rgba(124,58,237,.04);border-radius:0 12px 12px 0}
+.pull-quote p{font-family:'DM Serif Display',serif;font-size:1.15rem;font-style:italic;color:#333;line-height:1.7}
+.pull-quote cite{display:block;font-size:.72rem;color:#999;margin-top:8px;font-style:normal;letter-spacing:.06em;text-transform:uppercase}
+
+/* BUDGET ESCALATION */
+.escalation{display:grid;grid-template-columns:1fr;gap:0;margin:24px 0;border-radius:16px;overflow:hidden;border:1px solid rgba(0,0,0,.06)}
+.esc-item{display:flex;align-items:center;gap:16px;padding:14px 20px;border-bottom:1px solid rgba(0,0,0,.05);background:#fff}
+.esc-item:last-child{border-bottom:none}
+.esc-pct{font-family:'DM Serif Display',serif;font-weight:700;font-size:1.1rem;min-width:52px;flex-shrink:0}
+.esc-bar{width:8px;height:32px;border-radius:4px;flex-shrink:0}
+.esc-text{font-size:.88rem;color:#333;line-height:1.5}
+.esc-text strong{font-weight:600;color:#1a1a1a}
+
+/* KPI TABLE */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0}
+.kpi-card{background:#fff;border-radius:14px;padding:18px 20px;border:1px solid rgba(0,0,0,.06)}
+.kpi-phase{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:#7c3aed;font-weight:700;margin-bottom:8px}
+.kpi-title{font-size:.88rem;font-weight:600;color:#1a1a1a;margin-bottom:4px}
+.kpi-desc{font-size:.8rem;color:#666;line-height:1.6}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:32px 0}
+.tag{padding:6px 14px;border-radius:20px;font-size:.72rem;background:#ece7dd;color:#666;font-weight:500}
+.tag-main{background:rgba(124,58,237,.1);color:#7c3aed}
+
+/* CTA */
+.cta-box{background:linear-gradient(135deg,#2a1a4a 0%,#1a0f2e 100%);border-radius:20px;padding:40px;margin:48px 0;text-align:center}
+.cta-box h3{font-family:'DM Serif Display',serif;font-size:1.6rem;color:#fff;margin-bottom:12px}
+.cta-box p{font-size:.9rem;color:rgba(255,255,255,.6);margin-bottom:24px;line-height:1.7}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#7c3aed;color:#fff;border-radius:30px;font-size:.82rem;font-weight:600;transition:opacity .2s}
+.cta-btn:hover{opacity:.85}
+
+/* NAV */
+.nav-articles{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:48px 0}
+.nav-art{background:#fff;border-radius:16px;padding:24px;border:1px solid rgba(0,0,0,.06);transition:all .2s}
+.nav-art:hover{border-color:#7c3aed;transform:translateY(-2px)}
+.nav-art-label{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:#999;margin-bottom:8px}
+.nav-art-title{font-size:.9rem;font-weight:600;color:#1a1a1a;line-height:1.4}
+.nav-art-arrow{font-size:.8rem;color:#7c3aed;margin-top:8px;display:block}
+
+footer{text-align:center;padding:24px;font-size:.65rem;color:#bbb;letter-spacing:.06em;border-top:1px solid rgba(0,0,0,.06)}
+@media(max-width:680px){.hero,.article{padding-left:20px;padding-right:20px}nav{padding:0 20px}.nav-articles,.kpi-grid{grid-template-columns:1fr}.pillars{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">P.<span>Damas</span></a>
+  <a href="blog.html" class="nav-back">← Blog IT</a>
+</nav>
+
+<div class="hero">
+  <div class="rex-tag">REX #4 · Méthodo & Bonnes pratiques</div>
+  <h1 class="hero-title">Les règles d'or de la <em>gestion de projet</em> IT</h1>
+  <p class="hero-sub">Après 25 ans de programmes IT sur des périmètres internationaux, quatre piliers font systématiquement la différence entre un projet livré et un projet qui dérape. Gouvernance, Budget, Qualité, Planning — voici les règles d'or issues de la méthodologie PMP et de mon expérience terrain.</p>
+  <div class="hero-meta">
+    <span>Par <strong>Philippe Damas</strong></span>
+    <span>· <strong>PMP® · ITIL v3</strong></span>
+    <span>· ~12 min de lecture</span>
+  </div>
+</div>
+
+<div class="article">
+
+  <div class="insight">
+    <div class="insight-label">L'essentiel</div>
+    <p class="insight-text">Un projet IT ne dérape pas à cause de la technique. Il dérape à cause d'une <strong>gouvernance floue</strong>, d'un <strong>budget mal piloté</strong>, d'une <strong>qualité non mesurée</strong>, d'un <strong>planning non tenu</strong> et de <strong>risques mal gérés</strong>. Ces cinq piliers sont interdépendants — négliger l'un fragilise les quatre autres.</p>
+  </div>
+
+  <!-- 4 PILLARS OVERVIEW -->
+  <div class="pillars">
+    <div class="pillar" style="background:linear-gradient(160deg,#f5f3ff,#fff);border-color:rgba(124,58,237,.2)">
+      <div class="pillar-icon">🏛️</div>
+      <div class="pillar-num">Pilier 01</div>
+      <div class="pillar-title" style="color:#7c3aed">Gouvernance</div>
+    </div>
+    <div class="pillar" style="background:linear-gradient(160deg,#fff7ed,#fff);border-color:rgba(245,158,11,.2)">
+      <div class="pillar-icon">💰</div>
+      <div class="pillar-num">Pilier 02</div>
+      <div class="pillar-title" style="color:#d97706">Budget</div>
+    </div>
+    <div class="pillar" style="background:linear-gradient(160deg,#f0fdf4,#fff);border-color:rgba(34,197,94,.2)">
+      <div class="pillar-icon">📊</div>
+      <div class="pillar-num">Pilier 03</div>
+      <div class="pillar-title" style="color:#16a34a">Qualité</div>
+    </div>
+    <div class="pillar" style="background:linear-gradient(160deg,#eff6ff,#fff);border-color:rgba(59,130,246,.2)">
+      <div class="pillar-icon">📅</div>
+      <div class="pillar-num">Pilier 04</div>
+      <div class="pillar-title" style="color:#2563eb">Planning</div>
+    </div>
+    <div class="pillar" style="background:linear-gradient(160deg,#fff1f2,#fff);border-color:rgba(239,68,68,.2);grid-column:1/-1">
+      <div class="pillar-icon">⚠️</div>
+      <div class="pillar-num">Pilier 05</div>
+      <div class="pillar-title" style="color:#dc2626">Gestion des Risques</div>
+    </div>
+  </div>
+
+  <!-- SECTION 1 — GOUVERNANCE -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="color:#e9d5ff">01</span>
+      <div class="section-title-wrap">
+        <div class="section-label" style="color:#7c3aed">Pilier 01</div>
+        <div class="section-title">Gouvernance & Communication</div>
+      </div>
+    </div>
+    <p>La gouvernance, c'est la colonne vertébrale du projet. Sans structure de pilotage claire, les décisions traînent, les escalades n'arrivent pas au bon niveau et les parties prenantes s'alignent sur des informations contradictoires. La communication n'est pas un livrable optionnel — c'est un workstream à part entière.</p>
+    <p>En pratique, cela signifie définir dès le kick-off <b style="color:#7c3aed">qui décide quoi</b>, à quel niveau et avec quel délai. Une RACI claire, un rythme de Copil régulier et des escalades formalisées sont les trois fondements d'une gouvernance qui fonctionne.</p>
+
+    <div class="checklist">
+      <div class="checklist-title">Règles d'or de la gouvernance</div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>RACI documentée et validée dès le kick-off</strong> — Chaque livrable a un Responsible, un Accountable, des Consultés et des Informés. Sans RACI, tout le monde est responsable, donc personne ne l'est.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Copil régulier avec ordre du jour structuré</strong> — Avancement, risques, décisions à prendre, actions ouvertes. Pas de Copil informatif : chaque réunion doit se terminer avec des décisions actées.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Reporting adapté au niveau d'audience</strong> — Dashboard synthétique pour le Sponsor, rapport détaillé pour le Copil technique, communication terrain pour les utilisateurs.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Registre de décisions tenu à jour</strong> — Chaque décision prise en Copil est documentée avec la date, le décideur et les impacts. C'est votre protection en cas de contestation ultérieure.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Processus d'escalade formalisé</strong> — Définir à l'avance les seuils qui déclenchent une escalade Sponsor (retard critique, dépassement budgétaire, blocage décisionnel).</div>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>« Un Sponsor mal informé est un Sponsor qui découvre les problèmes trop tard pour les résoudre. La transparence inconfortable vaut mieux que la surprise catastrophique. »</p>
+      <cite>Retour terrain — Programmes IT grands comptes</cite>
+    </div>
+  </div>
+
+  <!-- SECTION 2 — BUDGET -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="color:#fca5a5">02</span>
+      <div class="section-title-wrap">
+        <div class="section-label" style="color:#d97706">Pilier 02</div>
+        <div class="section-title">Budget — Suivi, alertes & Change Orders</div>
+      </div>
+    </div>
+    <p>Le budget d'un programme IT n'est pas une donnée figée — c'est un indicateur vivant qui doit être suivi en temps réel. La question n'est pas de savoir si le budget va évoluer, mais quand et comment le gérer de façon professionnelle.</p>
+    <p>Le <b style="color:#d97706">Change Order</b> (CO) est l'outil contractuel qui permet de faire valider formellement un nouveau périmètre ou un dépassement budgétaire par le Sponsor. Un CO bien préparé, avec une justification claire et un chiffrage rigoureux, est toujours mieux reçu qu'une surprise en fin de projet.</p>
+
+    <div class="checklist">
+      <div class="checklist-title">Règles d'or du suivi budgétaire</div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Budget baseline documenté et signé</strong> — Le budget initial (baseline) doit être formalisé et approuvé avant tout démarrage. C'est la référence de tout écart futur.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Suivi mensuel Dépensé / Engagé / Reste à faire</strong> — Le consommé seul ne suffit pas : il faut suivre ce qui est engagé (commandes en cours) et le reste à faire prévisionnel.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Provision de réserve (contingency)</strong> — Prévoir systématiquement 10 à 15% de réserve sur le budget initial pour absorber les aléas sans déclencher un Change Order à chaque surprise.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Seuils d'alerte définis à l'avance</strong> — Définir avec le Sponsor les seuils qui déclenchent une alerte formelle : en général à 80% du budget consommé, et dès qu'un écart >10% est anticipé. Un écart de +5% en fin de projet est souvent toléré selon les clients et les contrats — mais cela doit être acté explicitement dès le départ, pas découvert à la clôture.</div>
+      </div>
+    </div>
+
+    <p style="font-size:.97rem;color:#444;line-height:1.85;margin:20px 0 8px">Comment alerter et à quel moment ?</p>
+
+    <div class="escalation">
+      <div class="esc-item">
+        <span class="esc-pct" style="color:#22c55e">≤ 80%</span>
+        <div class="esc-bar" style="background:#22c55e"></div>
+        <div class="esc-text"><strong>Zone verte — suivi normal</strong> Reporting mensuel standard au Copil. Pas d'action spécifique requise.</div>
+      </div>
+      <div class="esc-item">
+        <span class="esc-pct" style="color:#f59e0b">80–95%</span>
+        <div class="esc-bar" style="background:#f59e0b"></div>
+        <div class="esc-text"><strong>Zone orange — alerte préventive</strong> Informer le Sponsor par écrit. Présenter une projection de fin de projet et les leviers d'optimisation disponibles.</div>
+      </div>
+      <div class="esc-item">
+        <span class="esc-pct" style="color:#ef4444">> 95%</span>
+        <div class="esc-bar" style="background:#ef4444"></div>
+        <div class="esc-text"><strong>Zone rouge — Alerte Sponsor + évaluation Change Order</strong> Évaluer en priorité le RAF (Reste À Faire) : si du RAF significatif subsiste, préparer un CO formel avec justification détaillée, impact périmètre/planning, et soumettre à validation Sponsor avant tout nouvel engagement. Si le projet est quasi terminé, le CO n'est plus pertinent — on documente la variance budgétaire finale et on l'explique en Copil de clôture.</div>
+      </div>
+    </div>
+
+    <div style="background:#fff7ed;border:1px solid #fdba74;border-left:4px solid #ea580c;border-radius:12px;padding:20px 24px;margin:24px 0;display:flex;gap:14px">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">📋</div>
+      <div style="font-size:.9rem;color:#7c2d12;line-height:1.7">
+        <strong style="font-weight:700;display:block;margin-bottom:4px">Comment faire valider un Change Order ?</strong>
+        Un CO doit contenir : (1) <b>l'origine du changement</b> — c'est le point le plus important car il détermine la responsabilité : s'agit-il d'un oubli ou d'une mauvaise maîtrise des dépenses côté IT (responsabilité du chef de projet), ou d'un nouveau besoin/cas d'usage apparu en cours de route (responsabilité du Sponsor) ? Cette distinction conditionne toute la négociation. (2) <b>la description précise du changement de périmètre</b> ou de la cause du dépassement, (3) <b>le chiffrage détaillé du surcoût avec les hypothèses</b>, (4) <b>l'impact sur le planning</b>, (5) <b>les alternatives étudiées et rejetées</b>, (6) la recommandation du chef de projet. Présentez le CO en Copil avec un temps dédié — et surtout ne le glissez jamais en <b>AOB</b> (Any Other Business — le fourre-tout en fin de réunion où personne n'écoute vraiment et où les décisions importantes ne sont jamais bien prises).
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 — QUALITÉ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="color:#86efac">03</span>
+      <div class="section-title-wrap">
+        <div class="section-label" style="color:#16a34a">Pilier 03</div>
+        <div class="section-title">Qualité — Mesurer, piloter, prouver</div>
+      </div>
+    </div>
+    <p>La qualité d'un projet IT ne se décrète pas — elle se mesure. Et pour mesurer, il faut définir des indicateurs <b style="color:#16a34a">avant</b> le début du projet, pas après. C'est la seule façon de démontrer objectivement la valeur apportée et de détecter les dérives avant qu'elles ne deviennent des incidents.</p>
+    <p>La méthodologie PMP distingue deux types de qualité : la <b style="color:#16a34a">qualité du produit</b> (la solution livrée est-elle conforme aux exigences ?) et la <b style="color:#16a34a">qualité du processus</b> (le projet est-il piloté de façon rigoureuse ?). Les deux doivent être mesurées.</p>
+    <p>Exemple concret d'un projet de refonte VPN : la qualité du <b>produit</b> se mesure par le temps de connexion moyen, le taux d'incidents post-déploiement et la conformité aux exigences Cyber/RSSI. La qualité du <b>processus</b> se mesure par le respect du planning par vague, le taux de tickets traités dans les SLA et le taux de satisfaction des utilisateurs après chaque vague. Sans ces mesures définies en amont, impossible de prouver que le projet a réussi.</p>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-phase">Avant le projet — Baseline</div>
+        <div class="kpi-title">Temps de connexion VPN moyen</div>
+        <div class="kpi-desc">Mesurer le temps moyen de connexion sur l'ancienne solution. C'est la référence qui permettra de prouver l'amélioration.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-phase">Après le projet — Résultat</div>
+        <div class="kpi-title">Temps de connexion VPN cible</div>
+        <div class="kpi-desc">Mesurer sur la nouvelle solution après stabilisation. L'écart prouve (ou non) la valeur du projet.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-phase">Pendant le projet — Process</div>
+        <div class="kpi-title">Taux de tickets incidents / vague</div>
+        <div class="kpi-desc">Nombre d'incidents remontés par vague de déploiement. Un pic anormal déclenche un arrêt de la vague suivante.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-phase">Après le projet — Adoption</div>
+        <div class="kpi-title">Taux d'adoption par site</div>
+        <div class="kpi-desc">% d'utilisateurs actifs sur la nouvelle solution 30 jours après déploiement. En dessous de 85%, investiguer.</div>
+      </div>
+    </div>
+
+    <div class="checklist">
+      <div class="checklist-title">Règles d'or de la qualité projet</div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Définir les KPIs avant de commencer</strong> — Sans baseline mesurée avant le projet, impossible de démontrer la valeur créée après.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Critères d'acceptance formalisés</strong> — Chaque livrable a des critères de recette clairs et objectifs, validés par le client avant la livraison.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Revue qualité à chaque jalon</strong> — Ne pas attendre la fin du projet pour mesurer : une revue qualité à chaque jalon permet de corriger en cours de route.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Leçons apprises documentées</strong> — À chaque fin de phase, documenter ce qui a bien fonctionné et ce qui doit être amélioré. C'est la matière première de la progression.</div>
+      </div>
+    </div>
+
+    <div class="success">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">✅</div>
+      <div class="success-text">
+        <strong>Porter la performance au projet — pas seulement la livraison</strong>
+        Un projet livré dans les délais et le budget mais qui n'apporte pas de valeur mesurable est un échec. La qualité, c'est aussi savoir présenter au Sponsor les gains obtenus : temps économisé, incidents réduits, satisfaction utilisateur améliorée. Ces données transforment un livrable technique en succès business.
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 — PLANNING -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="color:#bfdbfe">04</span>
+      <div class="section-title-wrap">
+        <div class="section-label" style="color:#2563eb">Pilier 04</div>
+        <div class="section-title">Planning — Planification & Plan de migration</div>
+      </div>
+    </div>
+    <p>Un planning n'est pas un tableau Excel qu'on remplit pour le kick-off et qu'on oublie. C'est un outil de pilotage vivant, mis à jour en continu, qui reflète la réalité du projet à chaque instant. La méthodo PMP insiste sur la distinction entre le <b style="color:#2563eb">planning de référence</b> (baseline) et le <b style="color:#2563eb">planning courant</b> — les deux doivent exister et être comparés régulièrement.</p>
+    <p>Sur les projets de migration IT en particulier, le plan de migration est le document le plus critique. Il doit être co-construit avec toutes les équipes techniques, validé par le client, et inclure impérativement un plan de rollback testé pour chaque étape.</p>
+
+    <div class="checklist">
+      <div class="checklist-title">Bonnes pratiques de planification</div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>WBS (Work Breakdown Structure) complet</strong> — Décomposer le projet en lots de travaux jusqu'au niveau des tâches estimables. Sans WBS, les estimations sont des intuitions.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Chemin critique identifié</strong> — Identifier les tâches sans marge qui, si elles glissent, font glisser toute la date de fin. Ce sont les tâches à surveiller en priorité absolue.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Jalons de validation formalisés</strong> — Chaque jalon doit avoir un critère de sortie binaire (oui/non), pas une appréciation subjective. Un jalon non validé ne passe pas.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Dépendances inter-équipes cartographiées</strong> — Les retards les plus fréquents viennent des interfaces entre équipes. Identifier et monitorer ces dépendances est essentiel.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Fenêtres de maintenance définies avec les métiers</strong> — Convenir à l'avance des créneaux d'intervention (nuits, week-ends) en évitant les périodes critiques (clôtures, audits, congés).</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Plan de rollback testé pour chaque étape critique</strong> — Pas de migration sans procédure de retour arrière documentée et testée. Une migration sans rollback est un pari, pas un projet. Le rollback doit être mesuré en termes de temps. Sur une migration DC à DC réalisée sur un week-end par exemple, le rollback doit être exécutable dans la même fenêtre de maintenance — redéménager le matériel, réinstaller, recâbler, retester les services — tout doit tenir dans le week-end. Sinon il faut revoir la fenêtre et le plan avant de commencer, pas pendant.</div>
+      </div>
+    </div>
+
+    <div class="warning">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">⚠️</div>
+      <div class="warning-text">
+        <strong>Le planning est un outil de communication, pas seulement de suivi</strong>
+        Un planning que seul le chef de projet comprend ne sert à rien. Il doit être lisible par le Sponsor (vue macro, jalons clés), par les équipes techniques (tâches détaillées, dépendances) et par les métiers (impacts et fenêtres de maintenance). Trois niveaux de lecture, un seul document de référence.
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>« Planifier, c'est décider à l'avance de ce qu'on fera si les choses ne se passent pas comme prévu. Un bon plan inclut toujours ses propres alternatives. »</p>
+      <cite>Méthodologie PMP — De mon expérience terrain, 25 ans</cite>
+    </div>
+  </div>
+
+
+  <!-- SECTION 5 — RISQUES -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="color:#fca5a5">05</span>
+      <div class="section-title-wrap">
+        <div class="section-label" style="color:#dc2626">Pilier 05</div>
+        <div class="section-title">Gestion des Risques — Anticiper, mitiger, décider</div>
+      </div>
+    </div>
+    <p>La gestion des risques est le pilier le plus souvent négligé — et pourtant le plus déterminant. En méthodologie PMP, un risque est un événement <b style="color:#dc2626">incertain</b> qui, s'il se produit, a un impact positif ou négatif sur les objectifs du projet. La gestion des risques ne consiste pas à dresser une liste exhaustive de tout ce qui pourrait mal tourner : c'est un processus continu d'identification, d'évaluation et de décision.</p>
+    <p>Sur un programme IT complexe, les risques les plus dangereux sont rarement ceux qu'on n'a pas identifiés. Ce sont ceux qu'on a identifiés, mal évalués, et dont on a différé le traitement. Un <b style="color:#dc2626">Risk Register</b> tenu à jour et discuté à chaque Copil est l'outil de base — mais c'est la culture de l'anticipation qui fait vraiment la différence.</p>
+
+    <div class="checklist">
+      <div class="checklist-title">Règles d'or de la gestion des risques</div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Risk Register tenu à jour dès le kick-off</strong> — Chaque risque identifié est documenté avec sa probabilité (faible/moyenne/forte), son impact (faible/moyen/fort), son score (probabilité × impact) et son propriétaire.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>4 stratégies de réponse selon le PMP</strong> — <b>Éviter</b> (changer le plan pour éliminer le risque), <b>Transférer</b> (assurance, sous-traitance), <b>Mitiger</b> (réduire la probabilité ou l'impact), <b>Accepter</b> (provisionner une réserve et surveiller).</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Risk Review à chaque Copil</strong> — Passer en revue les risques ouverts, mettre à jour les scores, clôturer les risques résolus, identifier les nouveaux. Un risque non discuté en Copil est un risque ignoré.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Distinguer risque et problème</strong> — Un risque est incertain (il peut arriver). Un problème est avéré (il est arrivé). La gestion est différente : le risque se mitigue en amont, le problème se résout en urgence. Confondre les deux, c'est toujours réagir trop tard.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Provision de réserve pour risques résiduels</strong> — Les risques acceptés doivent être couverts par une réserve budgétaire et calendaire. Sans provision, un risque "accepté" est en réalité un risque ignoré.</div>
+      </div>
+    </div>
+
+    <div class="warning">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">⚠️</div>
+      <div class="warning-text">
+        <strong>Le risque le plus dangereux est celui qu'on connaît mais qu'on ne traite pas</strong>
+        Sur tous les projets en difficulté que j'ai rencontrés, le problème n'était presque jamais un risque imprévu. C'était un risque identifié dès le début, mal évalué, dont le traitement avait été différé faute de temps ou de budget — et qui a fini par se matérialiser au pire moment. Identifier un risque sans lui affecter un propriétaire et un plan d'action, c'est se donner bonne conscience sans se protéger.
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>« Gérer les risques, ce n'est pas prévoir l'imprévisible. C'est décider à l'avance comment réagir à ce qu'on sait possible. »</p>
+      <cite>Méthodologie PMP — De mon expérience terrain, 25 ans</cite>
+    </div>
+  </div>
+
+  <div class="tags">
+    <span class="tag tag-main">PMP®</span>
+    <span class="tag tag-main">Gouvernance</span>
+    <span class="tag tag-main">Budget</span>
+    <span class="tag tag-main">Qualité</span>
+    <span class="tag tag-main">Planning</span>
+    <span class="tag">Change Order</span>
+    <span class="tag">RACI</span>
+    <span class="tag">KPI</span>
+    <span class="tag">Copil</span>
+    <span class="tag">WBS</span>
+    <span class="tag">Chemin critique</span>
+    <span class="tag tag-main">Gestion des Risques</span>
+    <span class="tag">Risk Register</span>
+    <span class="tag">Rollback</span>
+    <span class="tag">REX</span>
+  </div>
+
+  <div class="cta-box">
+    <h3>Vous cherchez un chef de programme IT rigoureux ?</h3>
+    <p>PMP® certifié, 25 ans de programmes IT complexes sur 5 pays. Je peux renforcer votre équipe projet ou prendre en charge la direction de programme de bout en bout.</p>
+    <a href="index.html#contact" class="cta-btn">Me contacter →</a>
+  </div>
+
+  <div class="nav-articles">
+    <a href="rex3-vpn.html" class="nav-art">
+      <div class="nav-art-label">← Article précédent</div>
+      <div class="nav-art-title">REX #3 — Migration VPN à l'échelle groupe</div>
+      <span class="nav-art-arrow">Lire →</span>
+    </a>
+    <a href="blog.html" class="nav-art">
+      <div class="nav-art-label">Retour au blog →</div>
+      <div class="nav-art-title">Tous les articles REX</div>
+      <span class="nav-art-arrow">Voir le blog →</span>
+    </a>
+  </div>
+
+</div>
+<footer>© 2025 Philippe Damas · Senior IT Program Manager · PMP® · GSMA-SM</footer>
+</body>
+</html>
