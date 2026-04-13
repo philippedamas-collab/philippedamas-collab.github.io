@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Messagerie Unifiée — 3 ans d'expertise | Philippe Damas</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#F8F6FD;color:#1a1a1a;font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7}
+a{text-decoration:none;color:inherit}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;padding:0 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(248,246,253,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06)}
+.nav-logo{font-family:'DM Sans',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase}
+.nav-logo span{color:#7c3aed}
+.nav-back{font-size:.8rem;color:#666;font-weight:500;transition:color .2s}
+.nav-back:hover{color:#7c3aed}
+
+/* HERO */
+.hero{padding:100px 60px 60px;max-width:1200px;margin:0 auto}
+.mu-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.3);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#0284c7;margin-bottom:24px;font-weight:600}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(2.4rem,4vw,3.4rem);line-height:1.1;letter-spacing:-.02em;margin-bottom:16px}
+.hero-title em{font-style:italic;color:#0284c7}
+.hero-sub{font-size:1.05rem;color:#555;line-height:1.8;max-width:640px;margin-bottom:36px}
+
+/* EXPERTISE BANNER */
+.expertise-banner{max-width:1200px;margin:0 auto;padding:0 60px 48px}
+.exp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#e0dbd0;border-radius:20px;overflow:hidden;margin-bottom:40px}
+.exp-cell{background:#F8F6FD;padding:24px 20px;text-align:center}
+.exp-cell:hover{background:#fff}
+.exp-num{font-family:'DM Serif Display',serif;font-weight:700;font-size:2.2rem;color:#0284c7}
+.exp-label{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:#999;margin-top:4px}
+
+/* CONTEXTE PROGRAMME */
+.ctx{background:#0f172a;border-radius:20px;padding:32px 36px;margin-bottom:40px;position:relative;overflow:hidden}
+.ctx::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;background:radial-gradient(circle,rgba(14,165,233,.25) 0%,transparent 70%)}
+.ctx-label{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:#7dd3fc;font-weight:700;margin-bottom:10px}
+.ctx-text{font-size:1rem;line-height:1.8;color:rgba(255,255,255,.9)}
+.ctx-text strong{color:#7dd3fc}
+
+/* PROGRAMME STEPS */
+.prog-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:40px}
+.ps{background:#fff;border-radius:14px;padding:20px;border:1px solid rgba(0,0,0,.06)}
+.ps-num{font-family:'DM Serif Display',serif;font-size:2.5rem;color:#e8e3db;line-height:1;margin-bottom:4px}
+.ps-title{font-size:.9rem;font-weight:700;color:#0f0f0f;margin-bottom:6px}
+.ps-desc{font-size:.78rem;color:#666;line-height:1.6}
+
+/* REX CARDS */
+.rex-section{max-width:1200px;margin:0 auto;padding:0 60px 80px}
+.rex-section-title{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:#0284c7;font-weight:700;margin-bottom:24px}
+.rex-cards{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+
+.rex-card{background:#fff;border-radius:20px;border:1px solid rgba(0,0,0,.06);overflow:hidden;display:flex;flex-direction:column;transition:all .25s}
+.rex-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08);border-color:rgba(14,165,233,.2)}
+.rex-card-header{padding:28px 28px 0}
+.rex-card-num{font-family:'DM Serif Display',serif;font-size:4rem;line-height:1;margin-bottom:-6px}
+.rex-card-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;font-weight:600;margin-bottom:14px}
+.rex-card-title{font-family:'DM Serif Display',serif;font-size:1.35rem;line-height:1.25;color:#0f0f0f;margin-bottom:10px}
+.rex-card-desc{font-size:.88rem;color:#666;line-height:1.7;margin-bottom:16px}
+.rex-card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.rtag{padding:4px 10px;border-radius:20px;font-size:.65rem;font-weight:500;background:#f3f4f6;color:#374151;border:1px solid rgba(0,0,0,.06)}
+
+/* SIDE PANEL */
+.rex-card-side{padding:20px 28px;background:#0f172a;display:flex;flex-direction:column;gap:8px}
+.rex-side-item{display:flex;align-items:flex-start;gap:10px}
+.rex-side-dot{width:6px;height:6px;border-radius:50%;margin-top:6px;flex-shrink:0}
+.rex-side-text{font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.5}
+
+.rex-card-footer{margin-top:auto;padding:16px 28px;border-top:1px solid rgba(0,0,0,.05);display:flex;justify-content:space-between;align-items:center}
+.rex-card-meta{font-size:.72rem;color:#aaa}
+.rex-card-cta{font-size:.78rem;font-weight:600;color:#0284c7;display:flex;align-items:center;gap:4px}
+
+/* TIMELINE */
+.timeline{background:#fff;border-radius:20px;border:1px solid rgba(0,0,0,.06);padding:32px 36px;margin-bottom:40px}
+.tl-title{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:#0284c7;font-weight:700;margin-bottom:24px}
+.tl-items{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative}
+.tl-items::before{content:'';position:absolute;top:20px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,#ef4444,#7c3aed,#4f46e5);z-index:0}
+.tl-item{display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;z-index:1}
+.tl-dot{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;margin-bottom:10px;flex-shrink:0}
+.tl-label{font-size:.72rem;font-weight:700;color:#0f0f0f;margin-bottom:4px}
+.tl-desc{font-size:.65rem;color:#888;line-height:1.5}
+
+/* CTA */
+.cta-wrap{background:#0f172a;border-radius:20px;padding:36px;margin:0 0 80px;text-align:center}
+.cta-wrap h3{font-family:'DM Serif Display',serif;font-size:1.6rem;color:#fff;margin-bottom:10px}
+.cta-wrap p{color:rgba(255,255,255,.6);font-size:.9rem;margin-bottom:24px}
+.cta-btn{display:inline-block;padding:12px 28px;background:#0284c7;color:#fff;border-radius:30px;font-weight:600;font-size:.9rem}
+.cta-btn:hover{background:#0369a1}
+
+footer{text-align:center;padding:24px;font-size:.65rem;color:#bbb;letter-spacing:.06em;border-top:1px solid rgba(0,0,0,.06)}
+
+@media(max-width:680px){
+  .hero,.expertise-banner,.rex-section{padding-left:20px;padding-right:20px}
+  nav{padding:0 20px}
+  .rex-cards,.exp-grid,.prog-steps,.tl-items{grid-template-columns:1fr}
+  .tl-items::before{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">P.<span>Damas</span></a>
+  <div style="display:flex;align-items:center;gap:20px">
+    <a href="blog-rex.html" class="nav-back">Blog IT (REX 1–4)</a>
+    <a href="index.html" class="nav-back">← Portfolio</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="mu-tag">📡 Messagerie Unifiée · Expertise Programme</div>
+  <h1 class="hero-title">3 ans d'expertise<br><em>Messagerie Unifiée</em></h1>
+  <p class="hero-sub">De la migration Alcatel OXE vers SIP Trunk / SBC / Skype for Business, jusqu'à la transformation vers Microsoft Teams — deux programmes complets sur 30 000 utilisateurs, plusieurs pays, gouvernance tripartite. Voici les retours d'expérience terrain.</p>
+</div>
+
+<!-- EXPERTISE STATS -->
+<div class="expertise-banner">
+
+  <div class="exp-grid">
+    <div class="exp-cell">
+      <div class="exp-num">30k</div>
+      <div class="exp-label">Utilisateurs migrés</div>
+    </div>
+    <div class="exp-cell">
+      <div class="exp-num">3 ans</div>
+      <div class="exp-label">Durée programme</div>
+    </div>
+    <div class="exp-cell">
+      <div class="exp-num">10 pays</div>
+      <div class="exp-label">International</div>
+    </div>
+    <div class="exp-cell">
+      <div class="exp-num">2</div>
+      <div class="exp-label">Programmes bout-en-bout</div>
+    </div>
+  </div>
+
+  <!-- CONTEXTE -->
+  <div class="ctx">
+    <div class="ctx-label">💡 Contexte du programme</div>
+    <p class="ctx-text">Sur 3 ans, ce programme de transformation de la messagerie unifiée a couvert deux phases majeures : d'abord la <strong>migration de la ToIP Alcatel OXE legacy</strong> vers une architecture SIP Trunk / SBC / Skype for Business on-premise, puis la <strong>gestion d'obsolescence SFB</strong> imposée par la fin de support Microsoft, avec migration vers Microsoft Teams en mode Direct Routing. Même programme, mêmes parties prenantes — nouvelles contraintes cloud, licences et sécurité. À chaque étape : gouvernance tripartite Opérateur / Intégrateur SBC / Client, pilotage Technical Project Leader, conduite du changement 30 000 utilisateurs.</p>
+  </div>
+
+  <!-- PROGRAMME STEPS -->
+  <div class="prog-steps">
+    <div class="ps">
+      <div class="ps-num" style="color:#fca5a5">1</div>
+      <div class="ps-title">Étude & RFP</div>
+      <div class="ps-desc">RFI/RFP multi-opérateurs SIP Trunk, sélection intégrateur SBC, POC architecture, négociation EA Microsoft. Gouvernance Achats / Legal / RSSI / DSI.</div>
+    </div>
+    <div class="ps">
+      <div class="ps-num" style="color:#7dd3fc">2</div>
+      <div class="ps-title">Build & Migration SDA</div>
+      <div class="ps-desc">Phase pilote plages provisoires, portabilité SDA par tranches, PV recette tripartite, bascule avec rollback plan, démantèlement OXE / SFB au bon moment.</div>
+    </div>
+    <div class="ps">
+      <div class="ps-num" style="color:#86efac">3</div>
+      <div class="ps-title">Build-to-RUN</div>
+      <div class="ps-desc">Stabilisation, CMDB, passation RACI RUN, hypercare 3 mois. Puis lancement programme 2 (gestion obsolescence SFB → Teams Direct Routing + AAD).</div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="timeline">
+    <div class="tl-title">🗓 Cinématique programme — 3 ans</div>
+    <div class="tl-items">
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#fef2f2;border:2px solid #ef4444">📋</div>
+        <div class="tl-label" style="color:#ef4444">RFI / RFP</div>
+        <div class="tl-desc">Opérateur SIP Trunk<br>Intégrateur SBC<br>EA Microsoft</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#f0f9ff;border:2px solid #0284c7">🛡</div>
+        <div class="tl-label" style="color:#0284c7">Build SFB</div>
+        <div class="tl-desc">SBC DMZ<br>FE Pool · Edge<br>AD + MFA</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#f0fdf4;border:2px solid #16a34a">📞</div>
+        <div class="tl-label" style="color:#16a34a">Migration SDA</div>
+        <div class="tl-desc">Pilote provisoire<br>Portabilité tranches<br>Rollback plan</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#ede9fe;border:2px solid #7c3aed">☁️</div>
+        <div class="tl-label" style="color:#7c3aed">Direct Routing</div>
+        <div class="tl-desc">SBC → Teams Tenant<br>AAD · Coexistence<br>Call Queues</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#eef2ff;border:2px solid #4f46e5">✅</div>
+        <div class="tl-label" style="color:#4f46e5">Teams RUN</div>
+        <div class="tl-desc">Démantèlement SFB<br>CMDB Teams<br>RACI M365</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- REX ARTICLES -->
+<div class="rex-section">
+  <div class="rex-section-title">📄 Les deux REX complets — Niveau de détail programme</div>
+
+  <div class="rex-cards">
+
+    <!-- REX 5 -->
+    <a href="rex5-messagerie-unifiee.html" class="rex-card">
+      <div class="rex-card-header">
+        <div class="rex-card-num" style="color:#bae6fd">05</div>
+        <div class="rex-card-tag" style="background:rgba(14,165,233,.1);color:#0284c7">REX · Partie 1/2 · Messagerie Unifiée</div>
+        <h2 class="rex-card-title">Migration ToIP Alcatel OXE → SIP Trunk / SBC / Skype for Business</h2>
+        <p class="rex-card-desc">RFP, gouvernance tripartite, architecture SBC en DMZ, migration SDA par tranches avec pilote sur plages provisoires, KPIs par profil métier, plan de com conduite du changement.</p>
+        <div class="rex-card-tags">
+          <span class="rtag">SIP Trunk</span>
+          <span class="rtag">SBC</span>
+          <span class="rtag">Skype for Business</span>
+          <span class="rtag">Migration SDA</span>
+          <span class="rtag">Alcatel OXE</span>
+          <span class="rtag">RFI/RFP</span>
+        </div>
+      </div>
+      <div class="rex-card-side">
+        <div class="rex-side-item"><div class="rex-side-dot" style="background:#7dd3fc"></div><div class="rex-side-text">Gouvernance tripartite Opérateur / Intégrateur SBC / Client</div></div>
+        <div class="rex-side-item"><div class="rex-side-dot" style="background:#7dd3fc"></div><div class="rex-side-text">Phase pilote plages SDA provisoires + PV recette tripartite</div></div>
+        <div class="rex-side-item"><div class="rex-side-dot" style="background:#7dd3fc"></div><div class="rex-side-text">KPIs d'acceptation par profil métier (accueil, RGS, call center, nomades)</div></div>
+        <div class="rex-side-item"><div class="rex-side-dot" style="background:#7dd3fc"></div><div class="rex-side-text">Numéros spéciaux 0800/15/17/18/112 · Fax T.38</div></div>
+        <div class="rex-side-item"><div class="rex-side-dot" style="background:#7dd3fc"></div><div class="rex-side-text">Conduite du changement : ToIP traditionnelle → softphonie SFB</div></div>
+      </div>
+      <div class="rex-card-footer">
+        <span class="rex-card-meta">~15 min · 30 000 users · International</span>
+        <span class="rex-card-cta">Lire le REX →</span>
+      </div>
+    </a>
+
+    <!-- REX 6 -->
+    <a href="rex6-teams-migration.html" class="rex-card">
+      <div class="rex-card-header">
+        <div class="rex-card-num" style="color:#c7d2fe">06</div>
+        <div class="rex-card-tag" style="background:rgba(79,70,229,.1);color:#4f46e5">REX · Partie 2/2 · Gestion obsolescence</div>
+        <h2 class="rex-card-title">Migration Skype for Business on-premise → Microsoft Teams Direct Routing</h2>
+        <p class="rex-card-desc">Fin de support SFB, Direct Routing, Azure Active Directory, licences Microsoft, coexistence Islands/TeamsOnly, sécurité cloud RSSI, remplacement Peterconnect par Attendant Console certifiée Teams.</p>
+        <div class="rex-card-tags">
+          <span class="rtag">Microsoft Teams</span>
+          <span class="rtag">Direct Routing</span>
+          <span class="rtag">Azure AD</span>
+          <span class="rtag">SBC</span>
+          <span class="rtag">Coexistence</span>
+          <span class="rtag">Luware Nimbus</span>
+        </div>
+      </div>
+      <div class="rex-card-side">
+        <div class="rex-side-item"><div class="rex-side-dot" style="background:#c7d2fe"></div><div class="rex-side-text">Gestion d'obsolescence imposée — fin de support Microsoft SFB</div></div>
+        <div class="rex-side-item"><div class="rex-side-dot" style="background:#c7d2fe"></div><div class="rex-side-text">SBC maintenu en Direct Routing — API Graph remplace LDAP</div></div>
+        <div class="rex-side-item"><div class="rex-side-dot" style="background:#c7d2fe"></div><div class="rex-side-text">Analyse ROI 30 000 users : licences vs gain infra on-premise</div></div>
+        <div class="rex-side-item"><div class="rex-side-dot" style="background:#c7d2fe"></div><div class="rex-side-text">Sécurité cloud : Conditional Access, DLP, compliance recording</div></div>
+        <div class="rex-side-item"><div class="rex-side-dot" style="background:#c7d2fe"></div><div class="rex-side-text">Alternatives Peterconnect certifiées Teams : Luware, Tendfor, Enghouse</div></div>
+      </div>
+      <div class="rex-card-footer">
+        <span class="rex-card-meta">~15 min · 30 000 users · International</span>
+        <span class="rex-card-cta">Lire le REX →</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="rex-section" style="padding-top:0">
+  <div class="cta-wrap">
+    <h3>Un projet de messagerie unifiée en vue ?</h3>
+    <p>Migration SIP Trunk, Direct Routing Teams, gouvernance SBC, remplacement Peterconnect, conduite du changement 30 000 users : je peux intervenir en cadrage, pilotage ou audit.</p>
+    <a href="index.html#contact" class="cta-btn">Discutons de votre projet →</a>
+  </div>
+</div>
+
+<footer>© 2025 Philippe Damas · Senior IT Program Manager · PMP® · GSMA-SM</footer>
+</body>
+</html>

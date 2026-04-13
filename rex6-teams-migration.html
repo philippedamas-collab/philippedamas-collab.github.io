@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>REX #6 — Migration Skype for Business vers Microsoft Teams | Philippe Damas</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#F8F6FD;color:#1a1a1a;font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7}
+a{text-decoration:none;color:inherit}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;padding:0 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(248,246,253,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06)}
+.nav-logo{font-family:'DM Sans',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase}
+.nav-logo span{color:#7c3aed}
+.nav-back{font-size:.8rem;color:#666;font-weight:500;transition:color .2s}
+.nav-back:hover{color:#7c3aed}
+.hero{padding:100px 40px 60px;max-width:820px;margin:0 auto}
+.rex-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.3);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#7c3aed;margin-bottom:24px;font-weight:600}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(2.2rem,4vw,3.2rem);line-height:1.15;letter-spacing:-.02em;margin-bottom:16px}
+.hero-title em{font-style:italic;color:#7c3aed}
+.hero-sub{font-size:1.05rem;color:#555;line-height:1.8;max-width:660px;margin-bottom:32px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:.78rem;color:#999;padding-top:20px;border-top:1px solid rgba(0,0,0,.08)}
+.hero-meta strong{color:#1a1a1a}
+.article{max-width:820px;margin:0 auto;padding:0 40px 80px}
+
+/* INSIGHT */
+.insight{background:#0f172a;color:#fff;border-radius:20px;padding:32px 36px;margin:40px 0;position:relative;overflow:hidden}
+.insight::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(124,58,237,.3) 0%,transparent 70%)}
+.insight-label{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:#c4b5fd;font-weight:700;margin-bottom:10px}
+.insight-text{font-size:1.05rem;line-height:1.8;color:rgba(255,255,255,.9)}
+.insight-text strong{color:#c4b5fd}
+
+/* SECTION */
+.section{margin:52px 0;padding-bottom:4px}
+.section-num{font-family:'DM Serif Display',serif;font-size:4rem;color:#e8e3db;line-height:1;margin-bottom:-8px;display:block}
+.section-title{font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.25rem;color:#0f0f0f;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #e8e3db}
+.section p{font-size:.97rem;color:#444;line-height:1.85;margin-bottom:14px}
+.section p:last-child{margin-bottom:0}
+b.kw{color:#7c3aed}
+b.kw2{color:#0284c7}
+
+/* CHECKLIST */
+.checklist{background:#fff;border-radius:16px;padding:28px 32px;margin:24px 0;border:1px solid rgba(0,0,0,.06)}
+.checklist-title{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#7c3aed;font-weight:700;margin-bottom:16px}
+.check-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.05)}
+.check-item:last-child{border-bottom:none}
+.check-icon{width:22px;height:22px;border-radius:6px;background:rgba(124,58,237,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;font-size:.85rem}
+.check-text{font-size:.9rem;color:#333;line-height:1.6}
+.check-text strong{color:#0f0f0f;font-weight:600}
+
+/* PHASES */
+.phases{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0}
+.phase{background:#fff;border-radius:12px;padding:16px;border:1px solid rgba(0,0,0,.06);position:relative}
+.phase-num{font-family:'DM Serif Display',serif;font-size:2rem;color:#ede9fe;line-height:1;margin-bottom:4px}
+.phase-title{font-size:.82rem;font-weight:700;color:#0f0f0f;margin-bottom:6px}
+.phase-desc{font-size:.75rem;color:#666;line-height:1.5}
+
+/* WARNING / SUCCESS / INFO */
+.warning,.success,.info{display:flex;gap:14px;border-radius:12px;padding:18px 20px;margin:20px 0}
+.warning{background:#fffbeb;border:1px solid rgba(251,191,36,.3)}
+.warning-text{font-size:.88rem;color:#78350f;line-height:1.7}
+.warning-text strong{color:#92400e;display:block;margin-bottom:4px}
+.success{background:#f0fdf4;border:1px solid rgba(34,197,94,.25)}
+.success-text{font-size:.88rem;color:#14532d;line-height:1.7}
+.success-text strong{color:#166534;display:block;margin-bottom:4px}
+.info{background:#f0f9ff;border:1px solid rgba(14,165,233,.2)}
+.info-text{font-size:.88rem;color:#0c4a6e;line-height:1.7}
+.info-text strong{font-weight:700;display:inline}
+
+/* PULL QUOTE */
+.pull-quote{border-left:4px solid #7c3aed;padding:20px 28px;margin:32px 0;background:#fff;border-radius:0 12px 12px 0}
+.pull-quote p{font-family:'DM Serif Display',serif;font-size:1.15rem;font-style:italic;color:#333;line-height:1.8}
+.pull-quote cite{display:block;margin-top:10px;font-size:.75rem;color:#999;font-style:normal;letter-spacing:.06em}
+
+/* TRIPARTITE */
+.tri-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}
+.tri-card{background:#fff;border-radius:14px;overflow:hidden;border:1px solid rgba(0,0,0,.06)}
+.tri-role{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;font-weight:700;padding:10px 14px}
+.tri-name{font-size:.88rem;font-weight:700;color:#0f0f0f;padding:0 14px 6px}
+.tri-items{font-size:.75rem;color:#666;line-height:1.8;padding:0 14px 14px}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:32px 0}
+.tag{display:inline-block;padding:5px 12px;border-radius:20px;font-size:.72rem;font-weight:500;background:#f3f4f6;color:#374151;border:1px solid rgba(0,0,0,.06)}
+.tag-main{background:rgba(124,58,237,.08);color:#6d28d9;border-color:rgba(124,58,237,.2)}
+
+/* CTA */
+.cta-box{background:#0f172a;border-radius:20px;padding:36px;margin:40px 0;text-align:center}
+.cta-box h3{font-family:'DM Serif Display',serif;font-size:1.6rem;color:#fff;margin-bottom:10px}
+.cta-box p{color:rgba(255,255,255,.6);font-size:.9rem;margin-bottom:24px}
+.cta-btn{display:inline-block;padding:12px 28px;background:#7c3aed;color:#fff;border-radius:30px;font-weight:600;font-size:.9rem;transition:background .2s}
+.cta-btn:hover{background:#6d28d9}
+
+/* NAV ARTICLES */
+.nav-articles{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:32px 0}
+.nav-art{background:#fff;border-radius:14px;padding:18px 20px;border:1px solid rgba(0,0,0,.06);transition:border-color .2s}
+.nav-art:hover{border-color:#7c3aed}
+.nav-art-label{font-size:.68rem;color:#999;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.nav-art-title{font-size:.88rem;font-weight:600;color:#0f0f0f;margin-bottom:8px}
+.nav-art-arrow{font-size:.8rem;color:#7c3aed;font-weight:600}
+
+/* COM GRID */
+.com-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}
+.com-card{background:#fff;border-radius:14px;overflow:hidden;border:1px solid rgba(0,0,0,.06)}
+.com-level{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:10px 14px}
+.com-title{font-size:.85rem;font-weight:700;color:#0f0f0f;padding:0 14px 6px}
+.com-items{font-size:.75rem;color:#666;line-height:1.8;padding:0 14px 14px}
+
+table{border-collapse:collapse;width:100%}
+th,td{vertical-align:top}
+footer{text-align:center;padding:24px;font-size:.65rem;color:#bbb;letter-spacing:.06em;border-top:1px solid rgba(0,0,0,.06)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Philippe <span>Damas</span></div>
+  <a href="blog.html" class="nav-back">← Retour au blog</a>
+</nav>
+
+<div class="hero">
+  <div class="rex-tag">REX #6 · Messagerie Unifiée · Partie 2/2</div>
+  <h1 class="hero-title">Migration <em>Skype for Business</em><br>vers Microsoft Teams</h1>
+  <p class="hero-sub">Suite du REX #5 — même programme, nouvelles contraintes. Quand Microsoft annonce la fin de support de Skype for Business on-premise, la migration vers Teams n'est pas un upgrade : c'est un changement de paradigme. SaaS, Azure AD, Direct Routing, licences, sécurité cloud — voici les clés pour ne pas déraper.</p>
+  <div class="hero-meta">
+    <span><strong>Contexte :</strong> 30 000 utilisateurs · Multi-pays · Programme 18 à 24 mois</span>
+    <span><strong>Stack :</strong> SFB on-premise → Teams · Direct Routing · SBC · AAD</span>
+    <span><strong>Rôle :</strong> Technical Project Leader</span>
+  </div>
+</div>
+
+<div class="article">
+
+  <div class="insight">
+    <div class="insight-label">💡 L'essentiel de ce REX</div>
+    <p class="insight-text">Migrer de Skype for Business vers Microsoft Teams, c'est passer d'une infrastructure <strong>on-premise contrôlée</strong> à un service <strong>SaaS souverain Microsoft</strong>. Le SIP Trunk et les SBC restent — mais tout le reste change : Active Directory devient Azure AD, les serveurs SFB disparaissent, les licences gratuites deviennent payantes, et la gouvernance sécurité doit être entièrement repensée. <strong>Le gain infra est réel. Le coût licence l'est aussi.</strong></p>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SECTION 01 — CONTEXTE / OBSOLESCENCE  -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="section">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Contexte — Gestion d'obsolescence Skype for Business</h2>
+
+    <p>Ce REX est la suite directe du REX #5. À l'issue de la migration Alcatel OXE → SIP Trunk / SBC / Skype for Business on-premise, le programme entre dans une nouvelle phase imposée par Microsoft : <b class="kw">la fin de support de Skype for Business Server</b> (mainstream support terminé en 2020, extended support en 2025). Ce n'est pas un choix stratégique — c'est une <b class="kw">gestion d'obsolescence</b> subie, avec une deadline contractuelle.</p>
+
+    <p>Pour un groupe de 30 000 utilisateurs répartis dans plusieurs pays, ce type de programme s'étend sur 18 à 24 mois. Il mobilise les mêmes parties prenantes qu'en partie 1 — opérateur SIP Trunk, intégrateur SBC, DSI, RSSI, infogérant RUN — mais avec de nouvelles contraintes : cloud public, Azure Active Directory, modèle de licence Microsoft transformé, et une gouvernance sécurité intégralement à revoir.</p>
+
+    <div class="warning">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">⚠️</div>
+      <div class="warning-text">
+        <strong>Ne pas confondre "upgrade" et "migration"</strong>
+        Passer de SFB on-premise à Teams n'est pas une mise à jour. C'est un changement de modèle complet : fin des serveurs on-premise, disparition du Mediation Server, remplacement de l'AD local par Azure AD, nouveau modèle de licensing, et remise à plat de toutes les intégrations téléphonie (Direct Routing, SBC, groupements, accueil). Tout doit être recadré en tri-partie dès le démarrage du programme.
+      </div>
+    </div>
+
+    <div class="checklist">
+      <div class="checklist-title">📋 Déclencheurs du programme</div>
+      <div class="check-item"><div class="check-icon">📅</div><div class="check-text"><strong>Fin de support Microsoft SFB :</strong> plus de mises à jour de sécurité après la date limite — risque cyber majeur pour le RSSI, dérogation à justifier en COPIL</div></div>
+      <div class="check-item"><div class="check-icon">💰</div><div class="check-text"><strong>Coût de maintien du legacy :</strong> infrastructures SFB on-premise vieillissantes, coûts infogérance et licences serveur à éliminer</div></div>
+      <div class="check-item"><div class="check-icon">🔄</div><div class="check-text"><strong>Pression métiers :</strong> Teams déjà déployé pour la collaboration (chat, visio, partage) — les utilisateurs demandent l'unification téléphonie dans Teams</div></div>
+      <div class="check-item"><div class="check-icon">🌍</div><div class="check-text"><strong>Contraintes réglementaires internationales :</strong> certains pays imposent des exigences locales sur l'hébergement des données vocales — à cartographier avant toute décision cloud</div></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════ -->
+  <!-- SECTION 02 — ÉTUDE & POC TEAMS   -->
+  <!-- ══════════════════════════════════ -->
+  <div class="section">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Étude & POC Teams — Valider les cas d'usage avant de s'engager</h2>
+
+    <p>Avant tout déploiement en masse, une <b class="kw">phase d'étude et de POC</b> est indispensable. Teams n'est pas SFB avec un nouvel habillage — certaines fonctionnalités ont changé, d'autres ont disparu, et des cas d'usage qui fonctionnaient nativement sur SFB nécessitent des solutions tierces certifiées Teams. La phase POC doit couvrir l'intégralité des profils métiers identifiés en partie 1.</p>
+
+    <div style="margin:28px 0;background:#fff;border-radius:16px;border:1px solid rgba(0,0,0,.06);overflow:hidden">
+      <div style="background:#0f172a;padding:14px 20px;display:flex;align-items:center;gap:10px">
+        <span style="font-size:1.1rem">🧪</span>
+        <span style="font-size:.8rem;font-weight:700;color:#c4b5fd;letter-spacing:.06em;text-transform:uppercase">POC Teams — Cas d'usage à valider impérativement</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0">
+
+        <!-- Salles de réunion -->
+        <div style="border-bottom:1px solid rgba(0,0,0,.05);border-right:1px solid rgba(0,0,0,.05);padding:18px 20px">
+          <div style="font-size:.75rem;font-weight:700;color:#7c3aed;margin-bottom:10px;text-transform:uppercase;letter-spacing:.08em">🖥 Salles de réunion & terminaux</div>
+          <ul style="font-size:.82rem;color:#444;line-height:1.9;padding-left:16px">
+            <li>Room Systems certifiés Teams (Logitech, Poly, Yealink)</li>
+            <li>Écrans muraux interactifs (Surface Hub 2S)</li>
+            <li>Salles spécifiques : labos, salles de conseil, auditoriums</li>
+            <li>Appareils partagés (Common Area Phone — CAP)</li>
+            <li>Panneaux de salle (Teams Panels pour réservation)</li>
+          </ul>
+          <div style="margin-top:10px;padding:8px 12px;background:rgba(251,191,36,.1);border-left:3px solid #f59e0b;border-radius:0 8px 8px 0;font-size:.75rem;color:#92400e">
+            ⚠️ Les Room Systems SFB certifiés <strong>ne sont pas automatiquement compatibles Teams</strong> — vérifier la liste de certification Microsoft avant tout achat.
+          </div>
+        </div>
+
+        <!-- Accueil & RGS -->
+        <div style="border-bottom:1px solid rgba(0,0,0,.05);padding:18px 20px">
+          <div style="font-size:.75rem;font-weight:700;color:#0284c7;margin-bottom:10px;text-transform:uppercase;letter-spacing:.08em">☎️ Accueil, standardistes & RGS</div>
+          <ul style="font-size:.82rem;color:#444;line-height:1.9;padding-left:16px">
+            <li>Groupements de sonnerie Teams (Call Queues)</li>
+            <li>Auto-attendant Teams (SVI / menu vocal)</li>
+            <li>Supervision de file d'attente (Attendant Console certifiée)</li>
+            <li>Transferts chauds/froids depuis l'interface Teams</li>
+            <li>Présentation du numéro appelant (CLID)</li>
+          </ul>
+          <div style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,.08);border-left:3px solid #ef4444;border-radius:0 8px 8px 0;font-size:.75rem;color:#7f1d1d">
+            🔴 <strong>Peterconnect n'est pas compatible Teams.</strong> Des alternatives certifiées existent — voir section dédiée.
+          </div>
+        </div>
+
+        <!-- Call Center -->
+        <div style="border-right:1px solid rgba(0,0,0,.05);padding:18px 20px">
+          <div style="font-size:.75rem;font-weight:700;color:#16a34a;margin-bottom:10px;text-transform:uppercase;letter-spacing:.08em">🎧 Call Center & ACD</div>
+          <ul style="font-size:.82rem;color:#444;line-height:1.9;padding-left:16px">
+            <li>Intégration ACD certifié Teams (Luware Nimbus, Genesys Cloud CX)</li>
+            <li>Enregistrement appels Teams (compliance recording)</li>
+            <li>Rapports et wallboard temps réel</li>
+            <li>Numéros SDA directs sur agents Teams</li>
+            <li>Escalade visio depuis un appel vocal</li>
+          </ul>
+        </div>
+
+        <!-- Nomades / spécifiques -->
+        <div style="padding:18px 20px">
+          <div style="font-size:.75rem;font-weight:700;color:#b45309;margin-bottom:10px;text-transform:uppercase;letter-spacing:.08em">🌍 Profils nomades & cas spécifiques</div>
+          <ul style="font-size:.82rem;color:#444;line-height:1.9;padding-left:16px">
+            <li>Softphone Teams PC + mobile (iOS/Android) hors réseau</li>
+            <li>Accès Direct Routing depuis pays à contraintes (Chine, Russie…)</li>
+            <li>Numéros spéciaux : 15/17/18/112, 0800 depuis le trunk SIP</li>
+            <li>Fax T.38 via gateway analogique maintenue</li>
+            <li>Appareils DECT certifiés Teams pour entrepôts / terrain</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALTERNATIVES PETERCONNECT -->
+    <div style="margin:28px 0;background:#fff;border-radius:16px;border:1px solid rgba(239,68,68,.2);overflow:hidden">
+      <div style="background:#fef2f2;border-bottom:1px solid rgba(239,68,68,.15);padding:14px 20px">
+        <div style="font-size:.8rem;font-weight:700;color:#b91c1c">🔴 Remplacement de Peterconnect — Alternatives certifiées Teams</div>
+        <div style="font-size:.75rem;color:#dc2626;margin-top:4px">Peterconnect (opérateur de standard SFB) n'est pas disponible sur Teams. Trois alternatives à évaluer en POC :</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0">
+        <div style="padding:16px 18px;border-right:1px solid rgba(0,0,0,.05)">
+          <div style="font-size:.82rem;font-weight:700;color:#0f0f0f;margin-bottom:6px">Luware Nimbus</div>
+          <div style="font-size:.75rem;color:#555;line-height:1.7">Solution native Teams certifiée Microsoft. Gestion de files d'attente, groupements SDA, supervision en temps réel, wallboard intégré dans Teams.</div>
+          <div style="margin-top:8px;font-size:.7rem;color:#16a34a;font-weight:600">✓ Fortement recommandé — déploiement SaaS</div>
+        </div>
+        <div style="padding:16px 18px;border-right:1px solid rgba(0,0,0,.05)">
+          <div style="font-size:.82rem;font-weight:700;color:#0f0f0f;margin-bottom:6px">Tendfor Teams</div>
+          <div style="font-size:.75rem;color:#555;line-height:1.7">Attendant Console certifiée Teams, spécialisée standardistes. Interface de supervision, présence enrichie, transferts, gestion multi-lignes depuis Teams.</div>
+          <div style="margin-top:8px;font-size:.7rem;color:#0284c7;font-weight:600">✓ Adapté profils accueil / standardiste</div>
+        </div>
+        <div style="padding:16px 18px">
+          <div style="font-size:.82rem;font-weight:700;color:#0f0f0f;margin-bottom:6px">Enghouse Attendant</div>
+          <div style="font-size:.75rem;color:#555;line-height:1.7">Console opérateur Teams avec supervision avancée. Adapté call centers moyens, intégration CRM possible, reporting détaillé.</div>
+          <div style="margin-top:8px;font-size:.7rem;color:#f59e0b;font-weight:600">⚠️ Évaluer selon volume et intégrations CRM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- SECTION 03 — ARCHITECTURE AVANT/APRÈS -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="section">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Architecture cible — SFB on-premise → Teams Direct Routing</h2>
+
+    <p>La transformation architecturale est radicale : les <b class="kw">serveurs SFB on-premise disparaissent</b> (Front End Pool, Mediation Server, Edge Server). En revanche, le <b class="kw2">SIP Trunk</b> et les <b class="kw">SBC</b> sont maintenus — ils deviennent le pivot du <b class="kw">Direct Routing Teams</b>, qui permet de connecter l'opérateur SIP Trunk au Tenant Teams dans le cloud. L'Active Directory on-premise est synchronisé vers <b class="kw">Azure Active Directory</b> (AAD), qui devient la référence d'authentification.</p>
+
+    <div style="background:#f8f7f4;border-radius:20px;padding:28px 24px;margin:32px 0;border:1px solid rgba(0,0,0,.07)">
+      <div style="font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#7c3aed;font-weight:700;text-align:center;margin-bottom:24px">🏗️ Migration SFB on-premise → Microsoft Teams Direct Routing — Avant / Après</div>
+
+      <div style="display:grid;grid-template-columns:1fr 80px 1fr;gap:0;align-items:start">
+
+        <!-- ══ COLONNE AVANT : SFB ON-PREMISE ══ -->
+        <div style="background:#f5f3ff;border-radius:14px;border:2px solid #c4b5fd;overflow:hidden">
+          <div style="background:#7c3aed;padding:12px 16px;text-align:center">
+            <div style="font-size:.85rem;font-weight:700;color:#fff;letter-spacing:.05em">AVANT — Skype for Business on-premise</div>
+          </div>
+          <div style="padding:16px;display:flex;flex-direction:column;gap:10px">
+
+            <div style="background:#ede9fe;border:1.5px solid #7c3aed;border-radius:10px;padding:12px 14px;text-align:center">
+              <div style="font-size:.88rem;font-weight:700;color:#4c1d95">☁️ PSTN / Opérateur SIP Trunk</div>
+              <div style="font-size:.75rem;color:#6d28d9;margin-top:3px">TLS · SRTP — Orange / COLT</div>
+            </div>
+
+            <div style="text-align:center;color:#7c3aed;font-size:1.2rem">↓</div>
+
+            <div style="background:#ede9fe;border:2px solid #7c3aed;border-radius:10px;padding:12px 14px">
+              <div style="font-size:.88rem;font-weight:700;color:#4c1d95;text-align:center">🛡 SBC — DMZ on-premise</div>
+              <div style="font-size:.75rem;color:#6d28d9;text-align:center;margin-top:5px;line-height:1.6">SBC Primaire + Secondaire HA<br>AudioCodes / Ribbon — Routage SIP</div>
+            </div>
+
+            <div style="text-align:center;color:#7c3aed;font-size:1.2rem">↓</div>
+
+            <div style="background:#f5f3ff;border:2px solid #7c3aed;border-radius:10px;padding:12px 14px">
+              <div style="font-size:.8rem;font-weight:700;color:#4c1d95;text-align:center;margin-bottom:8px">🖥 SERVEURS SFB — ON-PREMISE</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+                <div style="background:#fff;border:1.5px solid #7c3aed;border-radius:7px;padding:8px;text-align:center">
+                  <div style="font-size:.78rem;font-weight:700;color:#4c1d95">Mediation Server</div>
+                  <div style="font-size:.68rem;color:#6d28d9;margin-top:3px;line-height:1.5">SBC ↔ FE Pool<br>G.711 · G.729</div>
+                </div>
+                <div style="background:#fff;border:1.5px solid #7c3aed;border-radius:7px;padding:8px;text-align:center">
+                  <div style="font-size:.78rem;font-weight:700;color:#4c1d95">Front End Pool</div>
+                  <div style="font-size:.68rem;color:#6d28d9;margin-top:3px;line-height:1.5">Présence · IM<br>≥ 2 nœuds HA</div>
+                </div>
+                <div style="background:#fff;border:1.5px solid #6366f1;border-radius:7px;padding:8px;text-align:center">
+                  <div style="font-size:.78rem;font-weight:700;color:#3730a3">Edge Server</div>
+                  <div style="font-size:.68rem;color:#4f46e5;margin-top:3px;line-height:1.5">Accès nomades<br>DMZ · Rev. Proxy</div>
+                </div>
+                <div style="background:#fff;border:1.5px solid #6366f1;border-radius:7px;padding:8px;text-align:center">
+                  <div style="font-size:.78rem;font-weight:700;color:#3730a3">Reverse Proxy</div>
+                  <div style="font-size:.68rem;color:#4f46e5;margin-top:3px;line-height:1.5">Meet · Dialin<br>TLS offloading</div>
+                </div>
+              </div>
+              <div style="margin-top:8px;background:#fef2f2;border:1px dashed #f87171;border-radius:6px;padding:6px 10px;text-align:center">
+                <div style="font-size:.72rem;font-weight:700;color:#dc2626">⛔ Fin de support Microsoft — À démanteler</div>
+              </div>
+            </div>
+
+            <div style="text-align:center;color:#ca8a04;font-size:1.2rem">↓</div>
+
+            <div style="background:#fefce8;border:2px solid #ca8a04;border-radius:10px;padding:10px 14px;text-align:center">
+              <div style="font-size:.85rem;font-weight:700;color:#713f12">🔑 Active Directory — On-Premise</div>
+              <div style="font-size:.72rem;color:#92400e;margin-top:4px;line-height:1.6">Kerberos · LDAP · MFA on-premise (ADFS)</div>
+            </div>
+
+            <div style="background:#fff;border:1.5px solid #c4b5fd;border-radius:10px;padding:10px 14px">
+              <div style="font-size:.78rem;font-weight:700;color:#4c1d95;text-align:center;margin-bottom:6px">💻 Clients SFB</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+                <div style="background:#f5f3ff;border-radius:6px;padding:6px;text-align:center;font-size:.72rem;color:#6d28d9">Softphone SFB PC<br>App Skype</div>
+                <div style="background:#f5f3ff;border-radius:6px;padding:6px;text-align:center;font-size:.72rem;color:#6d28d9">Room System SFB<br>À recertifier Teams</div>
+              </div>
+            </div>
+
+            <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:8px 12px;text-align:center">
+              <div style="font-size:.75rem;font-weight:700;color:#14532d">🔄 Mode coexistence Islands / TeamsOnly</div>
+              <div style="font-size:.68rem;color:#166534;margin-top:2px">SFB et Teams actifs en parallèle</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ FLÈCHE CENTRALE ══ -->
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:80px;gap:8px">
+          <div style="background:#0f172a;border-radius:10px;padding:10px 8px;text-align:center">
+            <div style="font-size:.72rem;font-weight:700;color:#c4b5fd;line-height:1.6">MIGRA<br>TION</div>
+            <div style="font-size:.65rem;color:#94a3b8;margin-top:4px;line-height:1.5">Direct<br>Routing<br>Teams</div>
+          </div>
+          <div style="font-size:1.4rem;color:#6366f1">→</div>
+        </div>
+
+        <!-- ══ COLONNE APRÈS : TEAMS ══ -->
+        <div style="background:#eef2ff;border-radius:14px;border:2px solid #818cf8;overflow:hidden">
+          <div style="background:#4f46e5;padding:12px 16px;text-align:center">
+            <div style="font-size:.85rem;font-weight:700;color:#fff;letter-spacing:.05em">APRÈS — Microsoft Teams Direct Routing</div>
+          </div>
+          <div style="padding:16px;display:flex;flex-direction:column;gap:10px">
+
+            <div style="background:#e0e7ff;border:1.5px solid #6366f1;border-radius:10px;padding:12px 14px;text-align:center">
+              <div style="font-size:.88rem;font-weight:700;color:#1e1b4b">☁️ PSTN / Opérateur SIP Trunk</div>
+              <div style="font-size:.75rem;color:#3730a3;margin-top:3px">TLS · SRTP — inchangé — Orange / COLT</div>
+            </div>
+
+            <div style="text-align:center;color:#6366f1;font-size:1.2rem">↓</div>
+
+            <div style="background:#e0e7ff;border:2px solid #4f46e5;border-radius:10px;padding:12px 14px;text-align:center">
+              <div style="font-size:.88rem;font-weight:700;color:#1e1b4b">🛡 SBC — DMZ on-premise — MAINTENU</div>
+              <div style="font-size:.75rem;color:#3730a3;margin-top:5px;line-height:1.6">SBC Primaire + Secondaire HA<br>Direct Routing Teams — Routage SIP · Call Flows</div>
+            </div>
+
+            <div style="text-align:center;color:#4f46e5;font-size:1.2rem">↓</div>
+
+            <div style="background:#fff;border:2.5px solid #4f46e5;border-radius:10px;padding:12px 14px">
+              <div style="font-size:.85rem;font-weight:700;color:#1e1b4b;text-align:center;margin-bottom:4px">☁️ MICROSOFT TEAMS — TENANT SAAS</div>
+              <div style="font-size:.68rem;color:#4f46e5;text-align:center;margin-bottom:10px">Microsoft 365 Cloud — Data Center Microsoft</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+                <div style="background:#e0e7ff;border:1.5px solid #4f46e5;border-radius:7px;padding:8px;text-align:center">
+                  <div style="font-size:.78rem;font-weight:700;color:#1e1b4b">Direct Routing</div>
+                  <div style="font-size:.68rem;color:#3730a3;margin-top:3px;line-height:1.5">SBC → Teams Tenant<br>Voix PSTN dans Teams</div>
+                </div>
+                <div style="background:#e0e7ff;border:1.5px solid #4f46e5;border-radius:7px;padding:8px;text-align:center">
+                  <div style="font-size:.78rem;font-weight:700;color:#1e1b4b">Teams Phone</div>
+                  <div style="font-size:.68rem;color:#3730a3;margin-top:3px;line-height:1.5">Licences E3/E5<br>+ Phone add-on</div>
+                </div>
+                <div style="background:#ede9fe;border:1.5px solid #7c3aed;border-radius:7px;padding:8px;text-align:center">
+                  <div style="font-size:.78rem;font-weight:700;color:#3b0764">Call Queues</div>
+                  <div style="font-size:.68rem;color:#6d28d9;margin-top:3px;line-height:1.5">Groupements SDA<br>Remplace RGS</div>
+                </div>
+                <div style="background:#ede9fe;border:1.5px solid #7c3aed;border-radius:7px;padding:8px;text-align:center">
+                  <div style="font-size:.78rem;font-weight:700;color:#3b0764">Auto-Attendant</div>
+                  <div style="font-size:.68rem;color:#6d28d9;margin-top:3px;line-height:1.5">Menus vocaux / SVI<br>Accueil / RGS</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="text-align:center;color:#ca8a04;font-size:1.2rem">↓</div>
+
+            <div style="background:#fefce8;border:2px solid #ca8a04;border-radius:10px;padding:12px 14px;text-align:center">
+              <div style="font-size:.88rem;font-weight:700;color:#713f12">🔑 Azure Active Directory (AAD)</div>
+              <div style="font-size:.73rem;color:#92400e;margin-top:5px;line-height:1.6">OAuth 2.0 · MFA · Conditional Access<br>Synchro depuis AD on-premise (AAD Connect)<br><span style="font-size:.68rem;color:#a16207">API Graph remplace LDAP — SBC + Teams + Clients</span></div>
+            </div>
+
+            <div style="text-align:center;color:#f97316;font-size:1.2rem">↓</div>
+
+            <div style="background:#fff7ed;border:1.5px solid #f97316;border-radius:10px;padding:12px 14px">
+              <div style="font-size:.8rem;font-weight:700;color:#7c2d12;text-align:center;margin-bottom:8px">💻 Clients Teams — Nouveaux usages</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+                <div style="background:#fff;border:1.5px solid #f97316;border-radius:7px;padding:8px 6px;text-align:center">
+                  <div style="font-size:.75rem;font-weight:700;color:#9a3412">Teams PC</div>
+                  <div style="font-size:.65rem;color:#c2410c;margin-top:3px;line-height:1.5">App + casque<br>USB/BT</div>
+                </div>
+                <div style="background:#fff;border:1.5px solid #f97316;border-radius:7px;padding:8px 6px;text-align:center">
+                  <div style="font-size:.75rem;font-weight:700;color:#9a3412">Mobile Teams</div>
+                  <div style="font-size:.65rem;color:#c2410c;margin-top:3px;line-height:1.5">iOS · Android<br>Direct AAD</div>
+                </div>
+                <div style="background:#fff;border:1.5px solid #f59e0b;border-radius:7px;padding:8px 6px;text-align:center">
+                  <div style="font-size:.75rem;font-weight:700;color:#713f12">Room System</div>
+                  <div style="font-size:.65rem;color:#92400e;margin-top:3px;line-height:1.5">Certifié Teams<br>Logitech/Poly</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="background:#f0fdf4;border:1.5px solid #16a34a;border-radius:8px;padding:10px 14px;text-align:center">
+              <div style="font-size:.78rem;font-weight:700;color:#14532d">🎛 Attendant Console certifiée Teams</div>
+              <div style="font-size:.68rem;color:#166534;margin-top:3px">Luware Nimbus · Tendfor · Enghouse — Remplacement Peterconnect</div>
+            </div>
+
+            <div style="background:#f1f5f9;border:1px solid #94a3b8;border-radius:8px;padding:8px 12px;text-align:center">
+              <div style="font-size:.72rem;font-weight:700;color:#475569">🗂 CMDB Teams · RACI RUN Cloud · M365 Admin</div>
+              <div style="font-size:.65rem;color:#64748b;margin-top:2px">Intégrateur SBC + Opérateur SIP + Infogérant M365</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="display:flex;justify-content:center;gap:28px;margin-top:16px;font-size:.72rem;color:#64748b">
+        <span>─ ─ ─ flux authentification AAD</span>
+        <span>──── flux voix / SIP Direct Routing</span>
+        <span>→ direction flux</span>
+      </div>
+    </div>
+
+    <div class="info">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">🔑</div>
+      <div class="info-text">
+        <strong>Ce qui change, ce qui reste</strong> — Le SBC et le SIP Trunk sont maintenus et deviennent le pivot du <strong>Direct Routing Teams</strong>. Les serveurs SFB (Mediation, FE Pool, Edge) sont entièrement supprimés. L'<strong>Azure Active Directory</strong> remplace l'AD on-premise comme référentiel d'authentification — l'AD local reste mais est synchronisé vers AAD via Azure AD Connect. Les groupements SDA (anciennement RGS/Peterconnect) sont recréés dans Teams via <strong>Call Queues</strong> et <strong>Auto-Attendants</strong>.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ -->
+  <!-- SECTION 04 — LICENCES & ROI    -->
+  <!-- ═══════════════════════════════ -->
+  <div class="section">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Coûts de licence & ROI — Le grand rééquilibrage</h2>
+
+    <p>Le modèle économique change radicalement. Sous SFB, beaucoup de licences voix étaient <b class="kw">négociées gratuitement</b> dans les grands contrats Microsoft Entreprise Agreement. Teams impose un modèle pay-per-user explicite. Mais ce surcoût licence est à mettre en regard des <b class="kw">économies d'infrastructure substantielles</b>.</p>
+
+    <div style="background:#fff;border-radius:16px;border:1px solid rgba(0,0,0,.06);overflow:hidden;margin:24px 0">
+      <div style="background:#0f172a;padding:12px 20px">
+        <span style="font-size:.75rem;font-weight:700;color:#c4b5fd;letter-spacing:.06em;text-transform:uppercase">📊 Analyse ROI — 30 000 utilisateurs</span>
+        <span style="font-size:.68rem;color:#94a3b8;font-style:italic;margin-left:10px">(chiffres donnés à titre d'exemple — ne représentent pas la réalité des projets réalisés)</span>
+      </div>
+      <table style="width:100%;border-collapse:collapse;font-size:.82rem">
+        <thead>
+          <tr style="background:#f9f7f3">
+            <th style="padding:10px 16px;text-align:left;color:#555;font-weight:600;border-bottom:1px solid rgba(0,0,0,.06);width:35%">Poste</th>
+            <th style="padding:10px 16px;text-align:center;color:#7c3aed;font-weight:700;border-bottom:1px solid rgba(0,0,0,.06)">SFB on-premise</th>
+            <th style="padding:10px 16px;text-align:center;color:#4f46e5;font-weight:700;border-bottom:1px solid rgba(0,0,0,.06)">Teams</th>
+            <th style="padding:10px 16px;text-align:center;color:#555;font-weight:600;border-bottom:1px solid rgba(0,0,0,.06)">Impact</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:10px 16px;color:#333"><strong>Licence voix par user</strong></td>
+            <td style="padding:10px 16px;text-align:center"><span style="background:rgba(34,197,94,.1);color:#16a34a;padding:3px 10px;border-radius:20px;font-weight:600">Incluse EA</span></td>
+            <td style="padding:10px 16px;text-align:center"><span style="background:rgba(239,68,68,.1);color:#dc2626;padding:3px 10px;border-radius:20px;font-weight:600">~8–12 €/user/mois</span></td>
+            <td style="padding:10px 16px;color:#dc2626;font-weight:600">≈ +3,5 M€/an</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:10px 16px;color:#333"><strong>Infra serveurs SFB</strong></td>
+            <td style="padding:10px 16px;text-align:center"><span style="background:rgba(239,68,68,.1);color:#dc2626;padding:3px 10px;border-radius:20px;font-weight:600">CapEx + OpEx élevés</span></td>
+            <td style="padding:10px 16px;text-align:center"><span style="background:rgba(34,197,94,.1);color:#16a34a;padding:3px 10px;border-radius:20px;font-weight:600">Éliminée (SaaS)</span></td>
+            <td style="padding:10px 16px;color:#16a34a;font-weight:600">≈ −1,5 M€/an</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:10px 16px;color:#333"><strong>Infogérance serveurs SFB</strong></td>
+            <td style="padding:10px 16px;text-align:center"><span style="background:rgba(239,68,68,.1);color:#dc2626;padding:3px 10px;border-radius:20px;font-weight:600">Contrat N1/N2/N3</span></td>
+            <td style="padding:10px 16px;text-align:center"><span style="background:rgba(34,197,94,.1);color:#16a34a;padding:3px 10px;border-radius:20px;font-weight:600">Supprimée</span></td>
+            <td style="padding:10px 16px;color:#16a34a;font-weight:600">≈ −600 k€/an</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:10px 16px;color:#333"><strong>SBC & SIP Trunk</strong></td>
+            <td style="padding:10px 16px;text-align:center"><span style="color:#94a3b8">Maintenu</span></td>
+            <td style="padding:10px 16px;text-align:center"><span style="color:#94a3b8">Maintenu</span></td>
+            <td style="padding:10px 16px;color:#94a3b8">Neutre</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:10px 16px;color:#333"><strong>Attendant Console (remplacement Peterconnect)</strong></td>
+            <td style="padding:10px 16px;text-align:center"><span style="background:rgba(34,197,94,.1);color:#16a34a;padding:3px 10px;border-radius:20px;font-weight:600">Inclus Peterconnect</span></td>
+            <td style="padding:10px 16px;text-align:center"><span style="background:rgba(239,68,68,.1);color:#dc2626;padding:3px 10px;border-radius:20px;font-weight:600">Luware / Tendfor SaaS</span></td>
+            <td style="padding:10px 16px;color:#dc2626;font-weight:600">≈ +200 k€/an</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 16px;color:#0f0f0f;font-weight:700">Bilan annuel estimé</td>
+            <td colspan="2" style="padding:12px 16px;text-align:center;color:#0f0f0f;font-weight:700">—</td>
+            <td style="padding:12px 16px;color:#f59e0b;font-weight:700">≈ +1,6 M€/an net</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="warning">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">⚠️</div>
+      <div class="warning-text">
+        <strong>Renégocier l'Entreprise Agreement avant de signer</strong>
+        À 30 000 utilisateurs, la migration vers Teams donne un levier de négociation significatif avec Microsoft. Le surcoût licence Teams Phone (+8–12€/user/mois) est négociable sous forme de discount volume, de bundle E5 ou d'accord pluriannuel. Impliquer la Direction des Achats dès la phase d'étude — pas après la décision.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SECTION 05 — STRATÉGIE MIGRATION COEXISTENCE -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="section">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Stratégie de migration — Coexistence SFB / Teams et déploiement par vagues</h2>
+
+    <p>La migration de 30 000 utilisateurs ne peut pas se faire en bascule unique. Microsoft propose plusieurs <b class="kw">modes de coexistence</b> qui permettent de faire coexister SFB et Teams pendant la période de transition. Le choix du mode conditionne la stratégie de déploiement et doit être validé avec l'intégrateur et l'opérateur.</p>
+
+    <!-- Modes coexistence -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:24px 0">
+      <div style="background:#fff;border-radius:12px;border:1px solid rgba(0,0,0,.06);overflow:hidden">
+        <div style="background:rgba(251,191,36,.12);border-bottom:1px solid rgba(251,191,36,.2);padding:10px 14px">
+          <div style="font-size:.75rem;font-weight:700;color:#92400e">Mode Islands</div>
+        </div>
+        <div style="padding:14px">
+          <p style="font-size:.78rem;color:#444;line-height:1.7;margin-bottom:8px">SFB et Teams actifs simultanément pour chaque utilisateur. Les appels entrants peuvent arriver sur l'un ou l'autre selon l'appelant.</p>
+          <div style="font-size:.72rem;color:#16a34a;font-weight:600">✓ Flexibilité maximale</div>
+          <div style="font-size:.72rem;color:#dc2626;font-weight:600;margin-top:2px">✗ Confusion utilisateurs — double sonnerie</div>
+        </div>
+      </div>
+      <div style="background:#fff;border-radius:12px;border:1px solid rgba(99,102,241,.3);overflow:hidden">
+        <div style="background:rgba(99,102,241,.1);border-bottom:1px solid rgba(99,102,241,.2);padding:10px 14px">
+          <div style="font-size:.75rem;font-weight:700;color:#3730a3">Mode SFB with Teams Collab</div>
+        </div>
+        <div style="padding:14px">
+          <p style="font-size:.78rem;color:#444;line-height:1.7;margin-bottom:8px">Voix et réunions restent sur SFB. Teams utilisé uniquement pour la collaboration (chat, partage, visio Teams).</p>
+          <div style="font-size:.72rem;color:#16a34a;font-weight:600">✓ Pas de double sonnerie</div>
+          <div style="font-size:.72rem;color:#0284c7;font-weight:600;margin-top:2px">→ Mode recommandé en phase intermédiaire</div>
+        </div>
+      </div>
+      <div style="background:#fff;border-radius:12px;border:1px solid rgba(79,70,229,.4);overflow:hidden">
+        <div style="background:rgba(79,70,229,.1);border-bottom:1px solid rgba(79,70,229,.2);padding:10px 14px">
+          <div style="font-size:.75rem;font-weight:700;color:#1e1b4b">Mode TeamsOnly</div>
+        </div>
+        <div style="padding:14px">
+          <p style="font-size:.78rem;color:#444;line-height:1.7;margin-bottom:8px">Tous les appels, chats et réunions passent par Teams. SFB désactivé pour l'utilisateur. Cible finale pour chaque vague.</p>
+          <div style="font-size:.72rem;color:#16a34a;font-weight:600">✓ État cible — simplicité maximale</div>
+          <div style="font-size:.72rem;color:#f59e0b;font-weight:600;margin-top:2px">⚠️ Irréversible sans remise en SFB</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phases déploiement -->
+    <div class="phases">
+      <div class="phase">
+        <div class="phase-num">1</div>
+        <div class="phase-title">Study & POC</div>
+        <div class="phase-desc">Inventaire cas d'usage. POC Teams Direct Routing. Sélection Attendant Console. Validation architecture AAD.</div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">2</div>
+        <div class="phase-title">Pilote — Site 0</div>
+        <div class="phase-desc">100–500 users sur un site volontaire. Mode Islands puis TeamsOnly. Validation complète avant vague 1.</div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">3</div>
+        <div class="phase-title">Vagues SDA</div>
+        <div class="phase-desc">Déploiement par streams (sites / pays / BU). SDA portées vers Tenant Teams. Opérateur + Intégrateur SBC + Client.</div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">4</div>
+        <div class="phase-title">Build-to-RUN</div>
+        <div class="phase-desc">Démantèlement serveurs SFB. CMDB Teams. Passation RACI RUN M365. Hypercare 3 mois.</div>
+      </div>
+    </div>
+
+    <div class="checklist">
+      <div class="checklist-title">🎯 Points de vigilance Technical Project Leader — Migration SDA vers Teams</div>
+      <div class="check-item"><div class="check-icon">🗓️</div><div class="check-text"><strong>Chrono par vague :</strong> même séquence que REX #5 — plages provisoires Teams prêtées par l'opérateur pour tester les flux avant portabilité réelle, PV de recette tripartite, bascule définitiive avec fenêtre rollback 24-72h</div></div>
+      <div class="check-item"><div class="check-icon">🔐</div><div class="check-text"><strong>Synchronisation AAD :</strong> AAD Connect doit être opérationnel et validé avant la première vague — tous les attributs UPN et téléphone doivent être synchronisés correctement</div></div>
+      <div class="check-item"><div class="check-icon">📞</div><div class="check-text"><strong>SBC Direct Routing :</strong> reconfiguration des trunks SBC de "Mediation Server SFB" vers "Teams Tenant" — à valider par l'intégrateur en environnement de test avant chaque vague</div></div>
+      <div class="check-item"><div class="check-icon">🎛️</div><div class="check-text"><strong>Call Queues & Auto-Attendants :</strong> recréation de tous les groupements RGS et menus d'accueil dans Teams Admin Center — à recetter par les référents métiers avant Go-Live vague</div></div>
+      <div class="check-item"><div class="check-icon">🌍</div><div class="check-text"><strong>Pays à contraintes :</strong> vérifier la disponibilité du Direct Routing Teams dans chaque pays — certains pays ont des restrictions sur la téléphonie cloud (portabilité locale, présence opérateur Teams)</div></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- SECTION 06 — AUTHENTIFICATION & AAD  -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="section">
+    <span class="section-num">06</span>
+    <h2 class="section-title">Authentification — De l'AD on-premise à Azure AD</h2>
+
+    <p>C'est le chantier technique le plus sensible de la migration. Sur SFB, l'authentification reposait sur l'<b class="kw">Active Directory on-premise</b> via Kerberos et LDAP. Les SBC communiquaient avec SFB via des flux SIP internes, sans authentification cloud. Sur Teams, tout change : l'authentification est déportée vers <b class="kw">Azure Active Directory</b>, et les flux d'authentification passent par le cloud Microsoft.</p>
+
+    <div class="warning">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">⚠️</div>
+      <div class="warning-text">
+        <strong>Le SBC et le Direct Routing — contrainte LDAP / API Graph</strong>
+        Sur l'architecture SFB, les SBC interagissaient avec le Mediation Server via SIP — l'annuaire était interrogé en LDAP interne. Sur Teams Direct Routing, le SBC doit être enregistré directement auprès du Tenant Teams via <strong>FQDN certifié Microsoft</strong> et les flux d'authentification utilisent <strong>OAuth 2.0 / Azure AD</strong> — plus de LDAP. Cela impose une mise à jour du firmware SBC (vérifier compatibilité Direct Routing certification Microsoft), une configuration DNS/certificats TLS adaptée, et une validation des flux réseau vers les endpoints Microsoft 365 (IP ranges publiés par Microsoft).
+      </div>
+    </div>
+
+    <div style="background:#fff;border-radius:16px;border:1px solid rgba(0,0,0,.06);overflow:hidden;margin:24px 0">
+      <div style="background:#0f172a;padding:12px 20px">
+        <span style="font-size:.75rem;font-weight:700;color:#fde68a;letter-spacing:.06em;text-transform:uppercase">🔑 Comparatif authentification SFB vs Teams</span>
+      </div>
+      <table style="width:100%;border-collapse:collapse;font-size:.82rem">
+        <thead>
+          <tr style="background:#f9f7f3">
+            <th style="padding:10px 16px;text-align:left;color:#555;font-weight:600;border-bottom:1px solid rgba(0,0,0,.06);width:30%">Composant</th>
+            <th style="padding:10px 16px;text-align:left;color:#7c3aed;font-weight:700;border-bottom:1px solid rgba(0,0,0,.06)">SFB on-premise</th>
+            <th style="padding:10px 16px;text-align:left;color:#4f46e5;font-weight:700;border-bottom:1px solid rgba(0,0,0,.06)">Teams Direct Routing</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:10px 16px;color:#333"><strong>Annuaire utilisateurs</strong></td>
+            <td style="padding:10px 16px;color:#555">AD on-premise (LDAP)</td>
+            <td style="padding:10px 16px;color:#555">Azure AD (AAD) — synchro via AD Connect</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:10px 16px;color:#333"><strong>Authentification utilisateur</strong></td>
+            <td style="padding:10px 16px;color:#555">Kerberos / NTLM</td>
+            <td style="padding:10px 16px;color:#555">OAuth 2.0 / OpenID Connect via AAD</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:10px 16px;color:#333"><strong>MFA</strong></td>
+            <td style="padding:10px 16px;color:#555">ADFS on-premise (optionnel)</td>
+            <td style="padding:10px 16px;color:#555">MFA AAD obligatoire — Conditional Access</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:10px 16px;color:#333"><strong>SBC ↔ Serveur voix</strong></td>
+            <td style="padding:10px 16px;color:#555">SIP vers Mediation Server — réseau interne</td>
+            <td style="padding:10px 16px;color:#555">SIP TLS vers Teams Tenant — Internet (ports 5061)</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:10px 16px;color:#333"><strong>Certification SBC</strong></td>
+            <td style="padding:10px 16px;color:#555">Compatibilité SFB (qualification intégrateur)</td>
+            <td style="padding:10px 16px;color:#555"><strong>Certification Microsoft Direct Routing obligatoire</strong></td>
+          </tr>
+          <tr>
+            <td style="padding:10px 16px;color:#333"><strong>Clients mobiles</strong></td>
+            <td style="padding:10px 16px;color:#555">Edge Server + VPN</td>
+            <td style="padding:10px 16px;color:#555">Teams app directement sur AAD — plus d'Edge Server</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="success">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">✅</div>
+      <div class="success-text">
+        <strong>Bonne pratique : préparer AAD Connect bien avant la migration</strong>
+        La synchronisation AD → AAD via Azure AD Connect doit être installée, testée et stabilisée des mois avant la première vague. Vérifier que tous les attributs nécessaires à Teams Phone sont synchronisés : UPN, numéro de téléphone (msRTCSIP-Line), SIP address, pays/région. Une anomalie de synchronisation bloquera l'activation Teams Phone pour les utilisateurs concernés — source de tickets helpdesk en cascade.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- SECTION 07 — SÉCURITÉ CLOUD / RSSI   -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="section">
+    <span class="section-num">07</span>
+    <h2 class="section-title">Sécurité cloud — La vue RSSI & CTO est indispensable</h2>
+
+    <p>Passer de SFB on-premise à Teams SaaS, c'est déléguer une partie du contrôle à Microsoft. Pour le RSSI, cela représente à la fois des <b class="kw">gains</b> (responsabilité infra Microsoft, mises à jour de sécurité automatiques, certifications ISO 27001 / SOC 2) et des <b class="kw">risques nouveaux</b> à gouverner (données dans le cloud, partage externe, enregistrements, accès conditionnels).</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0">
+      <div style="background:#f0fdf4;border-radius:14px;border:1px solid rgba(34,197,94,.2);padding:18px 20px">
+        <div style="font-size:.75rem;font-weight:700;color:#15803d;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">✅ Gains sécurité cloud</div>
+        <ul style="font-size:.82rem;color:#166534;line-height:1.9;padding-left:16px">
+          <li>Mises à jour de sécurité Microsoft automatiques</li>
+          <li>Certifications ISO 27001, SOC 1/2, GDPR, HDS</li>
+          <li>Chiffrement TLS 1.2+ et SRTP natif bout en bout</li>
+          <li>MFA obligatoire via Conditional Access AAD</li>
+          <li>Logs d'audit centralisés dans Microsoft Purview</li>
+          <li>DLP (Data Loss Prevention) natif sur Teams</li>
+        </ul>
+      </div>
+      <div style="background:#fef2f2;border-radius:14px;border:1px solid rgba(239,68,68,.2);padding:18px 20px">
+        <div style="font-size:.75rem;font-weight:700;color:#b91c1c;text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">⚠️ Risques à gouverner</div>
+        <ul style="font-size:.82rem;color:#7f1d1d;line-height:1.9;padding-left:16px">
+          <li>Données vocales hébergées chez Microsoft (USA)</li>
+          <li>Partage externe Teams non contrôlé par défaut</li>
+          <li>Enregistrements non chiffrés si mal configurés</li>
+          <li>Guest Access ouvert sans politique B2B</li>
+          <li>Shadow IT : apps tierces dans Teams Store</li>
+          <li>Souveraineté données dans pays hors UE</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="margin:24px 0;background:#fff;border-radius:16px;border:1px solid rgba(0,0,0,.06);overflow:hidden">
+      <div style="background:#0f172a;padding:12px 20px">
+        <span style="font-size:.75rem;font-weight:700;color:#fca5a5;letter-spacing:.06em;text-transform:uppercase">🛡 Mesures de durcissement Teams — à imposer dès le déploiement</span>
+      </div>
+      <div style="padding:20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="background:#f8fafc;border-radius:10px;padding:12px 14px;border-left:3px solid #4f46e5">
+          <div style="font-size:.75rem;font-weight:700;color:#1e1b4b;margin-bottom:6px">🔐 Accès & Identité</div>
+          <ul style="font-size:.75rem;color:#444;line-height:1.8;padding-left:14px">
+            <li>Conditional Access : MFA obligatoire tous profils</li>
+            <li>Blocage accès depuis pays à risque (AAD)</li>
+            <li>Politique de session (token expiry renforcé)</li>
+            <li>SSPR (réinitialisation self-service) activé</li>
+          </ul>
+        </div>
+        <div style="background:#f8fafc;border-radius:10px;padding:12px 14px;border-left:3px solid #dc2626">
+          <div style="font-size:.75rem;font-weight:700;color:#7f1d1d;margin-bottom:6px">🎙 Enregistrement & Conformité</div>
+          <ul style="font-size:.75rem;color:#444;line-height:1.8;padding-left:14px">
+            <li>Compliance recording (enregistrement légal) configuré</li>
+            <li>Politique d'enregistrement par profil (interdiction sauf autorisation)</li>
+            <li>Retention policies sur les enregistrements</li>
+            <li>Information barriers si contexte réglementaire</li>
+          </ul>
+        </div>
+        <div style="background:#f8fafc;border-radius:10px;padding:12px 14px;border-left:3px solid #ca8a04">
+          <div style="font-size:.75rem;font-weight:700;color:#713f12;margin-bottom:6px">🌐 Partage & Gouvernance</div>
+          <ul style="font-size:.75rem;color:#444;line-height:1.8;padding-left:14px">
+            <li>Guest Access désactivé ou restreint par politique</li>
+            <li>External Access limité aux domaines autorisés</li>
+            <li>Teams Store : applications tierces validées DSI avant déploiement</li>
+            <li>DLP policies activées sur conversations et fichiers</li>
+          </ul>
+        </div>
+        <div style="background:#f8fafc;border-radius:10px;padding:12px 14px;border-left:3px solid #0284c7">
+          <div style="font-size:.75rem;font-weight:700;color:#0c4a6e;margin-bottom:6px">🔍 Supervision & Audit</div>
+          <ul style="font-size:.75rem;color:#444;line-height:1.8;padding-left:14px">
+            <li>Microsoft Purview Audit activé (90j ou 365j selon licence)</li>
+            <li>Defender for Office 365 Plan 2 (si E5)</li>
+            <li>SIEM intégration (Sentinel) pour alertes comportementales</li>
+            <li>Revue trimestrielle des licences et accès invités</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- SECTION 08 — TABLEAU FONCTIONNALITÉS        -->
+  <!-- ════════════════════════════════════════════ -->
+  <div class="section">
+    <span class="section-num">08</span>
+    <h2 class="section-title">Ce qu'on gagne, ce qu'on perd — Comparatif SFB / Teams</h2>
+
+    <p>Teams n'est pas SFB en mieux sur tous les points. Certaines fonctionnalités natives de SFB ont disparu ou nécessitent des solutions tierces. D'autres ont été profondément améliorées. Ce tableau doit être présenté au COPIL et aux référents métiers dès la phase d'étude.</p>
+
+    <div style="background:#fff;border-radius:16px;border:1px solid rgba(0,0,0,.06);overflow:hidden;margin:24px 0">
+      <div style="background:#0f172a;padding:12px 20px">
+        <span style="font-size:.75rem;font-weight:700;color:#c4b5fd;letter-spacing:.06em;text-transform:uppercase">📋 Comparatif fonctionnel SFB on-premise vs Microsoft Teams</span>
+      </div>
+      <table style="width:100%;border-collapse:collapse;font-size:.8rem">
+        <thead>
+          <tr style="background:#f9f7f3">
+            <th style="padding:10px 16px;text-align:left;color:#555;font-weight:600;border-bottom:1px solid rgba(0,0,0,.06);width:35%">Fonctionnalité</th>
+            <th style="padding:10px 16px;text-align:center;color:#7c3aed;font-weight:700;border-bottom:1px solid rgba(0,0,0,.06);width:15%">SFB</th>
+            <th style="padding:10px 16px;text-align:center;color:#4f46e5;font-weight:700;border-bottom:1px solid rgba(0,0,0,.06);width:15%">Teams</th>
+            <th style="padding:10px 16px;text-align:left;color:#555;font-weight:600;border-bottom:1px solid rgba(0,0,0,.06)">Note</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- VOIX -->
+          <tr style="background:#f8f9fa">
+            <td colspan="4" style="padding:8px 16px;font-size:.7rem;font-weight:700;color:#7c3aed;letter-spacing:.1em;text-transform:uppercase">VOIX & TÉLÉPHONIE</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:9px 16px;color:#333">Appels PSTN (SDA directes)</td>
+            <td style="padding:9px 16px;text-align:center">✅</td>
+            <td style="padding:9px 16px;text-align:center">✅</td>
+            <td style="padding:9px 16px;color:#555">Via Direct Routing + SBC</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:9px 16px;color:#333">Groupements de sonnerie (RGS)</td>
+            <td style="padding:9px 16px;text-align:center">✅</td>
+            <td style="padding:9px 16px;text-align:center">✅</td>
+            <td style="padding:9px 16px;color:#555">Call Queues Teams (reconfiguration complète)</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:9px 16px;color:#333">Console standardiste (Peterconnect)</td>
+            <td style="padding:9px 16px;text-align:center">✅</td>
+            <td style="padding:9px 16px;text-align:center"><span style="color:#dc2626;font-weight:700">❌</span></td>
+            <td style="padding:9px 16px;color:#dc2626">Solution tierce requise : Luware, Tendfor, Enghouse</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:9px 16px;color:#333">Survivabilité site (appels locaux si WAN down)</td>
+            <td style="padding:9px 16px;text-align:center">✅</td>
+            <td style="padding:9px 16px;text-align:center"><span style="color:#f59e0b;font-weight:700">⚠️</span></td>
+            <td style="padding:9px 16px;color:#92400e">Survivable Branch Appliance (SBA) Teams requis — non natif</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:9px 16px;color:#333">Fax T.38</td>
+            <td style="padding:9px 16px;text-align:center">✅</td>
+            <td style="padding:9px 16px;text-align:center"><span style="color:#dc2626;font-weight:700">❌</span></td>
+            <td style="padding:9px 16px;color:#dc2626">Gateway analogique maintenue hors Teams</td>
+          </tr>
+          <!-- COLLABORATION -->
+          <tr style="background:#f8f9fa">
+            <td colspan="4" style="padding:8px 16px;font-size:.7rem;font-weight:700;color:#4f46e5;letter-spacing:.1em;text-transform:uppercase">COLLABORATION & RÉUNIONS</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:9px 16px;color:#333">Visioconférence</td>
+            <td style="padding:9px 16px;text-align:center">✅</td>
+            <td style="padding:9px 16px;text-align:center"><span style="color:#16a34a;font-weight:700">✅+</span></td>
+            <td style="padding:9px 16px;color:#16a34a">Bien supérieur à SFB (arrière-plans, réactions, transcription…)</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:9px 16px;color:#333">Chat / messagerie instantanée</td>
+            <td style="padding:9px 16px;text-align:center">✅</td>
+            <td style="padding:9px 16px;text-align:center"><span style="color:#16a34a;font-weight:700">✅+</span></td>
+            <td style="padding:9px 16px;color:#16a34a">Canaux, threads, intégrations — nettement amélioré</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:9px 16px;color:#333">Room System (salles de réunion)</td>
+            <td style="padding:9px 16px;text-align:center">✅</td>
+            <td style="padding:9px 16px;text-align:center"><span style="color:#f59e0b;font-weight:700">⚠️</span></td>
+            <td style="padding:9px 16px;color:#92400e">Recertification Teams obligatoire — remplacement matériel possible</td>
+          </tr>
+          <!-- SÉCURITÉ -->
+          <tr style="background:#f8f9fa">
+            <td colspan="4" style="padding:8px 16px;font-size:.7rem;font-weight:700;color:#dc2626;letter-spacing:.1em;text-transform:uppercase">SÉCURITÉ & CONFORMITÉ</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:9px 16px;color:#333">Chiffrement appels</td>
+            <td style="padding:9px 16px;text-align:center">✅</td>
+            <td style="padding:9px 16px;text-align:center"><span style="color:#16a34a;font-weight:700">✅+</span></td>
+            <td style="padding:9px 16px;color:#16a34a">TLS 1.2+ + SRTP natif, bout en bout renforcé</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:9px 16px;color:#333">DLP & Conformité données</td>
+            <td style="padding:9px 16px;text-align:center"><span style="color:#f59e0b;font-weight:700">⚠️</span></td>
+            <td style="padding:9px 16px;text-align:center"><span style="color:#16a34a;font-weight:700">✅+</span></td>
+            <td style="padding:9px 16px;color:#16a34a">Microsoft Purview, DLP natif, Information Barriers</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(0,0,0,.04)">
+            <td style="padding:9px 16px;color:#333">Souveraineté données (hébergement)</td>
+            <td style="padding:9px 16px;text-align:center"><span style="color:#16a34a;font-weight:700">✅</span></td>
+            <td style="padding:9px 16px;text-align:center"><span style="color:#f59e0b;font-weight:700">⚠️</span></td>
+            <td style="padding:9px 16px;color:#92400e">Données chez Microsoft — vérifier résidence (EU Data Boundary)</td>
+          </tr>
+          <tr>
+            <td style="padding:9px 16px;color:#333">Enregistrement appels (compliance)</td>
+            <td style="padding:9px 16px;text-align:center"><span style="color:#f59e0b;font-weight:700">⚠️</span></td>
+            <td style="padding:9px 16px;text-align:center"><span style="color:#f59e0b;font-weight:700">⚠️</span></td>
+            <td style="padding:9px 16px;color:#92400e">Policy-based recording disponible mais à configurer et gouverner</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- PULL QUOTE -->
+  <div class="pull-quote">
+    <p>"Migrer vers Teams n'est pas une décision technique — c'est une décision de gouvernance. Le RSSI, le DSI, les Achats et les métiers doivent être alignés dès le premier jour. Le reste est de l'exécution."</p>
+    <cite>Philippe Damas · Retour d'expérience terrain</cite>
+  </div>
+
+  <!-- TAGS -->
+  <div class="tags">
+    <span class="tag tag-main">Microsoft Teams</span>
+    <span class="tag tag-main">Direct Routing</span>
+    <span class="tag tag-main">SBC</span>
+    <span class="tag tag-main">Azure Active Directory</span>
+    <span class="tag">SIP Trunk</span>
+    <span class="tag">Gestion obsolescence SFB</span>
+    <span class="tag">Call Queues</span>
+    <span class="tag">Luware Nimbus</span>
+    <span class="tag">Coexistence Teams</span>
+    <span class="tag">RACI</span>
+    <span class="tag">Conditional Access</span>
+    <span class="tag">30 000 users</span>
+    <span class="tag">PMP®</span>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-box">
+    <h3>Une migration Teams en vue ?</h3>
+    <p>Direct Routing, Azure AD, gouvernance sécurité, remplacement Peterconnect : je peux vous accompagner dans le cadrage, le pilotage ou l'audit de votre projet de migration Teams.</p>
+    <a href="index.html#contact" class="cta-btn">Discutons de votre projet →</a>
+  </div>
+
+  <!-- NAVIGATION ARTICLES -->
+  <div class="nav-articles">
+    <a href="rex5-messagerie-unifiee.html" class="nav-art">
+      <div class="nav-art-label">← Article précédent</div>
+      <div class="nav-art-title">REX #5 — Migration SIP Trunk / SBC / Skype for Business</div>
+      <span class="nav-art-arrow">Lire →</span>
+    </a>
+    <a href="blog.html" class="nav-art" style="text-align:right">
+      <div class="nav-art-label">Retour au blog</div>
+      <div class="nav-art-title">Tous les articles REX de Philippe Damas</div>
+      <span class="nav-art-arrow">Voir le blog →</span>
+    </a>
+  </div>
+
+</div>
+
+<footer>© 2025 Philippe Damas · Senior IT Program Manager · PMP® · GSMA-SM · Partie 2/2</footer>
+</body>
+</html>

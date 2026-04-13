@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>REX #5 — Transition Messagerie Unifiée SIP Trunk / SBC / Skype for Business | Philippe Damas</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#F8F6FD;color:#1a1a1a;font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7}
+a{text-decoration:none;color:inherit}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;padding:0 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(248,246,253,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06)}
+.nav-logo{font-family:'DM Sans',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase}
+.nav-logo span{color:#7c3aed}
+.nav-back{font-size:.8rem;color:#666;font-weight:500;transition:color .2s}
+.nav-back:hover{color:#7c3aed}
+.hero{padding:100px 40px 60px;max-width:820px;margin:0 auto}
+.rex-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.3);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#0284c7;margin-bottom:24px;font-weight:600}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(2.2rem,4vw,3.2rem);line-height:1.15;letter-spacing:-.02em;margin-bottom:16px}
+.hero-title em{font-style:italic;color:#0284c7}
+.hero-sub{font-size:1.05rem;color:#555;line-height:1.8;max-width:660px;margin-bottom:32px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:.78rem;color:#999;padding-top:20px;border-top:1px solid rgba(0,0,0,.08)}
+.hero-meta strong{color:#1a1a1a}
+.article{max-width:820px;margin:0 auto;padding:0 40px 80px}
+
+/* INSIGHT */
+.insight{background:#0f172a;color:#fff;border-radius:20px;padding:32px 36px;margin:40px 0;position:relative;overflow:hidden}
+.insight::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(14,165,233,.3) 0%,transparent 70%)}
+.insight-label{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:#7dd3fc;font-weight:700;margin-bottom:10px}
+.insight-text{font-size:1.05rem;line-height:1.8;color:rgba(255,255,255,.9)}
+.insight-text strong{color:#7dd3fc}
+
+/* SECTION */
+.section{margin:52px 0;padding-bottom:4px}
+.section-num{font-family:'DM Serif Display',serif;font-size:4rem;color:#e8e3db;line-height:1;margin-bottom:-8px;display:block}
+.section-title{font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.25rem;color:#0f0f0f;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid #e8e3db}
+.section p{font-size:.97rem;color:#444;line-height:1.85;margin-bottom:14px}
+.section p:last-child{margin-bottom:0}
+b.kw{color:#0284c7}
+
+/* CHECKLIST */
+.checklist{background:#fff;border-radius:16px;padding:28px 32px;margin:24px 0;border:1px solid rgba(0,0,0,.06)}
+.checklist-title{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#0284c7;font-weight:700;margin-bottom:16px}
+.check-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.05)}
+.check-item:last-child{border-bottom:none}
+.check-icon{width:22px;height:22px;border-radius:6px;background:rgba(14,165,233,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;font-size:.85rem}
+.check-text{font-size:.9rem;color:#333;line-height:1.6}
+.check-text strong{color:#0f0f0f;font-weight:600}
+
+/* ALERT BOXES */
+.warning{background:#fff0f0;border:1px solid #f87171;border-left:4px solid #ef4444;border-radius:12px;padding:20px 24px;margin:24px 0;display:flex;gap:14px}
+.warning-text{font-size:.9rem;color:#7f1d1d;line-height:1.7}
+.warning-text strong{font-weight:700;display:block;margin-bottom:4px}
+.info{background:#f0f9ff;border:1px solid #7dd3fc;border-left:4px solid #0284c7;border-radius:12px;padding:20px 24px;margin:24px 0;display:flex;gap:14px}
+.info-text{font-size:.9rem;color:#0c4a6e;line-height:1.7}
+.info-text strong{font-weight:700;display:inline}
+.success{background:#f0fdf4;border:1px solid #86efac;border-left:4px solid #22c55e;border-radius:12px;padding:20px 24px;margin:24px 0;display:flex;gap:14px}
+.success-text{font-size:.9rem;color:#14532d;line-height:1.7}
+.success-text strong{font-weight:700;display:block;margin-bottom:4px}
+
+/* PULL QUOTE */
+.pull-quote{border-left:3px solid #0284c7;padding:16px 24px;margin:32px 0;background:rgba(14,165,233,.04);border-radius:0 12px 12px 0}
+.pull-quote p{font-family:'DM Serif Display',serif;font-size:1.15rem;font-style:italic;color:#333;line-height:1.7}
+.pull-quote cite{display:block;font-size:.72rem;color:#999;margin-top:8px;font-style:normal;letter-spacing:.06em;text-transform:uppercase}
+
+/* BUDGET BADGE */
+.budget-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:20px;background:#0f172a;color:#fff;font-size:.8rem;font-weight:600;margin:6px 4px}
+.budget-badge span{color:#7dd3fc}
+
+/* PILIERS RFP */
+.pillars-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0}
+.pillar-card{background:#fff;border-radius:16px;padding:20px 18px;border:1px solid rgba(0,0,0,.06)}
+.pillar-icon{font-size:1.5rem;margin-bottom:8px}
+.pillar-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:#0284c7;font-weight:700;margin-bottom:4px}
+.pillar-desc{font-size:.82rem;color:#555;line-height:1.6}
+
+/* TRIPARTITE */
+.tripartite{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;margin:24px 0;border-radius:16px;overflow:hidden;border:1px solid rgba(0,0,0,.06)}
+.tri-col{padding:24px 20px;text-align:center;border-right:1px solid rgba(0,0,0,.06)}
+.tri-col:last-child{border-right:none}
+.tri-icon{font-size:1.8rem;margin-bottom:8px}
+.tri-title{font-size:.82rem;font-weight:700;color:#0f0f0f;margin-bottom:6px}
+.tri-items{font-size:.75rem;color:#666;line-height:1.8}
+
+/* ARCHITECTURE SVG */
+.arch-wrap{background:#0f172a;border-radius:20px;padding:28px;margin:32px 0;overflow-x:auto}
+.arch-title{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#7dd3fc;font-weight:700;margin-bottom:20px;text-align:center}
+
+/* MIGRATION PHASES */
+.phases{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:28px 0;border-radius:16px;overflow:hidden;border:1px solid rgba(0,0,0,.06)}
+.phase{background:#fff;padding:20px 16px;border-right:1px solid rgba(0,0,0,.06);text-align:center}
+.phase:last-child{border-right:none}
+.phase-num{font-family:'DM Serif Display',serif;font-size:2rem;color:#7dd3fc;line-height:1;margin-bottom:6px}
+.phase-title{font-size:.78rem;font-weight:700;color:#0f0f0f;margin-bottom:6px}
+.phase-desc{font-size:.72rem;color:#888;line-height:1.5}
+
+/* RACI */
+.raci-table{width:100%;border-collapse:collapse;margin:24px 0;border-radius:12px;overflow:hidden;border:1px solid rgba(0,0,0,.06)}
+.raci-table th{background:#0f172a;color:#7dd3fc;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;padding:12px 14px;text-align:left;font-weight:600}
+.raci-table td{background:#fff;font-size:.82rem;color:#444;padding:11px 14px;border-bottom:1px solid rgba(0,0,0,.04);line-height:1.5}
+.raci-table tr:last-child td{border-bottom:none}
+.raci-table tr:hover td{background:#f9f7f3}
+.raci-r{color:#dc2626;font-weight:700}
+.raci-a{color:#0284c7;font-weight:700}
+.raci-c{color:#16a34a;font-weight:600}
+.raci-i{color:#9ca3af}
+
+/* COM PLAN */
+.com-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:24px 0}
+.com-card{background:#fff;border-radius:14px;padding:20px;border:1px solid rgba(0,0,0,.06)}
+.com-level{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:8px;padding:4px 10px;border-radius:20px;display:inline-block}
+.com-title{font-size:.9rem;font-weight:700;color:#0f0f0f;margin-bottom:6px}
+.com-items{font-size:.78rem;color:#666;line-height:1.8}
+
+/* TAGS & CTA */
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:32px 0}
+.tag{padding:6px 14px;border-radius:20px;font-size:.72rem;background:#ece7dd;color:#666;font-weight:500}
+.tag-main{background:rgba(14,165,233,.1);color:#0284c7}
+.cta-box{background:linear-gradient(135deg,#0c1a2e 0%,#0f172a 100%);border-radius:20px;padding:40px;margin:48px 0;text-align:center}
+.cta-box h3{font-family:'DM Serif Display',serif;font-size:1.6rem;color:#fff;margin-bottom:12px}
+.cta-box p{font-size:.9rem;color:rgba(255,255,255,.6);margin-bottom:24px;line-height:1.7}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#0284c7;color:#fff;border-radius:30px;font-size:.82rem;font-weight:600;transition:opacity .2s}
+.cta-btn:hover{opacity:.85}
+.nav-articles{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:48px 0}
+.nav-art{background:#fff;border-radius:16px;padding:24px;border:1px solid rgba(0,0,0,.06);transition:all .2s}
+.nav-art:hover{border-color:#0284c7;transform:translateY(-2px)}
+.nav-art-label{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:#999;margin-bottom:8px}
+.nav-art-title{font-size:.9rem;font-weight:600;color:#1a1a1a;line-height:1.4}
+.nav-art-arrow{font-size:.8rem;color:#0284c7;margin-top:8px;display:block}
+.part2-banner{background:linear-gradient(135deg,#0c1a2e,#0f2a1a);border-radius:16px;padding:24px 28px;margin:32px 0;display:flex;align-items:center;gap:20px;border:1px solid rgba(14,165,233,.2)}
+.part2-badge{background:rgba(14,165,233,.2);border:1px solid rgba(14,165,233,.4);border-radius:10px;padding:8px 14px;font-size:.7rem;color:#7dd3fc;font-weight:700;white-space:nowrap}
+.part2-text{font-size:.88rem;color:rgba(255,255,255,.7);line-height:1.6}
+.part2-text strong{color:#fff}
+table{border-collapse:collapse;width:100%}
+th,td{vertical-align:top}
+footer{text-align:center;padding:24px;font-size:.65rem;color:#bbb;letter-spacing:.06em;border-top:1px solid rgba(0,0,0,.06)}
+@media(max-width:680px){
+  .hero,.article{padding-left:20px;padding-right:20px}
+  nav{padding:0 20px}
+  .nav-articles,.pillars-grid,.com-grid{grid-template-columns:1fr}
+  .tripartite,.phases{grid-template-columns:1fr}
+  .tri-col,.phase{border-right:none;border-bottom:1px solid rgba(0,0,0,.06)}
+  .raci-table{font-size:.72rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">P.<span>Damas</span></a>
+  <a href="blog.html" class="nav-back">← Blog IT</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="rex-tag">REX #5 · Téléphonie & Communications Unifiées · Partie 1</div>
+  <h1 class="hero-title">Réussir la transition vers une <em>messagerie unifiée</em> : SIP Trunk, SBC &amp; Skype for Business</h1>
+  <p class="hero-sub">Migrer la téléphonie d'un groupe de 30 000 utilisateurs ne s'improvise pas. Entre le choix de l'opérateur SIP Trunk, l'intégration des SBC, le démantèlement progressif de l'Alcatel OXE legacy et la gouvernance tripartite — voici les clés issues du terrain pour piloter ce type de programme sans déraper.</p>
+  <div class="hero-meta">
+    <span>Par <strong>Philippe Damas</strong></span>
+    <span>· <strong>Grands comptes</strong> · Téléphonie d'entreprise</span>
+    <span>· ~12 min de lecture</span>
+    <span>· Partie 1/2</span>
+  </div>
+</div>
+
+<div class="article">
+
+  <!-- INSIGHT -->
+  <div class="insight">
+    <div class="insight-label">L'essentiel</div>
+    <p class="insight-text">Un programme de transition vers la messagerie unifiée (SIP Trunk + SBC + Skype for Business) engage plusieurs <strong>millions d'euros</strong> sur 2 à 3 ans. Cinq facteurs sont déterminants : un <strong>RFI/RFP rigoureux</strong> co-piloté avec Achats et Legal, une <strong>gouvernance tripartite</strong> Opérateur/Intégrateur SFB-SBC/Client maintenue du POC jusqu'au RUN, une <strong>architecture cible validée en tri-partie</strong>, un <strong>plan de migration SDA séquencé</strong> par tranches, et un <strong>démantèlement du legacy Alcatel OXE</strong> uniquement après stabilisation complète du Build-to-RUN.</p>
+  </div>
+
+  <!-- SECTION 1 : PRÉ-ÉTUDE RFI/RFP -->
+  <div class="section">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Phase Pré-étude — Pourquoi un RFI/RFP est incontournable</h2>
+
+    <p>Dans les grands groupes, un projet de transformation de la téléphonie dépasse systématiquement les seuils budgétaires imposant un processus d'appel d'offres formalisé. Mais au-delà de l'obligation réglementaire, le <b class="kw">RFI/RFP</b> est un outil de pilotage stratégique : il structure la sélection, protège contractuellement l'entreprise et crée une concurrence saine entre opérateurs SIP Trunk (Orange, COLT, Verizon, BT…).</p>
+
+    <p>La pré-étude commence par une <b class="kw">collecte exhaustive des cas d'usage</b> sur l'ensemble des sites : besoins en communication unifiée, fonctionnalités attendues (présence, mobilité, softphone, visio…), volumes de SDA par site, profils d'utilisateurs (sédentaires, nomades, VPN, pays…). C'est cette photographie du besoin réel qui alimentera les critères du RFP et orientera l'architecture cible.</p>
+
+    <div class="info">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">💡</div>
+      <div class="info-text">
+        <strong>Ordres de grandeur budgétaires — 30 000 utilisateurs</strong>
+        <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px">
+          <span class="budget-badge">Pré-étude & RFP <span>~80–150 K€</span></span>
+          <span class="budget-badge">SIP Trunk (licences + SDA) <span>~600 K–1,2 M€/an</span></span>
+          <span class="budget-badge">Intégration SBC + SFB <span>~400–800 K€</span></span>
+          <span class="budget-badge">Migration & déploiement <span>~200–400 K€</span></span>
+          <span class="budget-badge">Total programme <span>> 2 M€</span></span>
+        </div>
+      </div>
+    </div>
+
+    <p>La collaboration avec les équipes <b class="kw">Achats/Procurement</b> et <b class="kw">Legal</b> est non négociable dès la phase de pré-étude. Ce n'est pas uniquement un projet technique : c'est la mise en place de conditions contractuelles solides avec les opérateurs — et la négociation sur les prix de licence, les plages de numéros, les CAL, la QoS et le support sera déterminante pour la rentabilité du programme.</p>
+
+    <div class="checklist">
+      <div class="checklist-title">✅ Points critiques à valider dans le RFP</div>
+      <div class="check-item"><div class="check-icon">💰</div><div class="check-text"><strong>Prix et modèle de licence :</strong> coût par utilisateur actif, coût CAL par tranche de SDA, tarification selon volumes (30 000 users impose une négociation serrée par paliers)</div></div>
+      <div class="check-item"><div class="check-icon">📐</div><div class="check-text"><strong>Architecture proposée et adhérence SBC :</strong> compatibilité technique avec la solution SFB et les SBC envisagés — à valider en tri-partie avant toute décision</div></div>
+      <div class="check-item"><div class="check-icon">🌐</div><div class="check-text"><strong>QoS et couverture géographique :</strong> garanties de qualité voix sur tous les pays et sites, latence, SLA, redondance des trunks</div></div>
+      <div class="check-item"><div class="check-icon">🔄</div><div class="check-text"><strong>Plan de migration :</strong> accompagnement lors du portage des tranches SDA de l'Alcatel OXE vers le SIP Trunk cible — phase pilote avec plages provisoires, tests de flux, puis bascule définitive avec rollback plan</div></div>
+      <div class="check-item"><div class="check-icon">🎓</div><div class="check-text"><strong>Support et formations :</strong> niveau de support durant la migration, disponibilité des équipes opérateur, formations équipes IT et utilisateurs</div></div>
+      <div class="check-item"><div class="check-icon">🔚</div><div class="check-text"><strong>Conditions de sortie et réversibilité :</strong> durée d'engagement, pénalités, conditions de portabilité en cas de changement d'opérateur</div></div>
+    </div>
+
+    <div class="warning">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">⚠️</div>
+      <div class="warning-text">
+        <strong>Pièges fréquents dans les RFP Téléphonie</strong>
+        Ne pas dissocier le lot "Opérateur SIP Trunk" du lot "Intégrateur SBC/SFB" lors du RFP — au risque d'obtenir des offres incompatibles techniquement. Toujours exiger que les deux parties répondent conjointement ou prévoient une clause d'interopérabilité validée en POC.
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2 : ÉTUDE & GOUVERNANCE TRIPARTITE -->
+  <div class="section">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Étude — Le couple SIP Trunk / Intégrateur SBC-SFB : la gouvernance tripartite</h2>
+
+    <p>C'est le pilier central du programme. La réussite d'une migration vers la messagerie unifiée repose sur la <b class="kw">gouvernance tripartite</b> entre trois acteurs qui doivent être synchronisés à chaque étape — du RFI jusqu'au Build-to-RUN :</p>
+
+    <div class="tripartite">
+      <div class="tri-col" style="background:#f0f9ff">
+        <div class="tri-icon">📡</div>
+        <div class="tri-title">Opérateur SIP Trunk</div>
+        <div class="tri-items">Orange / COLT / Verizon / BT<br>Trunk SIP · SDA · QoS<br>Plan de migration numéros<br>Support phase pilote &amp; bascule</div>
+      </div>
+      <div class="tri-col" style="background:#faf5ff">
+        <div class="tri-icon">🔧</div>
+        <div class="tri-title">Intégrateur SFB + SBC</div>
+        <div class="tri-items">Skype for Business<br>Session Border Controller<br>Architecture & déploiement<br>RUN & infogérance SFB</div>
+      </div>
+      <div class="tri-col" style="background:#f0fdf4">
+        <div class="tri-icon">🏢</div>
+        <div class="tri-title">Client Final (DSI)</div>
+        <div class="tri-items">Technical Project Leader<br>Équipes Achats / Legal<br>RSSI / Cyber<br>Métiers & utilisateurs</div>
+      </div>
+    </div>
+
+    <p>L'erreur classique est de faire du RFP SIP Trunk en silo, sans impliquer l'intégrateur en charge du RUN de Skype for Business et des SBC. Or, c'est précisément cet intégrateur qui connaît le mieux les contraintes d'intégration technique : il sera bien plus efficace dans le double-check de l'architecture proposée par l'opérateur, et sa présence durant le POC permet de valider immédiatement la faisabilité réelle.</p>
+
+    <div class="pull-quote">
+      <p>"L'intégrateur SFB/SBC doit être dans la boucle du RFP SIP Trunk dès le départ — non pas comme spectateur, mais comme co-validateur technique. C'est lui qui saura dire si l'architecture proposée par l'opérateur est réellement compatible avec l'environnement SFB et SBC en place."</p>
+      <cite>Philippe Damas · Retour d'expérience terrain</cite>
+    </div>
+
+    <p>Cette validation en tri-partie porte notamment sur : le design cible des SBC (positionnement, redondance, flux signalisation SIP/TLS, flux media RTP), la compatibilité des codecs, les règles de routage des appels entrants/sortants par SDA et par site, et l'authentification des utilisateurs (AD/MFA).</p>
+  </div>
+
+  <!-- SECTION 3 : ARCHITECTURE -->
+  <div class="section">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Architecture cible — Vue d'ensemble du système</h2>
+
+    <p>Le schéma ci-dessous présente la cinématique de migration : à gauche, l'état <b class="kw">AVANT</b> avec l'Alcatel OXE et ses postes IP physiques / pieuvres de salle ; à droite, l'architecture <b class="kw">APRÈS</b> avec le SIP Trunk, les SBC en DMZ, les serveurs SFB on-premise et le rôle central de l'Active Directory pour l'authentification de tous les composants.</p>
+
+    <!-- SCHÉMA ARCHITECTURE AVANT / APRÈS -->
+    <div style="background:#f8f7f4;border-radius:20px;padding:28px 24px;margin:32px 0;border:1px solid rgba(0,0,0,.07)">
+      <div style="font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#0284c7;font-weight:700;text-align:center;margin-bottom:24px">🏗️ Migration ToIP → SIP Trunk · SBC · Skype for Business — Avant / Après</div>
+
+      <div style="display:grid;grid-template-columns:1fr 80px 1fr;gap:0;align-items:start">
+
+        <!-- ══ COLONNE AVANT ══ -->
+        <div style="background:#fff5f5;border-radius:14px;border:2px solid #fca5a5;overflow:hidden">
+          <div style="background:#ef4444;padding:12px 16px;text-align:center">
+            <div style="font-size:.85rem;font-weight:700;color:#fff;letter-spacing:.05em">AVANT — ToIP Alcatel OXE</div>
+          </div>
+          <div style="padding:16px;display:flex;flex-direction:column;gap:10px">
+
+            <!-- PSTN -->
+            <div style="background:#fee2e2;border:1.5px solid #f87171;border-radius:10px;padding:12px 14px;text-align:center">
+              <div style="font-size:.88rem;font-weight:700;color:#b91c1c">☁️ PSTN / RTC</div>
+              <div style="font-size:.75rem;color:#ef4444;margin-top:3px">Réseau téléphonique public</div>
+            </div>
+
+            <div style="text-align:center;color:#ef4444;font-size:1.2rem">↓</div>
+
+            <!-- OXE -->
+            <div style="background:#fef2f2;border:2px solid #ef4444;border-radius:10px;padding:14px 16px;text-align:center">
+              <div style="font-size:.95rem;font-weight:700;color:#b91c1c">📟 Alcatel OXE — IPBX on-premise</div>
+              <div style="font-size:.75rem;color:#9a3412;margin-top:6px;line-height:1.6">Plan de numérotation interne · SDA directes<br>Trunks T2 / T0 / QSIG</div>
+            </div>
+
+            <div style="text-align:center;color:#ef4444;font-size:1.2rem">↓</div>
+
+            <!-- Terminaux -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <div style="background:#fff;border:1.5px solid #fca5a5;border-radius:8px;padding:10px 12px;text-align:center">
+                <div style="font-size:.82rem;font-weight:700;color:#7f1d1d">☎️ Postes IP</div>
+                <div style="font-size:.72rem;color:#9a3412;margin-top:4px;line-height:1.5">Alcatel / Polycom<br>Téléphone physique<br>sur bureau</div>
+              </div>
+              <div style="background:#fff;border:1.5px solid #fca5a5;border-radius:8px;padding:10px 12px;text-align:center">
+                <div style="font-size:.82rem;font-weight:700;color:#7f1d1d">🔵 Salles réunion</div>
+                <div style="font-size:.72rem;color:#9a3412;margin-top:4px;line-height:1.5">Pieuvres Polycom<br>Conférence audio<br>matériel dédié</div>
+              </div>
+            </div>
+
+            <!-- Limites -->
+            <div style="background:#fef9c3;border:1px dashed #fbbf24;border-radius:8px;padding:10px 14px">
+              <div style="font-size:.8rem;font-weight:700;color:#92400e;margin-bottom:4px">⚠️ Limites du legacy</div>
+              <div style="font-size:.72rem;color:#78350f;line-height:1.6">Coûts maintenance élevés · Scalabilité limitée<br>Pas de softphone · Pas de mobilité · Pas d'IM/présence</div>
+            </div>
+
+            <!-- Démantèlement -->
+            <div style="background:#fef2f2;border:1px dashed #f87171;border-radius:8px;padding:8px 14px;text-align:center">
+              <div style="font-size:.78rem;font-weight:700;color:#dc2626">🗑 Démantèlement après Build-to-RUN ✓</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══ FLÈCHE CENTRALE ══ -->
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding-top:80px;gap:8px">
+          <div style="background:#0f172a;border-radius:10px;padding:10px 8px;text-align:center">
+            <div style="font-size:.72rem;font-weight:700;color:#7dd3fc;line-height:1.6">MIGRA<br>TION</div>
+            <div style="font-size:.65rem;color:#94a3b8;margin-top:4px;line-height:1.5">SDA<br>portées<br>par<br>tranches</div>
+          </div>
+          <div style="font-size:1.4rem;color:#0284c7">→</div>
+        </div>
+
+        <!-- ══ COLONNE APRÈS ══ -->
+        <div style="background:#f0f9ff;border-radius:14px;border:2px solid #7dd3fc;overflow:hidden">
+          <div style="background:#0284c7;padding:12px 16px;text-align:center">
+            <div style="font-size:.85rem;font-weight:700;color:#fff;letter-spacing:.05em">APRÈS — SIP Trunk · SBC · SFB</div>
+          </div>
+          <div style="padding:16px;display:flex;flex-direction:column;gap:10px">
+
+            <!-- PSTN SIP -->
+            <div style="background:#e0f2fe;border:1.5px solid #0284c7;border-radius:10px;padding:12px 14px;text-align:center">
+              <div style="font-size:.88rem;font-weight:700;color:#0c4a6e">☁️ PSTN / Opérateur SIP Trunk</div>
+              <div style="font-size:.75rem;color:#0369a1;margin-top:3px">Orange · COLT · Verizon — TLS/SRTP</div>
+            </div>
+
+            <div style="text-align:center;color:#0284c7;font-size:1.2rem">↓</div>
+
+            <!-- SBC DMZ -->
+            <div style="background:#ede9fe;border:2px solid #7c3aed;border-radius:10px;padding:12px 14px">
+              <div style="font-size:.8rem;font-weight:700;color:#4c1d95;text-align:center;margin-bottom:8px">🛡 SESSION BORDER CONTROLLER — DMZ</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+                <div style="background:#fff;border:1.5px solid #7c3aed;border-radius:7px;padding:8px 10px;text-align:center">
+                  <div style="font-size:.78rem;font-weight:700;color:#4c1d95">SBC Primaire</div>
+                  <div style="font-size:.68rem;color:#6d28d9;margin-top:3px;line-height:1.5">Routage SIP · NAT<br>AudioCodes / Ribbon</div>
+                </div>
+                <div style="background:#fff;border:1.5px dashed #7c3aed;border-radius:7px;padding:8px 10px;text-align:center">
+                  <div style="font-size:.78rem;font-weight:700;color:#4c1d95">SBC Secondaire</div>
+                  <div style="font-size:.68rem;color:#6d28d9;margin-top:3px;line-height:1.5">HA · Failover auto<br>Actif / Passif</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="text-align:center;color:#7c3aed;font-size:1.2rem">↓</div>
+
+            <!-- Serveurs SFB -->
+            <div style="background:#f0fdf4;border:2px solid #16a34a;border-radius:10px;padding:12px 14px">
+              <div style="font-size:.8rem;font-weight:700;color:#14532d;text-align:center;margin-bottom:8px">🖥 SKYPE FOR BUSINESS — ON-PREMISE</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+                <div style="background:#fff;border:1.5px solid #16a34a;border-radius:7px;padding:8px 10px;text-align:center">
+                  <div style="font-size:.78rem;font-weight:700;color:#14532d">Mediation Server</div>
+                  <div style="font-size:.68rem;color:#166534;margin-top:3px;line-height:1.5">SBC ↔ FE Pool<br>G.711 · G.729</div>
+                </div>
+                <div style="background:#fff;border:1.5px solid #16a34a;border-radius:7px;padding:8px 10px;text-align:center">
+                  <div style="font-size:.78rem;font-weight:700;color:#14532d">Front End Pool</div>
+                  <div style="font-size:.68rem;color:#166534;margin-top:3px;line-height:1.5">Présence · IM · Conf.<br>≥ 2 nœuds HA</div>
+                </div>
+                <div style="background:#fff;border:1.5px solid #0284c7;border-radius:7px;padding:8px 10px;text-align:center">
+                  <div style="font-size:.78rem;font-weight:700;color:#0c4a6e">Edge Server</div>
+                  <div style="font-size:.68rem;color:#0369a1;margin-top:3px;line-height:1.5">Accès nomades<br>DMZ · Reverse Proxy</div>
+                </div>
+                <div style="background:#fff;border:1.5px solid #0284c7;border-radius:7px;padding:8px 10px;text-align:center">
+                  <div style="font-size:.78rem;font-weight:700;color:#0c4a6e">Reverse Proxy</div>
+                  <div style="font-size:.68rem;color:#0369a1;margin-top:3px;line-height:1.5">Meet · Dialin<br>TLS offloading</div>
+                </div>
+              </div>
+            </div>
+
+            <div style="text-align:center;color:#ca8a04;font-size:1.2rem">↓</div>
+
+            <!-- AD Central -->
+            <div style="background:#fefce8;border:2px solid #ca8a04;border-radius:10px;padding:12px 14px;text-align:center">
+              <div style="font-size:.88rem;font-weight:700;color:#713f12">🔑 Active Directory — Authentification centrale</div>
+              <div style="font-size:.73rem;color:#92400e;margin-top:5px;line-height:1.6">Kerberos / NTLM · MFA (ADFS) · LDAP sync<br><span style="font-size:.68rem;color:#a16207">→ FE Pool · Edge · Mediation · Clients · Reverse Proxy</span></div>
+            </div>
+
+            <div style="text-align:center;color:#f97316;font-size:1.2rem">↓</div>
+
+            <!-- Clients -->
+            <div style="background:#fff7ed;border:1.5px solid #f97316;border-radius:10px;padding:12px 14px">
+              <div style="font-size:.8rem;font-weight:700;color:#7c2d12;text-align:center;margin-bottom:8px">💻 Nouveaux usages utilisateurs</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+                <div style="background:#fff;border:1.5px solid #f97316;border-radius:7px;padding:8px 6px;text-align:center">
+                  <div style="font-size:.75rem;font-weight:700;color:#9a3412">Softphone PC</div>
+                  <div style="font-size:.65rem;color:#c2410c;margin-top:3px;line-height:1.5">App Skype<br>Casque USB/BT</div>
+                </div>
+                <div style="background:#fff;border:1.5px solid #f97316;border-radius:7px;padding:8px 6px;text-align:center">
+                  <div style="font-size:.75rem;font-weight:700;color:#9a3412">Mobile / VPN</div>
+                  <div style="font-size:.65rem;color:#c2410c;margin-top:3px;line-height:1.5">iOS · Android<br>Via Edge</div>
+                </div>
+                <div style="background:#fff;border:1.5px solid #f59e0b;border-radius:7px;padding:8px 6px;text-align:center">
+                  <div style="font-size:.75rem;font-weight:700;color:#713f12">Room System</div>
+                  <div style="font-size:.65rem;color:#92400e;margin-top:3px;line-height:1.5">Certifié SFB<br>Polycom/Yealink</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Infogérance -->
+            <div style="background:#f1f5f9;border:1px solid #94a3b8;border-radius:8px;padding:10px 14px;text-align:center">
+              <div style="font-size:.75rem;font-weight:700;color:#475569">🗂 CMDB · RACI RUN · Runbooks · Monitoring NOC</div>
+              <div style="font-size:.68rem;color:#64748b;margin-top:3px">Intégrateur SFB/SBC + Opérateur SIP + Infogérant RUN</div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Légende -->
+      <div style="display:flex;justify-content:center;gap:28px;margin-top:16px;font-size:.72rem;color:#64748b">
+        <span>─ ─ ─ flux authentification AD</span>
+        <span>──── flux voix / signalisation SIP</span>
+        <span>→ direction flux</span>
+      </div>
+    </div>
+
+    <div class="info">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">🔑</div>
+      <div class="info-text">
+        <strong>Trois points clés à retenir de cette architecture</strong>
+        Le <strong>SBC est le gardien de la frontière</strong> entre l'opérateur SIP Trunk et les serveurs SFB internes : il protège, route et normalise tous les flux SIP/RTP. Le <strong>Mediation Server</strong> est le pivot entre le SBC et le Front End Pool — son dimensionnement conditionne la capacité voix du système. L'<strong>Active Directory</strong> est l'épine dorsale de l'authentification : tous les serveurs SFB (FE Pool, Edge, Mediation, Reverse Proxy) et tous les clients (softphone PC, mobile, Room System) s'authentifient via AD avec MFA — sa disponibilité est critique et doit être intégrée au RACI RUN.
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 : RÔLE DU PM TECHNIQUE -->
+  <div class="section">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Le Technical Project Leader — Gouvernance, synchronisation et plan de migration SDA</h2>
+
+    <p>Le Technical Project Leader est le garant de la bonne exécution du programme dans sa globalité. Son rôle dépasse le pilotage technique : il est le point de convergence entre tous les acteurs — sponsor, Achats, Legal, RSSI, intégrateur, opérateur, SDM, et équipes métiers sur sites.</p>
+
+    <div class="phases">
+      <div class="phase">
+        <div class="phase-num">1</div>
+        <div class="phase-title">Cadrage & RFP</div>
+        <div class="phase-desc">Co-pilotage avec Achats/Legal. Collecte cas d'usage. Rédaction cahier des charges.</div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">2</div>
+        <div class="phase-title">POC & Validation</div>
+        <div class="phase-desc">SBC de prêt en pré-prod. Tests charge & codec. Validation architecture tri-partie.</div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">3</div>
+        <div class="phase-title">Migration SDA</div>
+        <div class="phase-desc">Phase pilote + bascule par tranches. Rollback plan. Support opérateur H24.</div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">4</div>
+        <div class="phase-title">Build-to-RUN</div>
+        <div class="phase-desc">Stabilisation. Documentation CMDB. Démantèlement OXE. Transfert infogérant.</div>
+      </div>
+    </div>
+
+    <p>La synchronisation avec le <b class="kw">SDM (Service Delivery Manager)</b> de la communication unifiée est critique : ensemble, ils vérifient que la solution en place est capable d'absorber le trafic cible site par site, tranche SDA par tranche SDA. Chaque migration de tranche doit être précédée d'une validation de capacité (canaux SBC disponibles, dimensionnement Mediation Server, QoS sur le trunk correspondant).</p>
+
+    <div class="checklist">
+      <div class="checklist-title">🎯 Points de vigilance Technical Project Leader — Migration SDA</div>
+      <div class="check-item"><div class="check-icon">📋</div><div class="check-text"><strong>Chrono détaillé par tranche SDA :</strong> séquence en 3 temps — phase pilote sur plages provisoires, validation des flux, puis bascule définitive avec fenêtre de rollback définie en amont par les trois parties</div></div>
+    </div>
+
+    <!-- MÉTHODOLOGIE PILOTE -->
+    <div style="margin:28px 0;background:#fff;border-radius:16px;border:1px solid rgba(0,0,0,.06);overflow:hidden">
+      <div style="background:#0f172a;padding:14px 20px;display:flex;align-items:center;gap:10px">
+        <span style="font-size:1.1rem">🗓️</span>
+        <span style="font-size:.8rem;font-weight:700;color:#7dd3fc;letter-spacing:.06em;text-transform:uppercase">Méthodologie de migration SDA — les 3 phases</span>
+      </div>
+
+      <!-- PHASE 1 PILOTE -->
+      <div style="border-bottom:1px solid rgba(0,0,0,.06);padding:20px 24px">
+        <div style="display:flex;align-items:flex-start;gap:16px">
+          <div style="width:36px;height:36px;border-radius:50%;background:rgba(14,165,233,.12);border:2px solid rgba(14,165,233,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'DM Serif Display',serif;font-size:1rem;color:#0284c7;font-weight:700">1</div>
+          <div style="flex:1">
+            <div style="font-size:.88rem;font-weight:700;color:#0f0f0f;margin-bottom:6px">Phase Pilote — Plages SDA provisoires prêtées par l'opérateur</div>
+            <p style="font-size:.85rem;color:#555;line-height:1.7;margin-bottom:12px">Avant toute portabilité de numéros réels, l'opérateur SIP Trunk cible met à disposition une <b class="kw">plage de numéros provisoires</b> (hors plan de numérotation entreprise). Ces numéros permettent de tester <strong>l'intégralité des flux</strong> sur l'infrastructure cible SBC + SFB + Mediation Server sans impacter les utilisateurs.</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div style="background:#f0f9ff;border-radius:10px;padding:12px 14px">
+                <div style="font-size:.7rem;font-weight:700;color:#0284c7;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">✅ Ce qu'on valide</div>
+                <ul style="font-size:.78rem;color:#444;line-height:1.8;padding-left:14px">
+                  <li>Appels entrants / sortants aboutissent</li>
+                  <li>Codecs négociés correctement (G.711 / G.729)</li>
+                  <li>Routage call flow par profil (SDA directe, groupement, accueil)</li>
+                  <li>Transferts internes SFB fonctionnels</li>
+                  <li>DTMF (RFC 2833) — menus vocaux SVI</li>
+                  <li>Présentation numéro appelant (CLIP/CLIR)</li>
+                  <li>Appels internationaux entrants / sortants</li>
+                  <li>Fax T.38 si concerné</li>
+                  <li><strong>Numéros spéciaux :</strong> 0800 (numéros verts), 15/17/18/112 (secours &amp; pompiers) — accès obligatoire depuis le trunk SIP, à tester impérativement</li>
+                </ul>
+              </div>
+              <div style="background:#f0fdf4;border-radius:10px;padding:12px 14px">
+                <div style="font-size:.7rem;font-weight:700;color:#16a34a;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">👥 Qui participe</div>
+                <ul style="font-size:.78rem;color:#444;line-height:1.8;padding-left:14px">
+                  <li>Équipe opérateur SIP Trunk (support technique)</li>
+                  <li>Intégrateur SFB / SBC</li>
+                  <li>Technical Project Leader</li>
+                  <li><strong>SDM Messagerie Unifiée</strong> (garant capacité &amp; qualité)</li>
+                  <li>Référents métiers par site (accueil, call center)</li>
+                  <li>Équipe infogérance RUN (observateurs)</li>
+                </ul>
+                <div style="margin-top:10px;padding:8px 10px;background:rgba(251,191,36,.12);border-left:3px solid #f59e0b;border-radius:0 8px 8px 0;font-size:.72rem;color:#92400e">
+                  ⏱️ Durée pilote recommandée : <strong>1 à 2 semaines</strong> selon volume du site
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 2 VALIDATION -->
+      <div style="border-bottom:1px solid rgba(0,0,0,.06);padding:20px 24px">
+        <div style="display:flex;align-items:flex-start;gap:16px">
+          <div style="width:36px;height:36px;border-radius:50%;background:rgba(22,163,74,.12);border:2px solid rgba(22,163,74,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'DM Serif Display',serif;font-size:1rem;color:#16a34a;font-weight:700">2</div>
+          <div style="flex:1">
+            <div style="font-size:.88rem;font-weight:700;color:#0f0f0f;margin-bottom:6px">Validation Tripartite — PV de recette pilote</div>
+            <p style="font-size:.85rem;color:#555;line-height:1.7;margin-bottom:12px">À l'issue de la phase pilote, un <b class="kw">PV de recette</b> est signé par les trois parties avant toute demande de portabilité. Il documente les résultats des tests, les anomalies résolues, et valide les KPIs mesurés sur les numéros provisoires.</p>
+            <div style="background:#f9f7f3;border-radius:10px;padding:14px 16px">
+              <div style="font-size:.7rem;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">Contenu du PV de recette</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:.78rem;color:#444">
+                <div style="padding:8px 10px;background:#fff;border-radius:8px;border:1px solid rgba(0,0,0,.06)">📊 KPIs mesurés vs seuils contractuels</div>
+                <div style="padding:8px 10px;background:#fff;border-radius:8px;border:1px solid rgba(0,0,0,.06)">🗂️ Liste des call flows testés et résultats</div>
+                <div style="padding:8px 10px;background:#fff;border-radius:8px;border:1px solid rgba(0,0,0,.06)">🐛 Anomalies ouvertes &amp; statut résolution</div>
+                <div style="padding:8px 10px;background:#fff;border-radius:8px;border:1px solid rgba(0,0,0,.06)">✍️ Signatures Opérateur / Intégrateur / Client</div>
+                <div style="padding:8px 10px;background:#fff;border-radius:8px;border:1px solid rgba(0,0,0,.06)">📅 Date confirmée de bascule définitive</div>
+                <div style="padding:8px 10px;background:#fff;border-radius:8px;border:1px solid rgba(0,0,0,.06)">🔙 Fenêtre de rollback définie (durée, critères)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 3 BASCULE -->
+      <div style="padding:20px 24px">
+        <div style="display:flex;align-items:flex-start;gap:16px">
+          <div style="width:36px;height:36px;border-radius:50%;background:rgba(251,146,60,.12);border:2px solid rgba(251,146,60,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'DM Serif Display',serif;font-size:1rem;color:#ea580c;font-weight:700">3</div>
+          <div style="flex:1">
+            <div style="font-size:.88rem;font-weight:700;color:#0f0f0f;margin-bottom:6px">Bascule définitive — Portabilité des numéros réels</div>
+            <p style="font-size:.85rem;color:#555;line-height:1.7;margin-bottom:12px">Une fois le PV de recette signé, la <b class="kw">demande de portabilité officielle</b> est soumise à l'opérateur. La bascule porte les SDA réelles de l'Alcatel OXE vers le trunk SIP cible. La fenêtre de rollback est contractuellement définie avec l'opérateur : si un incident bloquant survient dans ce délai, les numéros sont réacheminés sur l'OXE sans délai.</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div style="background:#fff7ed;border-radius:10px;padding:12px 14px;border:1px solid rgba(251,146,60,.2)">
+                <div style="font-size:.7rem;font-weight:700;color:#ea580c;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">📆 Timing bascule</div>
+                <ul style="font-size:.78rem;color:#444;line-height:1.8;padding-left:14px">
+                  <li>Préférer une bascule en <strong>début de semaine</strong> (lundi ou mardi) — équipes disponibles pour J+1 de support</li>
+                  <li>Éviter veilles de week-end et veilles de pont</li>
+                  <li>Prévenir les utilisateurs référents 48h avant</li>
+                  <li>Support renforcé disponible le jour J</li>
+                </ul>
+              </div>
+              <div style="background:#fff0f0;border-radius:10px;padding:12px 14px;border:1px solid rgba(239,68,68,.2)">
+                <div style="font-size:.7rem;font-weight:700;color:#dc2626;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px">🔙 Rollback plan</div>
+                <ul style="font-size:.78rem;color:#444;line-height:1.8;padding-left:14px">
+                  <li>Fenêtre rollback : <strong>24 à 72h</strong> selon l'opérateur</li>
+                  <li>Critères de déclenchement documentés</li>
+                  <li>OXE maintenu opérationnel jusqu'à fin de fenêtre</li>
+                  <li>Contact d'astreinte opérateur : identifié et testé</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+      <div class="check-item"><div class="check-icon">🔐</div><div class="check-text"><strong>Exigences Cyber/RSSI :</strong> authentification AD/MFA validée pour tous les profils (sédentaire, nomade VPN, mobilité internationale), chiffrement TLS/SRTP sur tous les flux</div></div>
+      <div class="check-item"><div class="check-icon">🌍</div><div class="check-text"><strong>Cas d'usage par pays :</strong> réglementations locales sur la téléphonie, contraintes de portabilité, présence locale de l'opérateur SIP, fuseaux horaires pour la coordination des phases pilote et bascule</div></div>
+      <div class="check-item"><div class="check-icon">📊</div><div class="check-text"><strong>Communication sponsors & métiers :</strong> informer les référents site avant chaque migration, prévoir une équipe de support joignable H24 durant les bascules</div></div>
+      <div class="check-item"><div class="check-icon">✅</div><div class="check-text"><strong>Critères de succès par tranche :</strong> définir les KPIs d'acceptation avant chaque bascule et les valider formellement avant de passer à la tranche suivante — voir le tableau détaillé ci-dessous</div></div>
+    </div>
+
+    <!-- TABLEAU KPI PAR PROFIL MÉTIER -->
+    <div style="margin:28px 0">
+      <div style="font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#0284c7;font-weight:700;margin-bottom:16px">📊 KPIs d'acceptation par profil métier — grille de validation tranche SDA</div>
+
+      <!-- KPI PAR PROFIL MÉTIER -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+
+        <!-- ACCUEIL / STANDARDISTE -->
+        <div style="background:#fff;border-radius:14px;border:1px solid rgba(0,0,0,.06);overflow:hidden">
+          <div style="background:rgba(14,165,233,.08);border-bottom:1px solid rgba(14,165,233,.15);padding:12px 16px;display:flex;align-items:center;gap:8px">
+            <span style="font-size:1rem">☎️</span>
+            <span style="font-size:.78rem;font-weight:700;color:#0284c7">Accueil / Standardiste</span>
+          </div>
+          <div style="padding:14px 16px">
+            <p style="font-size:.8rem;color:#555;line-height:1.6;margin-bottom:10px">Profil critique : volume d'appels élevé, attente de présentation d'un numéro principal (SDA groupe). Tolérance zéro aux coupures.</p>
+            <ul style="font-size:.78rem;color:#444;line-height:1.8;padding-left:16px">
+              <li>Présentation SDA principale : <strong>100 %</strong> fonctionnelle</li>
+              <li>Transferts internes Skype : testés sur ≥ 50 appels</li>
+              <li>Temps de mise en attente musicale : actif</li>
+              <li>Supervision de file (si Luware/RGS) : validée</li>
+              <li>MOS ≥ 4,0 (confort supérieur requis)</li>
+            </ul>
+            <div style="margin-top:10px;padding:8px 12px;background:rgba(251,191,36,.1);border-left:3px solid #f59e0b;border-radius:0 8px 8px 0;font-size:.75rem;color:#92400e">
+              ⚠️ Migrer en priorité <strong>hors heures ouvrées</strong> — impacte directement l'image client entreprise.
+            </div>
+          </div>
+        </div>
+
+        <!-- CALL CENTER / ACD -->
+        <div style="background:#fff;border-radius:14px;border:1px solid rgba(0,0,0,.06);overflow:hidden">
+          <div style="background:rgba(124,58,237,.08);border-bottom:1px solid rgba(124,58,237,.15);padding:12px 16px;display:flex;align-items:center;gap:8px">
+            <span style="font-size:1rem">🎧</span>
+            <span style="font-size:.78rem;font-weight:700;color:#7c3aed">Call Center / ACD (grands sites)</span>
+          </div>
+          <div style="padding:14px 16px">
+            <p style="font-size:.8rem;color:#555;line-height:1.6;margin-bottom:10px">Intégration avec solution ACD/Wallboard (Luware, Enghouse, Genesys). Dépendance forte au Mediation Server et aux groupes SFB.</p>
+            <ul style="font-size:.78rem;color:#444;line-height:1.8;padding-left:16px">
+              <li>Groupes de sonnerie SFB : reconfigurés et testés</li>
+              <li>Files d'attente ACD : validées sur le trunk cible</li>
+              <li>Enregistrement appels (si actif) : flux redirigés</li>
+              <li>Supervision Wallboard : données temps réel OK</li>
+              <li>ASR &lt; 0,5 % (SLA call center contractuel)</li>
+            </ul>
+            <div style="margin-top:10px;padding:8px 12px;background:rgba(124,58,237,.08);border-left:3px solid #7c3aed;border-radius:0 8px 8px 0;font-size:.75rem;color:#4c1d95">
+              ✓ Prévoir un <strong>test de charge</strong> en heures de pointe avant Go-Live.
+            </div>
+          </div>
+        </div>
+
+        <!-- RGS / PETITS SITES -->
+        <div style="background:#fff;border-radius:14px;border:1px solid rgba(0,0,0,.06);overflow:hidden">
+          <div style="background:rgba(22,163,74,.08);border-bottom:1px solid rgba(22,163,74,.15);padding:12px 16px;display:flex;align-items:center;gap:8px">
+            <span style="font-size:1rem">🏢</span>
+            <span style="font-size:.78rem;font-weight:700;color:#16a34a">Petits sites — RGS / Peterconnect</span>
+          </div>
+          <div style="padding:14px 16px">
+            <p style="font-size:.8rem;color:#555;line-height:1.6;margin-bottom:10px">Regroupement par groupement SDA via passerelle analogique ou RGS (Redirecteur de Groupement de Sonnerie). Point d'attention : délais de sonnerie et renvois.</p>
+            <ul style="font-size:.78rem;color:#444;line-height:1.8;padding-left:16px">
+              <li>Groupements RGS : numéros pilotes migrés et testés</li>
+              <li>Renvois automatiques (absence / occupé) : validés</li>
+              <li>Passerelles analogiques (fax, alarmes) : maintenues</li>
+              <li>Sonnerie simultanée équipe : comportement vérifié</li>
+              <li>Latence &lt; 120 ms (WAN site distant)</li>
+            </ul>
+            <div style="margin-top:10px;padding:8px 12px;background:rgba(22,163,74,.08);border-left:3px solid #16a34a;border-radius:0 8px 8px 0;font-size:.75rem;color:#14532d">
+              ✓ Valider les renvois vers <strong>mobiles et astreintes</strong> depuis le nouveau trunk.
+            </div>
+          </div>
+        </div>
+
+        <!-- PROFILS NOMADES / VPN -->
+        <div style="background:#fff;border-radius:14px;border:1px solid rgba(0,0,0,.06);overflow:hidden">
+          <div style="background:rgba(245,158,11,.08);border-bottom:1px solid rgba(245,158,11,.2);padding:12px 16px;display:flex;align-items:center;gap:8px">
+            <span style="font-size:1rem">🌍</span>
+            <span style="font-size:.78rem;font-weight:700;color:#b45309">Nomades / Télétravail / VPN</span>
+          </div>
+          <div style="padding:14px 16px">
+            <p style="font-size:.8rem;color:#555;line-height:1.6;margin-bottom:10px">Accès via Edge Server SFB + VPN client. Profil sensible à la latence et aux MTU. Authentification AD/MFA obligatoire.</p>
+            <ul style="font-size:.78rem;color:#444;line-height:1.8;padding-left:16px">
+              <li>Connexion Edge Server via reverse proxy : OK</li>
+              <li>Appels entrants SDA sur softphone mobile : testés</li>
+              <li>AD/MFA fonctionnel hors réseau d'entreprise</li>
+              <li>Latence end-to-end (VPN + SBC) : &lt; 150 ms</li>
+              <li>Test sur profils pays sensibles (Chine, Russie…)</li>
+            </ul>
+            <div style="margin-top:10px;padding:8px 12px;background:rgba(239,68,68,.08);border-left:3px solid #ef4444;border-radius:0 8px 8px 0;font-size:.75rem;color:#7f1d1d">
+              ⚠️ Pays à contraintes réglementaires : valider la <strong>portabilité locale</strong> avec l'opérateur avant migration.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- GRILLE GO / NO-GO -->
+    <div style="background:#0f172a;border-radius:14px;padding:20px 24px;margin-top:16px">
+        <div style="font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#7dd3fc;font-weight:700;margin-bottom:14px">🚦 Grille Go / No-Go — validation formelle avant passage à la tranche suivante</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+          <div style="background:rgba(34,197,94,.15);border:1px solid rgba(34,197,94,.3);border-radius:10px;padding:12px 14px;text-align:center">
+            <div style="font-size:1.1rem;margin-bottom:4px">✅</div>
+            <div style="font-size:.75rem;font-weight:700;color:#86efac;margin-bottom:4px">GO</div>
+            <div style="font-size:.7rem;color:rgba(255,255,255,.6);line-height:1.5">Tous KPIs socle atteints · 0 incident P1 sur 24h · Test utilisateurs référents validé</div>
+          </div>
+          <div style="background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);border-radius:10px;padding:12px 14px;text-align:center">
+            <div style="font-size:1.1rem;margin-bottom:4px">⏸️</div>
+            <div style="font-size:.75rem;font-weight:700;color:#fcd34d;margin-bottom:4px">GO CONDITIONNEL</div>
+            <div style="font-size:.7rem;color:rgba(255,255,255,.6);line-height:1.5">KPIs atteints sauf exception documentée · Plan d'action &lt; 48h · Accord tripartite signé</div>
+          </div>
+          <div style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:10px;padding:12px 14px;text-align:center">
+            <div style="font-size:1.1rem;margin-bottom:4px">🔴</div>
+            <div style="font-size:.75rem;font-weight:700;color:#fca5a5;margin-bottom:4px">NO-GO → ROLLBACK</div>
+            <div style="font-size:.7rem;color:rgba(255,255,255,.6);line-height:1.5">MOS &lt; 3,5 · ASR &gt; 2 % · Incident P1 non résolu · Réactivation OXE sur tranches concernées</div>
+          </div>
+        </div>
+      </div>
+
+  <!-- SECTION 5 : ONBOARDING INTÉGRATEUR + DÉMANTÈLEMENT OXE -->
+  <div class="section">
+    <span class="section-num">05</span>
+    <h2 class="section-title">Onboarder l'intégrateur jusqu'au bout — et démanteler l'OXE au bon moment</h2>
+
+    <p>L'une des erreurs les plus coûteuses dans ce type de programme : écarter l'intégrateur SFB/SBC une fois le contrat SIP Trunk signé. Or c'est précisément après la signature que son rôle devient crucial — il doit accompagner les migrations de tranches SDA, ajuster la configuration des SBC au fil des bascules, et garantir la continuité de service en cas d'incident.</p>
+
+    <div class="success">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">✅</div>
+      <div class="success-text">
+        <strong>Bonne pratique : le "Build-to-RUN" comme porte de sortie du legacy</strong>
+        Le démantèlement de l'Alcatel OXE ne doit être décidé qu'après une période de stabilisation complète de la solution SIP Trunk + SBC + SFB. Cette période inclut : minimum 3 mois de RUN sans incident majeur, validation formelle de la CMDB avec l'infogérant, passation du RACI programme → RACI RUN, et accord tripartite (opérateur + intégrateur + DSI).
+      </div>
+    </div>
+
+    <div class="warning">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">⚠️</div>
+      <div class="warning-text">
+        <strong>Ne pas démanteler l'OXE sous pression budgétaire</strong>
+        La tentation de couper le contrat Alcatel prématurément pour économiser les coûts de maintenance est réelle — mais risquée. En cas de problème majeur sur le SIP Trunk ou les SBC pendant la migration, l'OXE peut servir de fallback pour les numéros critiques (accueil, direction, astreintes). Maintenez-le opérationnel jusqu'à la dernière tranche SDA migrée et stabilisée.
+      </div>
+    </div>
+
+    <p>La documentation est un livrable à part entière : mise à jour de la <b class="kw">CMDB</b> (tous les équipements SBC, les serveurs SFB, les liens trunk, les SDA par site), rédaction du <b class="kw">RACI RUN</b> précisant les responsabilités opérateur/intégrateur/infogérant pour chaque type d'incident, et production des runbooks de troubleshooting.</p>
+  </div>
+
+  <!-- SECTION 6 : PLAN DE COM -->
+  <div class="section">
+    <span class="section-num">06</span>
+    <h2 class="section-title">Le plan de communication — un levier sous-estimé</h2>
+
+    <p>Sur un programme de cette envergure (30 000 utilisateurs, 2 à 3 ans, plusieurs pays), le plan de communication n'est pas une option. Et ici, la dimension conduite du changement est particulièrement forte : on ne remplace pas simplement un téléphone par un autre. On fait passer les collaborateurs d'une <b class="kw">ToIP traditionnelle</b> — poste IP physique sur le bureau, pieuvre en salle de réunion — à la <b class="kw">softphonie Skype for Business</b> : plus de téléphone physique, tout passe par l'application PC avec un casque USB ou Bluetooth. Les usages changent radicalement. Le plan de com doit être structuré par niveau et maintenu tout au long du projet :</p>
+
+    <div class="com-grid">
+      <div class="com-card">
+        <div class="com-level" style="background:rgba(220,38,38,.1);color:#dc2626">🏛️ Niveau COPIL / Sponsor</div>
+        <div class="com-title">Reporting exécutif</div>
+        <div class="com-items">Dashboard avancement mensuel<br>Budget vs réalisé<br>Risques & décisions à prendre<br>Jalons clés & Go/No-Go</div>
+      </div>
+      <div class="com-card">
+        <div class="com-level" style="background:rgba(14,165,233,.1);color:#0284c7">🔧 Niveau Équipes IT</div>
+        <div class="com-title">Coordination technique</div>
+        <div class="com-items">Comités hebdo tripartites<br>Comptes-rendus de migration<br>Alertes incidents & rollback<br>Suivi tickets & SLA opérateur</div>
+      </div>
+      <div class="com-card">
+        <div class="com-level" style="background:rgba(22,163,74,.1);color:#16a34a">👥 Niveau Métiers / Sites</div>
+        <div class="com-title">Conduite du changement utilisateurs</div>
+        <div class="com-items">Annonce des migrations par site<br>Guide "Mon nouveau téléphone Skype"<br>Formation softphone (prise en main PC + casque)<br>Salles de réunion : remplacement pieuvres → Room System SFB<br>Support J+1 après bascule<br>Formulaire de retour utilisateur</div>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>"Un projet de migration téléphonie touche chaque collaborateur dans son quotidien. Et ici, le changement est profond : on ne remplace pas un téléphone par un autre — on passe d'une <strong>ToIP traditionnelle</strong> (poste IP physique, pieuvre en salle de réunion) à la <strong>softphonie Skype for Business</strong> (application PC, casque USB ou Bluetooth). Les gestes changent, les réflexes changent, les salles de réunion changent. Une communication insuffisante génère du rejet, des appels au helpdesk et des tickets inutiles. Investir dans le plan de com et la formation utilisateur, c'est protéger le ROI du programme."</p>
+      <cite>Philippe Damas · Retour d'expérience terrain</cite>
+    </div>
+  </div>
+
+  <!-- TAGS -->
+  <div class="tags">
+    <span class="tag tag-main">SIP Trunk</span>
+    <span class="tag tag-main">SBC</span>
+    <span class="tag tag-main">Skype for Business</span>
+    <span class="tag">RFI/RFP</span>
+    <span class="tag">Messagerie Unifiée</span>
+    <span class="tag">Migration SDA</span>
+    <span class="tag">Alcatel OXE</span>
+    <span class="tag">Gouvernance tripartite</span>
+    <span class="tag">QoS voix</span>
+    <span class="tag">Plan de numérotation</span>
+    <span class="tag">CMDB</span>
+    <span class="tag">PMP®</span>
+    <span class="tag">30 000 users</span>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-box">
+    <h3>Un projet de messagerie unifiée en vue ?</h3>
+    <p>Programme complexe, RFP multi-lots, gouvernance tripartite : je peux vous accompagner dans le cadrage, le pilotage ou l'audit de votre projet de transformation de la téléphonie d'entreprise.</p>
+    <a href="index.html#contact" class="cta-btn">Discutons de votre projet →</a>
+  </div>
+
+  <!-- NAVIGATION ARTICLES -->
+  <div class="nav-articles">
+    <a href="rex4-gestion-projet.html" class="nav-art">
+      <div class="nav-art-label">← Article précédent</div>
+      <div class="nav-art-title">REX #4 — Les règles d'or de la gestion de projet IT</div>
+      <span class="nav-art-arrow">Lire →</span>
+    </a>
+    <a href="blog.html" class="nav-art" style="text-align:right">
+      <div class="nav-art-label">Retour au blog</div>
+      <div class="nav-art-title">Tous les articles REX de Philippe Damas</div>
+      <span class="nav-art-arrow">Voir le blog →</span>
+    </a>
+  </div>
+
+</div>
+
+<footer>© 2025 Philippe Damas · Senior IT Program Manager · PMP® · GSMA-SM · Partie 1/2</footer>
+</body>
+</html>
