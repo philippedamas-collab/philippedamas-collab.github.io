@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>REX #6 — Pilotage Hybride PMP + SAFe : Move to Cloud | Philippe Damas</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#F8F6FD;color:#1a1a1a;font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7}
+a{text-decoration:none;color:inherit}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;padding:0 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(248,246,253,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06)}
+.nav-logo{font-family:'DM Sans',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase}
+.nav-logo span{color:#7c3aed}
+.nav-back{font-size:.8rem;color:#666;font-weight:500;transition:color .2s}
+.nav-back:hover{color:#7c3aed}
+.hero{padding:100px 40px 60px;max-width:780px;margin:0 auto}
+.rex-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.25);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#7c3aed;margin-bottom:24px;font-weight:600}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(2.2rem,4vw,3.2rem);line-height:1.15;letter-spacing:-.02em;margin-bottom:16px}
+.hero-title em{font-style:italic;color:#7c3aed}
+.hero-sub{font-size:1.05rem;color:#555;line-height:1.8;max-width:640px;margin-bottom:32px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:.78rem;color:#999;padding-top:20px;border-top:1px solid rgba(0,0,0,.08)}
+.hero-meta strong{color:#1a1a1a}
+.article{max-width:780px;margin:0 auto;padding:0 40px 80px}
+
+/* INSIGHT */
+.insight{background:#1a1a1a;color:#fff;border-radius:20px;padding:32px 36px;margin:40px 0;position:relative;overflow:hidden}
+.insight::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(124,58,237,.3) 0%,transparent 70%)}
+.insight-label{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:#c4b5fd;font-weight:700;margin-bottom:10px}
+.insight-text{font-size:1.05rem;line-height:1.8;color:rgba(255,255,255,.9)}
+.insight-text strong{color:#fff}
+
+/* STREAMS */
+.streams{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:28px 0}
+.stream{border-radius:16px;padding:20px;border:1px solid rgba(0,0,0,.06)}
+.stream-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:8px;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
+.stream-title{font-weight:700;font-size:.92rem;margin-bottom:6px;line-height:1.3}
+.stream-body{font-size:.8rem;color:#666;line-height:1.6}
+
+/* PILLARS OVERVIEW */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:32px 0}
+.pillar{border-radius:16px;padding:20px 16px;text-align:center;border:1px solid rgba(0,0,0,.06)}
+.pillar-icon{font-size:1.6rem;margin-bottom:8px}
+.pillar-num{font-family:'DM Serif Display',serif;font-size:.75rem;color:#999;letter-spacing:.1em;text-transform:uppercase}
+.pillar-title{font-family:'DM Sans',sans-serif;font-weight:700;font-size:.88rem;margin-top:4px;line-height:1.3}
+
+/* SECTION */
+.section{margin:52px 0}
+.section-header{display:flex;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid #e8e3db}
+.section-num{font-family:'DM Serif Display',serif;font-size:3.5rem;color:#e8e3db;line-height:1;flex-shrink:0}
+.section-title-wrap{}
+.section-label{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:2px}
+.section-title{font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.25rem;color:#0f0f0f;line-height:1.2}
+.section p{font-size:.97rem;color:#444;line-height:1.85;margin-bottom:14px}
+.section p:last-child{margin-bottom:0}
+
+/* CHECKLIST */
+.checklist{background:#fff;border-radius:16px;padding:28px 32px;margin:24px 0;border:1px solid rgba(0,0,0,.06)}
+.checklist-title{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#7c3aed;font-weight:700;margin-bottom:16px}
+.check-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.05)}
+.check-item:last-child{border-bottom:none}
+.check-icon{width:22px;height:22px;border-radius:6px;background:rgba(124,58,237,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.check-text{font-size:.9rem;color:#333;line-height:1.6}
+.check-text strong{color:#0f0f0f;font-weight:600}
+
+/* WARNING / INFO / SUCCESS */
+.warning{background:#fff0f0;border:1px solid #f87171;border-left:4px solid #ef4444;border-radius:12px;padding:20px 24px;margin:24px 0;display:flex;gap:14px}
+.warning-text{font-size:.9rem;color:#7f1d1d;line-height:1.7}
+.warning-text strong{font-weight:700;display:block;margin-bottom:4px}
+.info{background:#eff6ff;border:1px solid #93c5fd;border-left:4px solid #3b82f6;border-radius:12px;padding:20px 24px;margin:24px 0;display:flex;gap:14px}
+.info-text{font-size:.9rem;color:#1e3a5f;line-height:1.7}
+.info-text strong{font-weight:700;display:block;margin-bottom:4px}
+.success{background:#f0fdf4;border:1px solid #86efac;border-left:4px solid #22c55e;border-radius:12px;padding:20px 24px;margin:24px 0;display:flex;gap:14px}
+.success-text{font-size:.9rem;color:#14532d;line-height:1.7}
+.success-text strong{font-weight:700;display:block;margin-bottom:4px}
+
+/* PULL QUOTE */
+.pull-quote{border-left:3px solid #7c3aed;padding:16px 24px;margin:32px 0;background:rgba(124,58,237,.04);border-radius:0 12px 12px 0}
+.pull-quote p{font-family:'DM Serif Display',serif;font-size:1.15rem;font-style:italic;color:#333;line-height:1.7}
+.pull-quote cite{display:block;font-size:.72rem;color:#999;margin-top:8px;font-style:normal;letter-spacing:.06em;text-transform:uppercase}
+
+/* TIMELINE */
+.timeline{margin:24px 0}
+.tl-item{display:flex;gap:16px;padding-bottom:20px;position:relative}
+.tl-item:not(:last-child)::before{content:'';position:absolute;left:17px;top:36px;bottom:0;width:2px;background:rgba(0,0,0,.08)}
+.tl-dot{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;flex-shrink:0;color:#fff}
+.tl-content{flex:1;padding-top:6px}
+.tl-time{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:4px}
+.tl-title{font-weight:600;font-size:.92rem;margin-bottom:4px;color:#0f0f0f}
+.tl-desc{font-size:.82rem;color:#555;line-height:1.6}
+
+/* REX INCIDENT */
+.incident{background:#fff;border-radius:20px;border:1px solid rgba(0,0,0,.06);overflow:hidden;margin:28px 0}
+.incident-header{padding:16px 24px;display:flex;align-items:center;gap:12px}
+.incident-badge{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:6px}
+.incident-title{font-weight:700;font-size:.95rem}
+.incident-body{padding:0 24px 24px;font-size:.88rem;color:#444;line-height:1.8}
+.incident-body p{margin-bottom:10px}
+.incident-body p:last-child{margin-bottom:0}
+.incident-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px}
+.incident-col{border-radius:10px;padding:14px}
+.incident-col-title{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+.incident-col-body{font-size:.8rem;color:#555;line-height:1.6}
+
+/* KPI TABLE */
+.kpi-table{width:100%;border-collapse:collapse;margin:24px 0;font-size:.88rem}
+.kpi-table th{text-align:left;padding:10px 16px;background:#f5f3ff;color:#7c3aed;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.kpi-table td{padding:12px 16px;border-bottom:1px solid rgba(0,0,0,.05);color:#333}
+.kpi-table tr:last-child td{border-bottom:none}
+.kpi-table tr:nth-child(even) td{background:#fafafa}
+.kpi-val{font-weight:700;color:#059669}
+.kpi-ref{font-size:.78rem;color:#999}
+
+/* DECISION MATRIX */
+.matrix{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:24px 0;border-radius:16px;overflow:hidden;border:1px solid rgba(0,0,0,.08)}
+.matrix-header{padding:12px 20px;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.matrix-item{padding:14px 20px;border-top:1px solid rgba(0,0,0,.06);border-right:1px solid rgba(0,0,0,.06);font-size:.85rem;color:#333;line-height:1.5}
+.matrix-item:nth-child(even){border-right:none}
+.matrix-item strong{display:block;font-size:.8rem;margin-bottom:3px}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:32px 0}
+.tag{padding:6px 14px;border-radius:20px;font-size:.72rem;background:#ece7dd;color:#666;font-weight:500}
+.tag-main{background:rgba(124,58,237,.1);color:#7c3aed}
+
+/* CTA */
+.cta-box{background:linear-gradient(135deg,#2a1a4a 0%,#1a0f2e 100%);border-radius:20px;padding:40px;margin:48px 0;text-align:center}
+.cta-box h3{font-family:'DM Serif Display',serif;font-size:1.6rem;color:#fff;margin-bottom:12px}
+.cta-box p{font-size:.9rem;color:rgba(255,255,255,.6);margin-bottom:24px;line-height:1.7}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#7c3aed;color:#fff;border-radius:30px;font-size:.82rem;font-weight:600;transition:opacity .2s}
+.cta-btn:hover{opacity:.85}
+
+/* NAV */
+.nav-articles{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:48px 0}
+.nav-art{background:#fff;border-radius:16px;padding:24px;border:1px solid rgba(0,0,0,.06);transition:all .2s}
+.nav-art:hover{border-color:#7c3aed;transform:translateY(-2px)}
+.nav-art-label{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:#999;margin-bottom:8px}
+.nav-art-title{font-size:.9rem;font-weight:600;color:#1a1a1a;line-height:1.4}
+.nav-art-arrow{font-size:.8rem;color:#7c3aed;margin-top:8px;display:block}
+
+footer{text-align:center;padding:24px;font-size:.65rem;color:#bbb;letter-spacing:.06em;border-top:1px solid rgba(0,0,0,.06)}
+@media(max-width:680px){.hero,.article{padding-left:20px;padding-right:20px}nav{padding:0 20px}.nav-articles,.kpi-grid,.streams,.incident-cols,.matrix{grid-template-columns:1fr}.pillars{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">P.<span>Damas</span></a>
+  <a href="blog-rex.html" class="nav-back">← Blog IT</a>
+</nav>
+
+<div class="hero">
+  <div class="rex-tag">REX #6 · Pilotage Hybride · Move to Cloud</div>
+  <h1 class="hero-title">Piloter en <em>hybride</em> PMP + SAFe sur un programme Move to Cloud</h1>
+  <p class="hero-sub">PMP pour la gouvernance programme et les jalons contractuels. SAFe pour la migration applicative en parallèle. Ni l'un ni l'autre seul ne suffit — voici comment les faire coexister sur un programme de 18 mois, 120 applications, sans que les deux gouvernances entrent en collision.</p>
+  <div class="hero-meta">
+    <span>Par <strong>Philippe Damas</strong></span>
+    <span>· <strong>PMP® · ITIL v3 · SAFe</strong></span>
+    <span>· ~13 min de lecture</span>
+  </div>
+</div>
+
+<div class="article">
+
+  <div class="insight">
+    <div class="insight-label">Le constat de départ</div>
+    <p class="insight-text">Un programme Move to Cloud n'est ni un projet classique ni un produit logiciel. Il a <strong>deux natures incompatibles</strong> : des éléments figés par contrat ou par physique (circuit réseau, architecture tenant Azure, jalons de livraison client), et des éléments itératifs par essence (migration app par app, tests d'intégration, configuration des pipelines). Imposer PMP pur sur les deux, c'est tuer la vélocité. Imposer SAFe pur sur les deux, c'est perdre la gouvernance. La solution : <strong>un programme structuré en streams, chacun piloté avec la méthode adaptée à sa nature.</strong></p>
+  </div>
+
+
+  <!-- ═══════════════ SECTION 1 — LE CONTEXTE ═══════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="color:#e9d5ff">01</span>
+      <div class="section-title-wrap">
+        <div class="section-label" style="color:#7c3aed">Contexte</div>
+        <div class="section-title">Le programme — cadre, contraintes, acteurs</div>
+      </div>
+    </div>
+
+    <p>Une entreprise industrielle française (~8 000 employés) décide de migrer 120 applications vers Azure sur 18 mois. Budget programme : 4,2 M€ avec un intégrateur. Contraintes non-négociables : continuité de production (pas d'arrêt de service pendant les heures ouvrées), conformité NIS2 et politique ANSSI, équipes IT structurées en mode projet classique depuis dix ans.</p>
+
+    <p>La DSI a tenté une première approche 100% waterfall (PMP) sur une migration similaire trois ans plus tôt, sur 40 applications. Résultat : 8 mois de retard, 30% de dépassement budgétaire, et une équipe épuisée par la rigidité du processus de Change Request sur des décisions techniques mineures. La décision cette fois : garder la rigueur PMP là où elle est indispensable, introduire SAFe là où l'itération crée de la valeur.</p>
+
+    <div class="streams">
+      <div class="stream" style="background:linear-gradient(160deg,#f5f3ff,#fff);border-color:rgba(124,58,237,.2)">
+        <div class="stream-badge" style="background:rgba(124,58,237,.1);color:#7c3aed">PMP strict</div>
+        <div class="stream-title" style="color:#7c3aed">Stream 1 — Fondations Cloud</div>
+        <div class="stream-body">Tenant Azure, Hub & Spoke, ExpressRoute, IAM/EntraID, politiques Defender. Jalons trimestriels contractuels. Go/no-go en Copil. Zéro itération possible sur ces décisions structurantes.</div>
+      </div>
+      <div class="stream" style="background:linear-gradient(160deg,#f0fdf4,#fff);border-color:rgba(34,197,94,.2)">
+        <div class="stream-badge" style="background:rgba(34,197,94,.1);color:#16a34a">SAFe — ART</div>
+        <div class="stream-title" style="color:#16a34a">Stream 2 — Migration applicative</div>
+        <div class="stream-body">3 Squads (Apps métier / Apps infra / Data). Cadence PI 10 semaines, ~25 apps par PI, priorisées par valeur et risque. PO Sync hebdo, ROAM Board continu.</div>
+      </div>
+      <div class="stream" style="background:linear-gradient(160deg,#fff7ed,#fff);border-color:rgba(245,158,11,.2)">
+        <div class="stream-badge" style="background:rgba(245,158,11,.1);color:#d97706">Hybride</div>
+        <div class="stream-title" style="color:#d97706">Stream 3 — Sécurité & Conformité</div>
+        <div class="stream-body">RSSI + Squad Sécurité. Travail en sprints SAFe mais livrables auditables à jalons PMP. La security gate CI/CD est la "recette" du Copil sécurité trimestriel.</div>
+      </div>
+    </div>
+
+    <div class="info">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">💡</div>
+      <div class="info-text">
+        <strong>Un seul chef d'orchestre — pas deux gouvernances parallèles</strong>
+        Le Chef de Programme PMP assume simultanément le rôle de RTE de l'ART. Ce n'est pas un cumul de charge — c'est une condition de cohérence. Deux responsables distincts sur les deux gouvernances génèrent inévitablement des conflits de priorité non arbitrés. Le Chef de Programme hybride est le seul point d'arbitrage entre la logique contractuelle du Stream 1 et la logique de vélocité du Stream 2.
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════ SECTION 2 — POURQUOI L'HYBRIDE ═══════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="color:#bbf7d0">02</span>
+      <div class="section-title-wrap">
+        <div class="section-label" style="color:#16a34a">Pilier 01</div>
+        <div class="section-title">La bonne méthode pour la bonne nature de travail</div>
+      </div>
+    </div>
+
+    <p>La première erreur des programmes hybrides est de choisir une méthode par habitude ou par dogme, pas par analyse de la nature du travail. Un circuit ExpressRoute commandé prend 12 semaines de délai fournisseur — aucun sprint ne change ça. En revanche, décider en Copil trimestriel si une application peut être migrée en lift & shift ou nécessite un refactoring, c'est une décision qui devrait prendre 48h, pas 12 semaines.</p>
+
+    <div class="matrix">
+      <div class="matrix-header" style="background:#f5f3ff;color:#7c3aed">Piloter en PMP quand…</div>
+      <div class="matrix-header" style="background:#f0fdf4;color:#16a34a">Piloter en SAFe quand…</div>
+      <div class="matrix-item"><strong>Le livrable est figé par contrat</strong>Jalon contractuel avec l'intégrateur, scope défini et accepté, budget alloué par lot.</div>
+      <div class="matrix-item"><strong>Le livrable est incertain ou itératif</strong>Analyse de faisabilité app par app, configuration d'environnement, tests d'intégration inter-services.</div>
+      <div class="matrix-item"><strong>La décision a un impact irréversible</strong>Choix de topologie réseau Azure, politique IAM groupe, contrat ExpressRoute, architecture Hub & Spoke.</div>
+      <div class="matrix-item"><strong>La décision est réversible rapidement</strong>Priorité de migration entre deux apps, stratégie lift & shift vs refactoring, allocation de ressource Squad.</div>
+      <div class="matrix-item"><strong>Le stakeholder est externe ou contractuel</strong>Client, intégrateur, auditeur NIS2, RSSI groupe. Ces parties prenantes attendent des jalons, pas des sprints.</div>
+      <div class="matrix-item"><strong>Le travail est exécuté en parallèle</strong>3 Squads qui migrent simultanément des apps différentes. La cadence commune et le PO Sync font la coordination.</div>
+      <div class="matrix-item"><strong>L'escalade nécessite un comité formel</strong>Dépassement budgétaire >5%, retard sur jalon contractuel, risque réglementaire majeur.</div>
+      <div class="matrix-item"><strong>Le blocage doit être résolu en heures</strong>Dépendance inter-Squads, ressource partagée, conflit de priorité entre deux backlog Squads.</div>
+    </div>
+
+    <div class="warning">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">⚠️</div>
+      <div class="warning-text">
+        <strong>Le piège : appliquer PMP à la granularité sprint</strong>
+        Sur les programmes hybrides mal outillés, les équipes finissent par soumettre une Change Request pour chaque décision technique mineure — parce que le processus PMP est le seul connu. Résultat : les Squads passent plus de temps à rédiger des CR qu'à migrer des applications. La règle : la CR s'applique aux streams PMP, le ROAM Board aux streams SAFe. Jamais l'inverse.
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>« La question n'est pas PMP ou SAFe. La question est : cette décision est-elle irréversible et contractuelle, ou itérative et interne ? La réponse dicte la méthode. »</p>
+      <cite>Pilotage hybride — De mon expérience terrain, 25 ans</cite>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════ SECTION 3 — LA GOUVERNANCE ═══════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="color:#fde68a">03</span>
+      <div class="section-title-wrap">
+        <div class="section-label" style="color:#d97706">Pilier 02</div>
+        <div class="section-title">Deux rythmes de gouvernance — un seul tableau de bord</div>
+      </div>
+    </div>
+
+    <p>La coexistence de PMP et SAFe implique deux cadences de pilotage distinctes. La tentation est de les fusionner pour simplifier — c'est une erreur. Le Copil trimestriel et le PO Sync hebdomadaire n'ont pas le même objet, pas le même niveau de décision, pas le même public. Les mélanger revient à parler de la couleur des icônes d'interface à un comité de direction.</p>
+
+    <div class="checklist">
+      <div class="checklist-title">Architecture de gouvernance hybride</div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Copil programme — trimestriel (PMP)</strong> — Sponsor + DSI + Chef de Programme + Intégrateur. Ordre du jour : avancement jalons, budget, risques majeurs, décisions contractuelles. Durée : 2h maximum. Le Stream 2 (SAFe) n'y apparaît qu'en synthèse : "PI 2 complété, 23 apps migrées sur 25 engagées."</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>PO Sync — hebdomadaire (SAFe)</strong> — Chef de Programme/RTE + tous les POs des 3 Squads. 30 minutes. Dépendances inter-Squads, blocages, ROAM Board. Le Stream 1 (PMP) n'y apparaît que si une dépendance fondation bloque une Squad.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>PI Planning — tous les 10 semaines (pont entre les deux)</strong> — C'est la seule cérémonie qui articule les deux gouvernances. Le Chef de Programme y présente les jalons PMP à venir pour que les Squads calibrent leurs PI Objectives en conséquence. Les livrables Stream 1 attendus au prochain PI deviennent des dépendances sur le Program Board SAFe.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Flash Report mensuel — le tableau de bord hybride</strong> — Une page. Trois sections : avancement jalons PMP (RAG), vélocité ART (apps migrées / PI objectives), risques ROAM ouverts. Ce document est le seul point de synthèse entre les deux modes. Il est produit par le Chef de Programme, pas par un PMO séparé.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Comité de crise — sur déclenchement (hybride)</strong> — Convoqué par le Chef de Programme si un blocage dépasse le PO Sync sans résolution en 48h, ou si un risque ROAM se matérialise avec impact sur un jalon PMP. Composition adaptée au problème. Décision dans la séance — pas de compte-rendu d'attente.</div>
+      </div>
+    </div>
+
+    <div class="success">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">✅</div>
+      <div class="success-text">
+        <strong>Le Flash Report mensuel comme instrument de traduction</strong>
+        La DSI et le Sponsor ne comprennent pas les "PI Objectives" ni la "vélocité en story points". Ils comprennent "23 applications migrées sur 25 engagées, budget consommé à 34% sur 18 mois, 2 risques majeurs ouverts". Le Flash Report hybride traduit la réalité SAFe en langage PMP pour les décideurs — sans les noyer dans la granularité sprint.
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════ SECTION 4 — LE BUDGET ═══════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="color:#bfdbfe">04</span>
+      <div class="section-title-wrap">
+        <div class="section-label" style="color:#2563eb">Pilier 03</div>
+        <div class="section-title">Budget PMP global, capacité SAFe par Squad</div>
+      </div>
+    </div>
+
+    <p>Le budget est l'un des points de friction les plus fréquents sur les programmes hybrides. En PMP, le budget est alloué par lot de travaux avec un suivi EVM (Earned Value Management) rigoureux. En SAFe, la notion de "budget Lean" repose sur la capacité des Squads, pas sur des lots prédéfinis. Les deux approches sont légitimes — la difficulté est de les faire coexister sans double comptage ni angle mort.</p>
+
+    <p>La solution pragmatique : <b style="color:#2563eb">le budget programme est tenu en PMP</b> (enveloppe globale, répartition par stream, suivi trimestriel en Copil). <b style="color:#2563eb">La capacité est gérée en SAFe</b> par Squad (story points, vélocité mesurée PI après PI). L'arbitrage entre les deux se fait au PI Planning : si la capacité cumulée des Squads sur le PI ne couvre pas les PI Objectives nécessaires pour tenir les jalons PMP, c'est le moment de renégocier le scope — pas de le découvrir à M+9.</p>
+
+    <div class="checklist">
+      <div class="checklist-title" style="color:#2563eb">Règles d'or du budget hybride</div>
+      <div class="check-item">
+        <div class="check-icon" style="background:rgba(37,99,235,.1)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Réserve de contingence PMP sur le Stream 1 uniquement</strong> — Les fondations cloud sont le seul stream à risque de dépassement imprévisible (délais fournisseur, surcoûts ExpressRoute). La réserve de 10 à 15% se concentre là. Le Stream 2 (SAFe) se régule par la vélocité — pas par de la réserve budgétaire.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon" style="background:rgba(37,99,235,.1)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>La vélocité SAFe est un indicateur de coût</strong> — Une Squad à 34 points/sprint consomme X€/sprint de capacité. Si la vélocité monte à 41 points (PI 3 → PI 4), le coût par app migrée baisse. Ce ratio vélocité/coût est reporté au Copil — pas les story points bruts.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon" style="background:rgba(37,99,235,.1)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Le PI Planning est le moment d'alerte budgétaire</strong> — Si à l'issue du PI Planning les Squads ne peuvent pas s'engager sur les PI Objectives nécessaires aux jalons contractuels, c'est un signal budget — soit on renforce la capacité (coût), soit on réduit le scope (risque client), soit on allonge le planning (risque contractuel). Ces trois options doivent être présentées au Sponsor dans les 72h suivant le PI Planning.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon" style="background:rgba(37,99,235,.1)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Jamais de Change Request sur une décision intra-Sprint</strong> — La CR s'applique aux streams PMP. Décider de migrer une app en lift & shift plutôt qu'en replatforming en cours de sprint, c'est une décision du PO — documentée en Sprint Review, pas soumise en CR. Confondre les deux niveaux de décision paralyse les Squads.</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════ SECTION 5 — LE CAS CONCRET ═══════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="color:#fca5a5">05</span>
+      <div class="section-title-wrap">
+        <div class="section-label" style="color:#dc2626">REX — Le cas concret</div>
+        <div class="section-title">Semaine 14, Sprint 3 du PI 2 — La dépendance bloquante</div>
+      </div>
+    </div>
+
+    <p>C'est le type de situation qui, sur un programme 100% PMP, aurait provoqué un gel de 6 semaines en attente du prochain Copil. Sur ce programme hybride, elle a été résolue en 5 jours ouvrés.</p>
+
+    <div class="incident">
+      <div class="incident-header" style="background:#fff0f0">
+        <div class="incident-badge" style="background:#fee2e2;color:#b91c1c">🔴 Blocage Sprint 3 — Semaine 14</div>
+        <div class="incident-title">ERP migré — connectivité SQL introuvable</div>
+      </div>
+      <div class="incident-body">
+        <p>La Squad Apps Métier vient de terminer la migration de l'ERP (SAP B1) vers Azure — en avance sur le planning Sprint. Mais au moment de valider l'intégration, le serveur SQL reste injoignable depuis le spoke Production. Diagnostic : le peering VNet entre le spoke Production et le spoke Data n'a pas encore été livré par le Stream 1 (Fondations Cloud, piloté en PMP). Le Stream 1 a son propre planning trimestriel — la livraison du peering est prévue dans 3 semaines, au prochain jalon.</p>
+        <p><b>Situation en mode PMP pur :</b> escalade au Copil, inscription à l'ordre du jour du prochain Copil dans 3 semaines, décision possible sous 4 semaines. La Squad reste bloquée, le sprint est perdu, le PI 2 prend du retard sur ses PI Objectives.</p>
+        <p><b>Situation en mode hybride :</b> le Chef de Programme/RTE convoque un atelier de 2h entre le responsable Stream 1 et le PO de la Squad Apps Métier. Décision en séance.</p>
+        <div class="incident-cols">
+          <div class="incident-col" style="background:#fff0f0">
+            <div class="incident-col-title" style="color:#b91c1c">Problème</div>
+            <div class="incident-col-body">Peering VNet Prod ↔ Data absent. ERP migré sans connectivité SQL. Squad bloquée, sprint en cours.</div>
+          </div>
+          <div class="incident-col" style="background:#eff6ff">
+            <div class="incident-col-title" style="color:#1d4ed8">Décision hybride</div>
+            <div class="incident-col-body">Livraison partielle du peering sous 5 jours : scope réduit à la connectivité SQL uniquement. Delta documenté en Change Request interne Stream 1.</div>
+          </div>
+          <div class="incident-col" style="background:#f0fdf4">
+            <div class="incident-col-title" style="color:#15803d">Résultat</div>
+            <div class="incident-col-body">ERP validé en intégration J+6. Sprint 3 complété à 92%. Copil informé par Flash Report — pas convoqué en urgence.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p>Ce cas illustre la valeur centrale du pilotage hybride : <b>la vélocité de décision SAFe appliquée à un programme structuré PMP</b>. En mode PMP pur, la décision de livraison partielle du peering aurait nécessité une CR formelle, une validation architecte, une présentation Copil — minimum 3 semaines. En mode hybride, le Chef de Programme a le mandat pour décider localement sur le Stream 1 dès lors que l'impact reste dans la réserve de contingence et n'affecte pas le jalon contractuel.</p>
+
+    <div class="warning">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">⚠️</div>
+      <div class="warning-text">
+        <strong>Ce qui aurait tué le programme : deux responsables distincts</strong>
+        Si le responsable Stream 1 (PMP) et le RTE de l'ART (SAFe) avaient été deux personnes différentes sans mandat d'arbitrage croisé, la situation ci-dessus aurait généré un conflit de priorité non résolu : le responsable Stream 1 aurait refusé de modifier son planning sans Copil, le RTE aurait escaladé de son côté. Deux escalades parallèles, aucune décision, sprint perdu. Le Chef de Programme hybride est le seul point d'arbitrage qui empêche ce deadlock.
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>« Sur un programme hybride, la vraie valeur n'est pas dans la méthode choisie — c'est dans la vitesse à laquelle les blocages inter-streams sont arbitrés. Un Copil mensuel ne peut pas gérer un blocage sprint. »</p>
+      <cite>Pilotage hybride — De mon expérience terrain, 25 ans</cite>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════ SECTION 6 — PLANNING HYBRIDE ═══════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="color:#d1fae5">06</span>
+      <div class="section-title-wrap">
+        <div class="section-label" style="color:#059669">Pilier 04</div>
+        <div class="section-title">Planning hybride — jalons PMP traduits en PI Objectives</div>
+      </div>
+    </div>
+
+    <p>Le planning est le document qui articule les deux gouvernances au quotidien. En PMP, on pilote à la date de jalon. En SAFe, on pilote à la fin du PI. La difficulté : ces deux horizons ne coïncident que deux fois par an. Le reste du temps, le Chef de Programme doit maintenir la cohérence entre les jalons contractuels trimestriels et les PI Objectives bimensuels.</p>
+
+    <p>La mécanique concrète : chaque jalon contractuel PMP est découpé en PI Objectives cumulés. Si le jalon M6 impose "60 applications migrées", cela se traduit en PI 1 = 25 apps + PI 2 = 35 apps. Ces cibles sont fixées au kick-off et révisées uniquement si le scope contractuel change. La vélocité réelle des Squads (mesurée PI après PI) permet de détecter dès le PI 1 si la trajectoire est tenable — et d'alerter le Sponsor bien avant M6.</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#7c3aed">M0</div>
+        <div class="tl-content">
+          <div class="tl-time" style="color:#7c3aed">Kick-off programme</div>
+          <div class="tl-title">Jalons PMP définis, PI Objectives cibles calculés</div>
+          <div class="tl-desc">Le Chef de Programme établit la trajectoire : jalon M6 = 60 apps → PI 1 = 25, PI 2 = 35. Ces cibles sont contractuelles. Le premier PI Planning ajuste la capacité réelle des Squads sur PI 1.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#16a34a">M2</div>
+        <div class="tl-content">
+          <div class="tl-time" style="color:#16a34a">Fin PI 1 — Sprint Review & PI Review</div>
+          <div class="tl-title">22 apps sur 25 — signal d'alerte précoce</div>
+          <div class="tl-desc">3 apps non migrées (blocage technique sur SAP B1). Vélocité mesurée : 31 pts/sprint au lieu de 34 estimés. Le Chef de Programme calcule l'impact sur M6 : si la tendance se maintient, le jalon M6 risque de glisser de 3 semaines. Alerte Sponsor J+3 — pas J+90.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#d97706">M2+2</div>
+        <div class="tl-content">
+          <div class="tl-time" style="color:#d97706">PI Planning 2 — Ajustement de trajectoire</div>
+          <div class="tl-title">Scope révisé : 3 apps SAP différées, 3 apps simples avancées</div>
+          <div class="tl-desc">Le PO Apps Métier propose un swap : les 3 apps SAP bloquantes sont décalées au PI 3, remplacées par 3 apps bureautiques simples disponibles. Le jalon M6 est maintenu. Le Sponsor valide en 24h — pas de Copil extraordinaire.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#2563eb">M4</div>
+        <div class="tl-content">
+          <div class="tl-time" style="color:#2563eb">Fin PI 2 — Vélocité en hausse</div>
+          <div class="tl-title">37 apps sur 35 engagées — effet d'apprentissage Squad</div>
+          <div class="tl-desc">L'équipe a absorbé les patterns de migration. Vélocité : 41 pts/sprint (+20% vs PI 1). Le Chef de Programme révise la trajectoire à la hausse : le jalon M12 (120 apps) peut être avancé de 3 semaines. Information Sponsor pour anticipation contractuelle.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#059669">M6</div>
+        <div class="tl-content">
+          <div class="tl-time" style="color:#059669">Jalon contractuel M6 — Copil client</div>
+          <div class="tl-title">62 apps migrées — jalon tenu avec 2 apps de marge</div>
+          <div class="tl-desc">Le Copil client valide le jalon. La DSI présente les métriques programme : 62/60 apps, budget consommé à 33% sur 18 mois, 0 incident sécurité post-migration. Le client est informé de l'avance possible sur M12.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════ SECTION 7 — RÉSULTATS ═══════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="color:#fde68a">07</span>
+      <div class="section-title-wrap">
+        <div class="section-label" style="color:#d97706">Résultats</div>
+        <div class="section-title">Métriques programme à 18 mois</div>
+      </div>
+    </div>
+
+    <p>À l'issue des 18 mois, le programme affiche des résultats qui illustrent concrètement la valeur du pilotage hybride par rapport au mode PMP pur utilisé sur le programme précédent (40 apps, 3 ans plus tôt).</p>
+
+    <table class="kpi-table">
+      <thead>
+        <tr>
+          <th>Indicateur</th>
+          <th>Résultat</th>
+          <th>Référence PMP pur (prog. précédent)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Applications migrées</td>
+          <td><span class="kpi-val">118 / 120</span></td>
+          <td><span class="kpi-ref">2 différées en accord client (scope change validé)</span></td>
+        </tr>
+        <tr>
+          <td>Respect du budget</td>
+          <td><span class="kpi-val">+3,2%</span></td>
+          <td><span class="kpi-ref">vs +31% sur le programme précédent</span></td>
+        </tr>
+        <tr>
+          <td>Délai programme</td>
+          <td><span class="kpi-val">À l'heure</span></td>
+          <td><span class="kpi-ref">vs +8 mois de retard sur le programme précédent</span></td>
+        </tr>
+        <tr>
+          <td>Incidents sécurité post-migration</td>
+          <td><span class="kpi-val">0 CVE critique</span></td>
+          <td><span class="kpi-ref">Security gate bloquante à chaque MEP</span></td>
+        </tr>
+        <tr>
+          <td>Vélocité Squad (évolution)</td>
+          <td><span class="kpi-val">+20%</span></td>
+          <td><span class="kpi-ref">PI 1 : 31 pts/sprint → PI 4 : 41 pts/sprint</span></td>
+        </tr>
+        <tr>
+          <td>Délai moyen résolution blocage inter-stream</td>
+          <td><span class="kpi-val">4,5 jours</span></td>
+          <td><span class="kpi-ref">vs 22 jours estimés en mode PMP pur (cycle Copil)</span></td>
+        </tr>
+        <tr>
+          <td>Change Requests formelles émises</td>
+          <td><span class="kpi-val">7 CR</span></td>
+          <td><span class="kpi-ref">vs 43 CR sur le programme précédent — décisions intra-sprint absorbées en ROAM</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="success">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">✅</div>
+      <div class="success-text">
+        <strong>Le résultat qui compte le plus : l'équipe</strong>
+        Au bilan programme, 9 membres des Squads sur 12 ont demandé à rester sur le prochain programme cloud. Sur le programme précédent (PMP pur), 4 ingénieurs avaient quitté l'organisation pendant le projet. La différence n'est pas anecdotique — la capacité à garder des ingénieurs cloud expérimentés est un avantage compétitif direct sur les programmes suivants. Le mode hybride donne aux équipes techniques la vélocité et l'autonomie qu'elles attendent, dans un cadre programme rigoureux que les Sponsors comprennent.
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>« Le meilleur indicateur d'un programme hybride réussi n'est pas dans les métriques — c'est quand les équipes ne savent plus exactement si elles travaillent "en PMP" ou "en SAFe". Elles travaillent, tout simplement. »</p>
+      <cite>Pilotage hybride — De mon expérience terrain, 25 ans</cite>
+    </div>
+  </div>
+
+
+  <!-- TAGS -->
+  <div class="tags">
+    <span class="tag tag-main">Pilotage Hybride</span>
+    <span class="tag tag-main">PMP®</span>
+    <span class="tag tag-main">SAFe</span>
+    <span class="tag tag-main">Move to Cloud</span>
+    <span class="tag tag-main">Migration Azure</span>
+    <span class="tag tag-main">Program Management</span>
+    <span class="tag">ART</span>
+    <span class="tag">PI Planning</span>
+    <span class="tag">ROAM</span>
+    <span class="tag">PO Sync</span>
+    <span class="tag">Jalons contractuels</span>
+    <span class="tag">Change Request</span>
+    <span class="tag">Flash Report</span>
+    <span class="tag">Vélocité Squad</span>
+    <span class="tag">Stream management</span>
+    <span class="tag">Cloud hybride</span>
+    <span class="tag">NIS2</span>
+    <span class="tag">REX</span>
+  </div>
+
+  <div class="cta-box">
+    <h3>Vous pilotez un programme Move to Cloud complexe ?</h3>
+    <p>PMP® certifié, 25 ans de programmes IT sur 5 pays. Expérience du pilotage hybride sur des programmes d'infrastructure et de migration cloud à grande échelle. Je peux prendre en charge la direction de programme de bout en bout ou accompagner la mise en place du modèle hybride sur votre contexte.</p>
+    <a href="index.html#contact" class="cta-btn">Me contacter →</a>
+  </div>
+
+  <div class="nav-articles">
+    <a href="rex5-safe-it-cloud.html" class="nav-art">
+      <div class="nav-art-label">← Article précédent</div>
+      <div class="nav-art-title">REX #5 — Implémenter SAFe en contexte IT Cloud & On-Premise</div>
+      <span class="nav-art-arrow">Lire →</span>
+    </a>
+    <a href="blog-rex.html" class="nav-art">
+      <div class="nav-art-label">Retour au blog →</div>
+      <div class="nav-art-title">Tous les articles REX</div>
+      <span class="nav-art-arrow">Voir le blog →</span>
+    </a>
+  </div>
+
+</div>
+<footer>© 2025 Philippe Damas · Senior IT Program Manager · PMP® · ITIL v3 · SAFe</footer>
+</body>
+</html>

@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>REX #5 — Implémenter SAFe en contexte IT Cloud & On-Premise | Philippe Damas</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#F8F6FD;color:#1a1a1a;font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.7}
+a{text-decoration:none;color:inherit}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;padding:0 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(248,246,253,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06)}
+.nav-logo{font-family:'DM Sans',sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.06em;text-transform:uppercase}
+.nav-logo span{color:#7c3aed}
+.nav-back{font-size:.8rem;color:#666;font-weight:500;transition:color .2s}
+.nav-back:hover{color:#7c3aed}
+.hero{padding:100px 40px 60px;max-width:780px;margin:0 auto}
+.rex-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.25);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:#7c3aed;margin-bottom:24px;font-weight:600}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(2.2rem,4vw,3.2rem);line-height:1.15;letter-spacing:-.02em;margin-bottom:16px}
+.hero-title em{font-style:italic;color:#7c3aed}
+.hero-sub{font-size:1.05rem;color:#555;line-height:1.8;max-width:640px;margin-bottom:32px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:.78rem;color:#999;padding-top:20px;border-top:1px solid rgba(0,0,0,.08)}
+.hero-meta strong{color:#1a1a1a}
+.article{max-width:780px;margin:0 auto;padding:0 40px 80px}
+
+/* INSIGHT */
+.insight{background:#1a1a1a;color:#fff;border-radius:20px;padding:32px 36px;margin:40px 0;position:relative;overflow:hidden}
+.insight::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(124,58,237,.3) 0%,transparent 70%)}
+.insight-label{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:#c4b5fd;font-weight:700;margin-bottom:10px}
+.insight-text{font-size:1.05rem;line-height:1.8;color:rgba(255,255,255,.9)}
+.insight-text strong{color:#fff}
+
+/* PILLARS OVERVIEW */
+.pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:32px 0}
+.pillar{border-radius:16px;padding:20px 16px;text-align:center;border:1px solid rgba(0,0,0,.06)}
+.pillar-icon{font-size:1.6rem;margin-bottom:8px}
+.pillar-num{font-family:'DM Serif Display',serif;font-size:.75rem;color:#999;letter-spacing:.1em;text-transform:uppercase}
+.pillar-title{font-family:'DM Sans',sans-serif;font-weight:700;font-size:.88rem;margin-top:4px;line-height:1.3}
+
+/* SECTION */
+.section{margin:52px 0}
+.section-header{display:flex;align-items:center;gap:16px;margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid #e8e3db}
+.section-num{font-family:'DM Serif Display',serif;font-size:3.5rem;color:#e8e3db;line-height:1;flex-shrink:0}
+.section-title-wrap{}
+.section-label{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:2px}
+.section-title{font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.25rem;color:#0f0f0f;line-height:1.2}
+.section p{font-size:.97rem;color:#444;line-height:1.85;margin-bottom:14px}
+.section p:last-child{margin-bottom:0}
+
+/* CHECKLIST */
+.checklist{background:#fff;border-radius:16px;padding:28px 32px;margin:24px 0;border:1px solid rgba(0,0,0,.06)}
+.checklist-title{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:#7c3aed;font-weight:700;margin-bottom:16px}
+.check-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.05)}
+.check-item:last-child{border-bottom:none}
+.check-icon{width:22px;height:22px;border-radius:6px;background:rgba(124,58,237,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.check-text{font-size:.9rem;color:#333;line-height:1.6}
+.check-text strong{color:#0f0f0f;font-weight:600}
+
+/* WARNING / INFO / SUCCESS */
+.warning{background:#fff0f0;border:1px solid #f87171;border-left:4px solid #ef4444;border-radius:12px;padding:20px 24px;margin:24px 0;display:flex;gap:14px}
+.warning-text{font-size:.9rem;color:#7f1d1d;line-height:1.7}
+.warning-text strong{font-weight:700;display:block;margin-bottom:4px}
+.info{background:#eff6ff;border:1px solid #93c5fd;border-left:4px solid #3b82f6;border-radius:12px;padding:20px 24px;margin:24px 0;display:flex;gap:14px}
+.info-text{font-size:.9rem;color:#1e3a5f;line-height:1.7}
+.info-text strong{font-weight:700;display:block;margin-bottom:4px}
+.success{background:#f0fdf4;border:1px solid #86efac;border-left:4px solid #22c55e;border-radius:12px;padding:20px 24px;margin:24px 0;display:flex;gap:14px}
+.success-text{font-size:.9rem;color:#14532d;line-height:1.7}
+.success-text strong{font-weight:700;display:block;margin-bottom:4px}
+
+/* PULL QUOTE */
+.pull-quote{border-left:3px solid #7c3aed;padding:16px 24px;margin:32px 0;background:rgba(124,58,237,.04);border-radius:0 12px 12px 0}
+.pull-quote p{font-family:'DM Serif Display',serif;font-size:1.15rem;font-style:italic;color:#333;line-height:1.7}
+.pull-quote cite{display:block;font-size:.72rem;color:#999;margin-top:8px;font-style:normal;letter-spacing:.06em;text-transform:uppercase}
+
+/* ROLE COMPARISON */
+.role-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}
+.role-card{background:#fff;border-radius:14px;padding:20px;border:1px solid rgba(0,0,0,.06)}
+.role-icon-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.role-badge{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0}
+.role-name{font-weight:700;font-size:.9rem;line-height:1.2}
+.role-sub{font-size:.75rem;color:#999}
+.role-body{font-size:.82rem;color:#555;line-height:1.6}
+.role-body strong{display:block;margin-top:8px;margin-bottom:2px;font-size:.8rem}
+
+/* ROAM GRID */
+.roam-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:24px 0}
+.roam-card{border-radius:14px;padding:20px;border:1px solid rgba(0,0,0,.06)}
+.roam-letter{font-family:'DM Serif Display',serif;font-size:2.4rem;line-height:1;margin-bottom:4px}
+.roam-word{font-weight:700;font-size:.85rem;margin-bottom:8px}
+.roam-def{font-size:.82rem;color:#555;line-height:1.6;margin-bottom:8px}
+.roam-ex{font-size:.78rem;color:#888;line-height:1.5;font-style:italic}
+
+/* TIMELINE */
+.timeline{margin:24px 0}
+.tl-item{display:flex;gap:16px;padding-bottom:20px;position:relative}
+.tl-item:not(:last-child)::before{content:'';position:absolute;left:17px;top:36px;bottom:0;width:2px;background:rgba(0,0,0,.08)}
+.tl-dot{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;flex-shrink:0;color:#fff}
+.tl-content{flex:1;padding-top:6px}
+.tl-time{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-bottom:4px}
+.tl-title{font-weight:600;font-size:.92rem;margin-bottom:4px;color:#0f0f0f}
+.tl-desc{font-size:.82rem;color:#555;line-height:1.6}
+
+/* PIPELINE */
+.pipeline{display:flex;align-items:center;gap:4px;margin:20px 0;flex-wrap:wrap}
+.pipe-step{border-radius:10px;padding:10px 12px;font-size:.75rem;font-weight:600;text-align:center;min-width:80px}
+.pipe-arrow{color:#bbb;font-size:1rem;flex-shrink:0}
+
+/* KPI TABLE */
+.kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0}
+.kpi-card{background:#fff;border-radius:14px;padding:18px 20px;border:1px solid rgba(0,0,0,.06)}
+.kpi-phase{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:#7c3aed;font-weight:700;margin-bottom:8px}
+.kpi-title{font-size:.88rem;font-weight:600;color:#1a1a1a;margin-bottom:4px}
+.kpi-desc{font-size:.8rem;color:#666;line-height:1.6}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:32px 0}
+.tag{padding:6px 14px;border-radius:20px;font-size:.72rem;background:#ece7dd;color:#666;font-weight:500}
+.tag-main{background:rgba(124,58,237,.1);color:#7c3aed}
+
+/* CTA */
+.cta-box{background:linear-gradient(135deg,#2a1a4a 0%,#1a0f2e 100%);border-radius:20px;padding:40px;margin:48px 0;text-align:center}
+.cta-box h3{font-family:'DM Serif Display',serif;font-size:1.6rem;color:#fff;margin-bottom:12px}
+.cta-box p{font-size:.9rem;color:rgba(255,255,255,.6);margin-bottom:24px;line-height:1.7}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#7c3aed;color:#fff;border-radius:30px;font-size:.82rem;font-weight:600;transition:opacity .2s}
+.cta-btn:hover{opacity:.85}
+
+/* NAV */
+.nav-articles{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:48px 0}
+.nav-art{background:#fff;border-radius:16px;padding:24px;border:1px solid rgba(0,0,0,.06);transition:all .2s}
+.nav-art:hover{border-color:#7c3aed;transform:translateY(-2px)}
+.nav-art-label{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:#999;margin-bottom:8px}
+.nav-art-title{font-size:.9rem;font-weight:600;color:#1a1a1a;line-height:1.4}
+.nav-art-arrow{font-size:.8rem;color:#7c3aed;margin-top:8px;display:block}
+
+footer{text-align:center;padding:24px;font-size:.65rem;color:#bbb;letter-spacing:.06em;border-top:1px solid rgba(0,0,0,.06)}
+@media(max-width:680px){.hero,.article{padding-left:20px;padding-right:20px}nav{padding:0 20px}.nav-articles,.kpi-grid,.role-grid{grid-template-columns:1fr}.pillars{grid-template-columns:repeat(2,1fr)}.roam-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">P.<span>Damas</span></a>
+  <a href="blog-rex.html" class="nav-back">← Blog IT</a>
+</nav>
+
+<div class="hero">
+  <div class="rex-tag">REX #5 · Méthodo Agile · SAFe</div>
+  <h1 class="hero-title">Implémenter <em>SAFe</em> en contexte IT Cloud & On-Premise</h1>
+  <p class="hero-sub">SAFe n'est pas réservé aux éditeurs logiciels. Sur les programmes d'infrastructure complexes — migration datacenter, adoption cloud hybride, replatforming serveur — c'est l'approche la plus robuste pour coordonner plusieurs équipes techniques en parallèle. Voici six piliers d'implémentation issus de mon expérience terrain.</p>
+  <div class="hero-meta">
+    <span>Par <strong>Philippe Damas</strong></span>
+    <span>· <strong>PMP® · ITIL v3 · SAFe</strong></span>
+    <span>· ~13 min de lecture</span>
+  </div>
+</div>
+
+<div class="article">
+
+  <div class="insight">
+    <div class="insight-label">L'essentiel</div>
+    <p class="insight-text">Un programme IT Agile ne dérape pas à cause de la technique. Il dérape à cause d'une <strong>organisation d'équipes floue</strong>, de <strong>dépendances inter-Squads mal gérées</strong>, d'un <strong>planning non partagé</strong>, de <strong>risques non priorisés</strong> et d'un <strong>pipeline de livraison sans filet de sécurité</strong>. Ces sept piliers sont interdépendants — négliger l'un fragilise les six autres.</p>
+  </div>
+
+  <!-- 5 PILLARS OVERVIEW -->
+  <div class="pillars">
+    <div class="pillar" style="background:linear-gradient(160deg,#f5f3ff,#fff);border-color:rgba(124,58,237,.2)">
+      <div class="pillar-icon">🚂</div>
+      <div class="pillar-num">Pilier 01</div>
+      <div class="pillar-title" style="color:#7c3aed">Structure de l'ART</div>
+    </div>
+    <div class="pillar" style="background:linear-gradient(160deg,#fff7ed,#fff);border-color:rgba(245,158,11,.2)">
+      <div class="pillar-icon">👥</div>
+      <div class="pillar-num">Pilier 02</div>
+      <div class="pillar-title" style="color:#d97706">Rôles clés SAFe</div>
+    </div>
+    <div class="pillar" style="background:linear-gradient(160deg,#f0fdf4,#fff);border-color:rgba(34,197,94,.2)">
+      <div class="pillar-icon">📅</div>
+      <div class="pillar-num">Pilier 03</div>
+      <div class="pillar-title" style="color:#16a34a">PI Planning</div>
+    </div>
+    <div class="pillar" style="background:linear-gradient(160deg,#eff6ff,#fff);border-color:rgba(59,130,246,.2)">
+      <div class="pillar-icon">🔄</div>
+      <div class="pillar-num">Pilier 04</div>
+      <div class="pillar-title" style="color:#2563eb">PO Sync & Dépendances</div>
+    </div>
+    <div class="pillar" style="background:linear-gradient(160deg,#fff1f2,#fff);border-color:rgba(239,68,68,.2)">
+      <div class="pillar-icon">⚠️</div>
+      <div class="pillar-num">Pilier 05</div>
+      <div class="pillar-title" style="color:#dc2626">ROAM — Risques</div>
+    </div>
+    <div class="pillar" style="background:linear-gradient(160deg,#f0f9ff,#fff);border-color:rgba(14,165,233,.2)">
+      <div class="pillar-icon">🔒</div>
+      <div class="pillar-num">Pilier 06</div>
+      <div class="pillar-title" style="color:#0284c7">DevSecOps & Compliance</div>
+    </div>
+    <div class="pillar" style="background:linear-gradient(160deg,#ecfdf5,#fff);border-color:rgba(5,150,105,.2)">
+      <div class="pillar-icon">🏗️</div>
+      <div class="pillar-num">Pilier 07</div>
+      <div class="pillar-title" style="color:#059669">Architecture & Runway</div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 1 — STRUCTURE ART -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="color:#e9d5ff">01</span>
+      <div class="section-title-wrap">
+        <div class="section-label" style="color:#7c3aed">Pilier 01</div>
+        <div class="section-title">Structure de l'ART — Organiser les équipes à l'échelle</div>
+      </div>
+    </div>
+
+    <p>Sur un programme IT complexe, constituer une grande équipe projet unique est tentant — et contre-productif. Dès que plusieurs domaines coexistent (réseau, serveur, cloud, sécurité, DRP), la coordination centrale devient un goulot d'étranglement. SAFe répond à ce problème avec l'<b style="color:#7c3aed">Agile Release Train (ART)</b> : 50 à 125 personnes réparties en Squads de 6 à 12 membres, chacune <b>mono-spécialisée et cross-fonctionnelle</b>. Les dépendances entre Squads existent — elles sont rendues visibles, documentées et gérées explicitement, pas subies.</p>
+
+    <div class="checklist">
+      <div class="checklist-title">Règles d'or pour constituer un ART IT</div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Une Squad = un domaine technique cohérent</strong> — Réseau, serveurs, cloud/IaC, sécurité, DRP. Pas de Squad "divers". Un périmètre flou = conflits de priorité permanents.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>6 à 12 personnes par Squad — pas plus</strong> — Au-delà de 12, la coordination interne pèse sur les cérémonies. Diviser plutôt que laisser dériver.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Cadence commune à toutes les Squads</strong> — Tous les sprints démarrent et finissent le même jour. Sans cette synchronisation, le Program Board devient illisible.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Dépendances cartographiées dès le départ</strong> — Sur un programme infra, un livrable réseau peut bloquer la Squad cloud qui bloque à son tour les tests DRP. Ces chaînes doivent être cartographiées avant le premier sprint.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Un RTE (Release Train Engineer) nommé dès le kick-off</strong> — Chef d'orchestre de l'ART. Sans RTE, personne n'arbitre les dépendances critiques — les Squads fonctionnent en silos.</div>
+      </div>
+    </div>
+
+    <div class="info">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">💡</div>
+      <div class="info-text">
+        <strong>SAFe sur un contexte hybride Cloud / On-Premise</strong>
+        La bonne approche : une Squad dédiée à l'IaC (Terraform, Ansible) possède les modules de déploiement et les conventions de nommage. Les Squads applicatives consomment ces modules sans gérer la plomberie cloud. Cette séparation réduit les dépendances et la dette technique — et clarifie les responsabilités en cas d'incident.
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>« Constituer un ART, ce n'est pas dessiner un organigramme. C'est décider à l'avance comment les équipes vont se synchroniser, pas seulement comment elles vont travailler en isolation. »</p>
+      <cite>SAFe en contexte IT — De mon expérience terrain, 25 ans</cite>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 2 — RÔLES CLÉS -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="color:#fde68a">02</span>
+      <div class="section-title-wrap">
+        <div class="section-label" style="color:#d97706">Pilier 02</div>
+        <div class="section-title">Les 3 rôles clés SAFe — SM, RTE, PO</div>
+      </div>
+    </div>
+
+    <p>La confusion entre les rôles SAFe est l'une des premières causes d'échec des déploiements. SM, RTE et PO ne correspondent pas aux intitulés classiques (chef de projet, PMO, chef de lot) — voici une lecture directe pour un contexte infrastructure.</p>
+
+    <div class="role-grid">
+      <div class="role-card" style="border-top:3px solid #0f766e">
+        <div class="role-icon-row">
+          <div class="role-badge" style="background:#ccfbf1;color:#0f766e">SM</div>
+          <div>
+            <div class="role-name">Scrum Master</div>
+            <div class="role-sub">1 par Squad · Niveau équipe</div>
+          </div>
+        </div>
+        <div class="role-body">
+          Facilite les 4 cérémonies sprint (Planning, Daily, Review, Rétro), retire les obstacles, protège l'équipe des interruptions.
+          <strong style="color:#0f766e">Ne fait PAS</strong>
+          Décisions techniques, arbitrages inter-Squads, pilotage de programme. Il coache, ne manage pas.
+          <strong style="color:#555">Profil type</strong>
+          Ingénieur senior promu, coach Agile. Pas obligatoirement un manager IT.
+        </div>
+      </div>
+
+      <div class="role-card" style="border-top:3px solid #1a2b5e">
+        <div class="role-icon-row">
+          <div class="role-badge" style="background:#dbeafe;color:#1a2b5e">RTE</div>
+          <div>
+            <div class="role-name">Release Train Engineer</div>
+            <div class="role-sub">1 par ART · Niveau programme</div>
+          </div>
+        </div>
+        <div class="role-body">
+          Anime le PI Planning, le PO Sync hebdo et le ROAM Board. Gère les dépendances entre Squads et escalade les blocages vers les Business Owners.
+          <strong style="color:#1a2b5e">Profil type</strong>
+          IT Program Manager senior ou PMO Agile expérimenté. Transposition directe du chef de programme dans le référentiel SAFe — si vous avez géré des programmes multi-équipes en mode PMP, c'est votre rôle.
+          <strong style="color:#dc2626">Point de vigilance</strong>
+          Le RTE n'est pas un "super Scrum Master". Il ne gère pas les sprints — il orchestre l'ART.
+        </div>
+      </div>
+
+      <div class="role-card" style="border-top:3px solid #b45309">
+        <div class="role-icon-row">
+          <div class="role-badge" style="background:#fef3c7;color:#b45309">PO</div>
+          <div>
+            <div class="role-name">Product Owner</div>
+            <div class="role-sub">1 par Squad · Interface métier</div>
+          </div>
+        </div>
+        <div class="role-body">
+          Tient et priorise le backlog. Définit le QUOI (User Stories, critères d'acceptance), valide les livrables à chaque Sprint Review.
+          <strong style="color:#b45309">Ne fait PAS</strong>
+          Le COMMENT — domaine de la Squad. Le PO représente la valeur business, pas la technique.
+          <strong style="color:#555">Profil type infrastructure</strong>
+          Architecte cloud connaissant les 40 applications à migrer, ou responsable sécurité pour la Squad compliance/DORA.
+        </div>
+      </div>
+    </div>
+
+    <div class="warning">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">⚠️</div>
+      <div class="warning-text">
+        <strong>L'erreur la plus fréquente : cumuler les rôles</strong>
+        Nommer une même personne RTE et PO d'une Squad "pour économiser des ressources" est une fausse économie. Le RTE qui porte un backlog Squad ne peut pas arbitrer objectivement les dépendances — sa neutralité est sa valeur principale. Si les ressources sont contraintes, réduisez le nombre de Squads plutôt que de diluer les rôles.
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 3 — PI PLANNING -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="color:#bbf7d0">03</span>
+      <div class="section-title-wrap">
+        <div class="section-label" style="color:#16a34a">Pilier 03</div>
+        <div class="section-title">PI Planning — La planification collective à grande échelle</div>
+      </div>
+    </div>
+
+    <p>Le PI Planning est souvent perçu comme une cérémonie lourde et coûteuse — deux jours de réunion avec toutes les Squads, toutes les 10 semaines. C'est en réalité l'investissement le plus rentable d'un programme SAFe. Avant de l'implémenter, j'ai souvent entendu : <em>«&nbsp;on ne peut pas se permettre deux jours sans produire&nbsp;»</em>. Après, la réponse est invariablement : <em>«&nbsp;on ne pouvait pas se permettre de ne pas le faire&nbsp;»</em>.</p>
+
+    <p>La raison est simple : le PI Planning est le seul moment où <b style="color:#16a34a">toutes les dépendances entre Squads sont rendues visibles simultanément</b>. Sans lui, chaque Squad planifie dans son coin et découvre en cours de sprint que son livrable est conditionné par un autre qui lui-même est en retard. Sur un programme infrastructure, où un déploiement réseau conditionne un déploiement cloud qui conditionne des tests DRP, ce problème est systémique.</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#7c3aed">J1</div>
+        <div class="tl-content">
+          <div class="tl-time" style="color:#7c3aed">Jour 1 matin — 08h30</div>
+          <div class="tl-title">Business Context & Product Vision</div>
+          <div class="tl-desc">Même cadrage pour toutes les Squads : objectifs du PI, contraintes réglementaires (DORA, NIS2), priorités DSI. L'alignement avant la planification autonome.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#d97706">J1</div>
+        <div class="tl-content">
+          <div class="tl-time" style="color:#d97706">Jour 1 après-midi — 14h00</div>
+          <div class="tl-title">Breakout Squads — Planification en autonomie</div>
+          <div class="tl-desc">Chaque Squad planifie ses User Stories sprint par sprint et cartographie ses dépendances sortantes et entrantes. La valeur se crée ici.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#16a34a">J1</div>
+        <div class="tl-content">
+          <div class="tl-time" style="color:#16a34a">Jour 1 fin de journée — 16h00</div>
+          <div class="tl-title">Draft Plan Review — Mise en commun</div>
+          <div class="tl-desc">5 minutes par Squad : objectifs, dépendances, risques. Le RTE note les conflits et prépare J2.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#2563eb">J2</div>
+        <div class="tl-content">
+          <div class="tl-time" style="color:#2563eb">Jour 2 matin — 09h00</div>
+          <div class="tl-title">Dependency Review — La session critique</div>
+          <div class="tl-desc">Le RTE anime. Chaque dépendance est portée sur le Program Board ; les Squads négocient dates et capacités. C'est ici que réseau → cloud → DRP se séquencent — ou se réajustent.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#dc2626">J2</div>
+        <div class="tl-content">
+          <div class="tl-time" style="color:#dc2626">Jour 2 — 11h00</div>
+          <div class="tl-title">Risk ROAM — Chaque risque classifié</div>
+          <div class="tl-desc">Chaque risque classifié R/O/A/M avec un propriétaire. Non traité ici, il a 10 semaines pour se matérialiser. Voir Pilier 05.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#0284c7">J2</div>
+        <div class="tl-content">
+          <div class="tl-time" style="color:#0284c7">Jour 2 — 14h00 → Vote</div>
+          <div class="tl-title">Final Plan & Vote de confiance</div>
+          <div class="tl-desc">PI Objectives signés. Vote 1→5 doigts — moyenne < 3 = plan ajusté avant de partir. Ce mécanisme force l'honnêteté : personne ne peut invoquer le doute six semaines plus tard.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="success">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">✅</div>
+      <div class="success-text">
+        <strong>Output du PI Planning : deux documents de référence</strong>
+        PI Objectives signés (committed vs stretch goals) et Program Board des dépendances inter-Squads. Ces deux documents pilotent le programme jusqu'au prochain PI — ils remplacent un Gantt de 200 lignes que personne ne lit.
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-phase">Avant le PI Planning</div>
+        <div class="kpi-title">Backlog Squad priorisé</div>
+        <div class="kpi-desc">Chaque PO arrive avec un backlog épuré : les features à traiter dans le PI sont identifiées et grossièrement estimées. Arriver sans backlog préparé, c'est perdre le Jour 1 à trier plutôt qu'à planifier.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-phase">Après le PI Planning</div>
+        <div class="kpi-title">Program Board complet</div>
+        <div class="kpi-desc">Toutes les dépendances visibles, datées, avec un propriétaire. Si une dépendance ne figure pas sur le Program Board, elle n'existe pas officiellement — et elle surprendra tout le monde à mi-PI.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-phase">Output Squad</div>
+        <div class="kpi-title">PI Objectives signés</div>
+        <div class="kpi-desc">La liste des features engagées (committed) et des stretch goals. Un committed ne peut pas être retiré sans escalade au RTE. C'est la différence entre un backlog et un engagement.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-phase">Output Programme</div>
+        <div class="kpi-title">ROAM Board initial</div>
+        <div class="kpi-desc">Tous les risques identifiés pendant le PI Planning, classifiés et avec un propriétaire nommé. Il sera mis à jour à chaque PO Sync. Un risque sans propriétaire est un risque ignoré.</div>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>« Le PI Planning n'est pas une réunion de plus. C'est le seul moment où toutes les dépendances du programme sont rendues visibles simultanément. Le supprimer pour "économiser du temps", c'est décaler ce temps de plusieurs PI plus tard, en mode urgence. »</p>
+      <cite>SAFe en contexte IT — De mon expérience terrain, 25 ans</cite>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 4 — PO SYNC & DÉPENDANCES -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="color:#bfdbfe">04</span>
+      <div class="section-title-wrap">
+        <div class="section-label" style="color:#2563eb">Pilier 04</div>
+        <div class="section-title">PO Sync — 30 minutes pour débloquer, pas pour reporter</div>
+      </div>
+    </div>
+
+    <p>Entre deux PI Planning, les Squads se désynchronisent si aucun mécanisme ne force la visibilité hebdomadaire. Le <b style="color:#2563eb">PO Sync</b> — 30 minutes, RTE + tous les POs — est cette mécanique. Règle fondamentale : c'est une <b style="color:#2563eb">réunion de déblocage</b>, pas de reporting. Si tout est vert, elle dure dix minutes. Si une dépendance est rouge, le RTE sort avec une décision — pas une liste d'actions.</p>
+
+    <div class="checklist">
+      <div class="checklist-title">Agenda type — PO Sync 30 minutes</div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>0–5 min : Tour de table statut dépendances</strong> — Chaque PO dit vert / orange / rouge sur ses dépendances actives. Pas de détail — juste le statut.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>5–15 min : Focus sur les blocages orange et rouge</strong> — Le RTE anime en posant la question directe : "Squad X, tu devais livrer Y avant Sprint 3. Où tu en es ?" Pas de généralités, pas de digressions techniques — juste la réponse à la question.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>15–25 min : Actions correctives décidées</strong> — Réaffectation de ressource, réduction de scope, acceptation du risque documentée, ou escalade au Business Owner si l'impact dépasse les PI Objectives. Le RTE décide — il ne consulte pas.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>25–30 min : Mise à jour du Program Board</strong> — Jira/Confluence mis à jour en direct. CR en cinq lignes envoyé dans la foulée : statut, décisions, actions, risques ajoutés au ROAM Board.</div>
+      </div>
+    </div>
+
+    <div class="info">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">💡</div>
+      <div class="info-text">
+        <strong>Exemple concret : dépendance réseau → cloud bloquante</strong>
+        La Squad réseau prend une semaine de retard sur le VNet Peering Azure. La Squad cloud/IaC ne peut pas déployer ses modules Terraform. Identifié au PO Sync semaine 4 en moins de 3 minutes. Décision RTE : un ingénieur réseau est détaché 4 jours vers la Squad bloquante. Déploiement cloud décalé de 4 jours dans le sprint — pas sur le sprint suivant. Business Owner informé, zéro impact PI Objectives. Sans PO Sync, ce blocage aurait consommé le sprint entier.
+      </div>
+    </div>
+
+    <div class="warning">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">⚠️</div>
+      <div class="warning-text">
+        <strong>Le PO Sync ne doit pas devenir un Copil déguisé</strong>
+        La dérive classique : chaque Squad présente son avancement en détail. Résultat : 90 minutes, aucune décision, les blocages réels noyés dans le reporting. Règle stricte — si un sujet dépasse 5 minutes, il n'a pas sa place en PO Sync. Un atelier dédié entre les Squads concernées, animé par le RTE, hors plénière.
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 5 — ROAM RISQUES -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="color:#fca5a5">05</span>
+      <div class="section-title-wrap">
+        <div class="section-label" style="color:#dc2626">Pilier 05</div>
+        <div class="section-title">ROAM — Gestion des risques en mode Agile</div>
+      </div>
+    </div>
+
+    <p>Contrairement au Risk Register mensuel sorti au Copil, la méthode <b style="color:#dc2626">ROAM</b> — Resolved, Owned, Accepted, Mitigated — impose que tout risque soit <b>classifié, doté d'un propriétaire nommé et suivi chaque semaine</b>. En contexte infra, les risques dominants sont rarement techniques : coordination (dépendance non tenue), conformité (fenêtre de maintenance non validée), capacité (ressources partagées entre Squads). ROAM les traite explicitement plutôt que de les laisser se gérer eux-mêmes.</p>
+
+    <div class="roam-grid">
+      <div class="roam-card" style="background:#f0fdf4;border-color:#86efac">
+        <div class="roam-letter" style="color:#15803d">R</div>
+        <div class="roam-word" style="color:#15803d">Resolved — Éliminé</div>
+        <div class="roam-def">Éliminé pendant le PI Planning. Décision sur le champ — ressource réaffectée, scope réduit. Fermé.</div>
+        <div class="roam-ex">Ex. : Squad réseau : VPN et SD-WAN impossibles sur le même sprint. SD-WAN déprioritisé. Résolu avant de partir.</div>
+      </div>
+
+      <div class="roam-card" style="background:#eff6ff;border-color:#93c5fd">
+        <div class="roam-letter" style="color:#1d4ed8">O</div>
+        <div class="roam-word" style="color:#1d4ed8">Owned — Propriétaire nommé</div>
+        <div class="roam-def">Un responsable nommé gère et reporte à chaque PO Sync. Sans propriétaire, le risque est mort-né.</div>
+        <div class="roam-ex">Ex. : Serveurs RHEL 7 EOL : risque de vulnérabilité. Squad infra propriétaire, replatforming Sprint 3, suivi hebdo.</div>
+      </div>
+
+      <div class="roam-card" style="background:#fff1f2;border-color:#fca5a5">
+        <div class="roam-letter" style="color:#b91c1c">A</div>
+        <div class="roam-word" style="color:#b91c1c">Accepted — Accepté</div>
+        <div class="roam-def">Connu, non supprimable dans le PI. On vit avec — à condition de documenter le plan B. Sans plan B, c'est ignorer.</div>
+        <div class="roam-ex">Ex. : Fournisseur ne garantit pas le circuit avant Sprint 4. Plan B : VPN temporaire Sprints 1–3.</div>
+      </div>
+
+      <div class="roam-card" style="background:#fff7ed;border-color:#fcd34d">
+        <div class="roam-letter" style="color:#b45309">M</div>
+        <div class="roam-word" style="color:#b45309">Mitigated — Réduit</div>
+        <div class="roam-def">Action préventive réduisant probabilité ou impact. Risque contenu, non éliminé.</div>
+        <div class="roam-ex">Ex. : Quota API gestionnaire de secrets atteint. Cache TTL 30 min côté client → appels réduits de 80%.</div>
+      </div>
+    </div>
+
+    <div class="checklist">
+      <div class="checklist-title">Règles d'or de la gestion des risques ROAM</div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Pas de risque sans propriétaire nommé</strong> — Une personne, pas une Squad. "La Squad réseau" n'est pas un propriétaire — l'ingénieur réseau principal l'est. C'est la première règle et la plus violée.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Mise à jour à chaque PO Sync — sans exception</strong> — Un risque non discuté en PO Sync progresse sans surveillance. La fréquence hebdomadaire est la différence fondamentale avec le Risk Register PMP.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Distinguer risque et dépendance</strong> — Dépendances sur le Program Board, risques sur le ROAM Board. Quand une dépendance n'est pas tenue, elle devient un risque et migre sur le ROAM Board avec propriétaire et catégorie.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Accepted sans plan B = risque ignoré</strong> — Accepter est une décision valide ; ne pas documenter le plan B et sa date de déclenchement, c'est se donner bonne conscience sans se protéger. Même logique qu'en PMP avec les risques résiduels couverts par une réserve.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Le ROAM Board est vivant — pas un livrable</strong> — 8 à 12 risques au début du PI, 2 ou 3 encore ouverts à la fin : signe que le pilotage fonctionne.</div>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>« La différence entre un Risk Register PMP et un ROAM Board SAFe n'est pas dans le format — c'est dans la fréquence. En PMP, on le sort au Copil mensuel. En SAFe, on le lit chaque semaine au PO Sync. C'est la même rigueur, à une fréquence dix fois supérieure. »</p>
+      <cite>SAFe en contexte IT — De mon expérience terrain, 25 ans</cite>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 6 — DEVSECOPS & COMPLIANCE -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="color:#bae6fd">06</span>
+      <div class="section-title-wrap">
+        <div class="section-label" style="color:#0284c7">Pilier 06</div>
+        <div class="section-title">DevSecOps — Intégrer la sécurité et la conformité dans le pipeline</div>
+      </div>
+    </div>
+
+    <p>Sur un programme d'infrastructure de production, la sécurité ne peut pas être un workstream validé "à la fin". Elle doit être <b style="color:#0284c7">câblée dans le pipeline de livraison</b> au même titre que les tests fonctionnels. Concrètement : aucun livrable ne passe en production sans avoir franchi une <b style="color:#0284c7">security gate</b> automatisée (CVE, secrets en clair, chiffrement, contrôle d'accès). Gate échouée = pipeline bloqué. En contexte réglementé (DORA, NIS2, ISO 27001), ce point est non-négociable.</p>
+
+    <div class="pipeline">
+      <div class="pipe-step" style="background:#e9d5ff;color:#7c3aed">1 · Commit</div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step" style="background:#dbeafe;color:#1d4ed8">2 · Build</div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step" style="background:#dcfce7;color:#15803d">3 · Tests unitaires</div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step" style="background:#fff7ed;color:#c2410c">4 · SAST / DAST</div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step" style="background:#dbeafe;color:#1d4ed8">5 · Deploy RECETTE</div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step" style="background:#dcfce7;color:#15803d">6 · Tests intégration</div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-step" style="background:#f0fdf4;color:#15803d;border:2px solid #22c55e;font-weight:700">7 · PROD (approbation)</div>
+    </div>
+    <p style="font-size:.82rem;color:#888;margin-top:-8px;margin-bottom:24px">❌ Échec à n'importe quel stage → pipeline bloqué. Pas de merge possible tant que tous les stages sont verts.</p>
+
+    <div class="checklist">
+      <div class="checklist-title" style="color:#0284c7">Checklist DevSecOps — avant toute mise en production</div>
+      <div class="check-item">
+        <div class="check-icon" style="background:rgba(2,132,199,.1)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>RTO et RPO documentés et testés</strong> — La bascule DRP doit être simulée et chronométrée. Un RTO non testé est une déclaration d'intention.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon" style="background:rgba(2,132,199,.1)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Chiffrement at-rest et in-transit validé</strong> — Disques chiffrés avec clés gérées par l'organisation (Customer Managed Keys), flux réseau en TLS 1.3 minimum. TLS 1.0 et 1.1 désactivés. Pas d'exception pour les flux internes.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon" style="background:rgba(2,132,199,.1)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Aucun secret en clair dans le code</strong> — Scan automatique à chaque commit (GitLeaks). Credentials, clés API et chaînes de connexion injectés au runtime depuis un gestionnaire de secrets centralisé, jamais codés en dur.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon" style="background:rgba(2,132,199,.1)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Principe du moindre privilège appliqué</strong> — RBAC minimal sur toutes les ressources. Aucun accès root permanent — authentification forte avec justification et expiration automatique pour les accès privilégiés. Audité à chaque déploiement.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon" style="background:rgba(2,132,199,.1)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Scan de vulnérabilités sans CVE critique</strong> — Trivy ou SonarQube intégrés dans le pipeline. CVE critique = déploiement bloqué. La Squad sécurité tient la "Cloud Eligibility Gate" sur la base documentaire — sans validation, le pipeline reste fermé.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon" style="background:rgba(2,132,199,.1)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Logs d'audit retenus 12 mois minimum</strong> — DORA et NIS2 imposent la traçabilité des accès et incidents de sécurité. Logs centralisés, non modifiables, disponibles pour audit à tout moment.</div>
+      </div>
+    </div>
+
+    <div class="info">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">💡</div>
+      <div class="info-text">
+        <strong>Infrastructure as Code : le lien entre SAFe et DevSecOps</strong>
+        L'IaC (Terraform, Ansible, Bicep) est le point de jonction. Versionner l'infrastructure comme du code permet les mêmes contrôles qu'une application : revue de code, tests automatisés, security scan. Le rollback devient possible en minutes — sur un programme de migration datacenter, c'est la différence entre un incident et une catastrophe.
+      </div>
+    </div>
+
+    <div class="warning">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">⚠️</div>
+      <div class="warning-text">
+        <strong>La security gate n'est pas une contrainte — c'est une assurance</strong>
+        Un pipeline avec contrôles automatisés prend plus de temps qu'un déploiement manuel — c'est vrai. Mais comparer ce surcoût au coût d'un incident en production (remédiation, communication de crise, audit réglementaire) change la perspective. La security gate est l'équivalent automatisé du Local Security Officer sur une certification datacenter. La différence : c'est scalable et reproductible à chaque sprint.
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>« Intégrer la sécurité dans le pipeline CI/CD, ce n'est pas ralentir l'équipe. C'est éliminer la phase de "durcissement sécurité" qui, dans les projets traditionnels, consomme les deux derniers mois du projet — toujours sous-estimés, toujours en dépassement. »</p>
+      <cite>SAFe en contexte IT — De mon expérience terrain, 25 ans</cite>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 7 — ARCHITECTURE & RUNWAY -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num" style="color:#d1fae5">07</span>
+      <div class="section-title-wrap">
+        <div class="section-label" style="color:#059669">Pilier 07</div>
+        <div class="section-title">Architecture — Où est le TAD en SAFe ?</div>
+      </div>
+    </div>
+
+    <p>C'est la question qui revient systématiquement lors d'une transition SAFe dans un contexte IT structuré : <em>où passe le document d'architecture technique ?</em> En méthodologie traditionnelle (PMP, PRINCE2), le TAD (Technical Architecture Document) est produit en amont, validé en comité, puis transmis aux équipes. En SAFe, ce modèle est remplacé par trois mécanismes complémentaires — plus légers, plus vivants, et conçus pour évoluer avec le programme.</p>
+
+    <div class="role-grid">
+      <div class="role-card" style="border-top:3px solid #059669">
+        <div class="role-icon-row">
+          <div class="role-badge" style="background:#d1fae5;color:#059669;font-size:.7rem">RWY</div>
+          <div>
+            <div class="role-name">Architectural Runway</div>
+            <div class="role-sub">Le socle technique préalable</div>
+          </div>
+        </div>
+        <div class="role-body">
+          L'ensemble des composants techniques déjà construits qui permettent aux Squads de livrer des features sans attendre des décisions d'architecture. Ce n'est pas un document — c'est un <em>état du SI</em>.
+          <strong style="color:#059669">Concrètement</strong>
+          Modules Terraform standardisés, pipelines CI/CD partagés, conventions de nommage cloud, politiques NSG validées. La Squad cloud consomme ces briques sans avoir à les concevoir.
+        </div>
+      </div>
+
+      <div class="role-card" style="border-top:3px solid #7c3aed">
+        <div class="role-icon-row">
+          <div class="role-badge" style="background:#ede9fe;color:#7c3aed;font-size:.7rem">ENB</div>
+          <div>
+            <div class="role-name">Enabler Features</div>
+            <div class="role-sub">L'architecture livrée en sprints</div>
+          </div>
+        </div>
+        <div class="role-body">
+          Les travaux d'architecture apparaissent dans le backlog comme n'importe quelle feature : un PO, une définition de done, une estimation, un sprint de livraison. Pas de workstream parallèle invisible.
+          <strong style="color:#7c3aed">Concrètement</strong>
+          "Créer le module Terraform Hub & Spoke", "Définir les standards NSG", "Valider la stratégie de chiffrement CMK" — chacune est une Enabler Feature avec un owner et une date.
+        </div>
+      </div>
+
+      <div class="role-card" style="border-top:3px solid #0284c7">
+        <div class="role-icon-row">
+          <div class="role-badge" style="background:#e0f2fe;color:#0284c7;font-size:.7rem">SI</div>
+          <div>
+            <div class="role-name">Solution Intent</div>
+            <div class="role-sub">Le plus proche du TAD</div>
+          </div>
+        </div>
+        <div class="role-body">
+          Document vivant co-maintenu par le System Architect. Il capture les exigences non-fonctionnelles, les contraintes d'architecture et les décisions de design majeures du programme.
+          <strong style="color:#0284c7">Concrètement</strong>
+          Choix d'architecture Hub & Spoke Azure, politique de peering VNet, standards TLS, stratégie DRP et RTO cibles. Il évolue à chaque PI — pas figé au kick-off.
+        </div>
+      </div>
+    </div>
+
+    <div class="checklist">
+      <div class="checklist-title" style="color:#059669">Règles d'or de l'architecture en SAFe</div>
+      <div class="check-item">
+        <div class="check-icon" style="background:rgba(5,150,105,.1)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Just enough architecture, just in time</strong> — Ne pas documenter ce qu'on n'a pas encore besoin de construire. Un schéma d'architecture produit 6 mois avant le déploiement sera périmé. L'architecture se précise au fur et à mesure que les Squads construisent.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon" style="background:rgba(5,150,105,.1)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Le System Architect travaille dans les sprints</strong> — Il n'est pas en amont dans une tour d'ivoire. Il participe aux Sprint Reviews, valide les Enabler Features et maintient le Solution Intent en continu. Son output principal n'est pas un document — c'est l'Architectural Runway disponible.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon" style="background:rgba(5,150,105,.1)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>Les décisions d'architecture sont des risques ROAM</strong> — Un choix architectural non tranché (ex. : chiffrement at-rest avec CMK ou clés gérées par le provider ?) est un risque de blocage futur. Il doit figurer sur le ROAM Board avec un propriétaire et une date de décision.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-icon" style="background:rgba(5,150,105,.1)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="check-text"><strong>L'Architectural Runway se planifie au PI Planning</strong> — Les Enabler Features nécessaires pour le PI suivant sont identifiées et priorisées pendant le PI Planning, au même titre que les features business. Une Squad qui démarre un sprint sans runway disponible est une Squad bloquée.</div>
+      </div>
+    </div>
+
+    <div class="info">
+      <div style="font-size:1.2rem;flex-shrink:0;margin-top:2px">💡</div>
+      <div class="info-text">
+        <strong>Transition PMP → SAFe : que faire du TAD existant ?</strong>
+        Si votre organisation dispose d'un TAD produit en amont, ne le jetez pas — transformez-le en Solution Intent initial. Extrayez les décisions d'architecture majeures et les contraintes non-fonctionnelles, versionnez-les dans Confluence, et nommez le System Architect comme propriétaire. Les éléments non encore validés deviennent des Enabler Features dans le backlog. Le TAD statique devient un référentiel vivant mis à jour à chaque PI.
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      <p>« En SAFe, l'architecte ne livre pas un document — il livre du runway. La différence : un document se lit, le runway se consomme. »</p>
+      <cite>SAFe en contexte IT — De mon expérience terrain, 25 ans</cite>
+    </div>
+  </div>
+
+
+  <div class="tags">
+    <span class="tag tag-main">SAFe 6.0</span>
+    <span class="tag tag-main">Agile Release Train</span>
+    <span class="tag tag-main">PI Planning</span>
+    <span class="tag tag-main">ROAM</span>
+    <span class="tag tag-main">PO Sync</span>
+    <span class="tag tag-main">DevSecOps</span>
+    <span class="tag">RTE</span>
+    <span class="tag">Scrum Master</span>
+    <span class="tag">Product Owner</span>
+    <span class="tag">Terraform</span>
+    <span class="tag">Infrastructure as Code</span>
+    <span class="tag">DORA</span>
+    <span class="tag">NIS2</span>
+    <span class="tag">CI/CD</span>
+    <span class="tag">Cloud hybride</span>
+    <span class="tag">Migration datacenter</span>
+    <span class="tag">REX</span>
+    <span class="tag">PMP®</span>
+    <span class="tag tag-main">Architectural Runway</span>
+    <span class="tag">Solution Intent</span>
+    <span class="tag">System Architect</span>
+    <span class="tag">Enabler Features</span>
+  </div>
+
+  <div class="cta-box">
+    <h3>Vous pilotez un programme IT Agile complexe ?</h3>
+    <p>PMP® certifié, 25 ans de programmes IT sur 5 pays. Expérience SAFe sur des programmes d'infrastructure hybride Cloud/On-Premise à grande échelle. Je peux accompagner la mise en place de votre ART ou prendre en charge le rôle de RTE sur votre programme.</p>
+    <a href="index.html#contact" class="cta-btn">Me contacter →</a>
+  </div>
+
+  <div class="nav-articles">
+    <a href="rex4-gestion-projet.html" class="nav-art">
+      <div class="nav-art-label">← Article précédent</div>
+      <div class="nav-art-title">REX #4 — Les règles d'or de la gestion de projet IT (PMP)</div>
+      <span class="nav-art-arrow">Lire →</span>
+    </a>
+    <a href="blog-rex.html" class="nav-art">
+      <div class="nav-art-label">Retour au blog →</div>
+      <div class="nav-art-title">Tous les articles REX</div>
+      <span class="nav-art-arrow">Voir le blog →</span>
+    </a>
+  </div>
+
+</div>
+<footer>© 2025 Philippe Damas · Senior IT Program Manager · PMP® · ITIL v3 · SAFe</footer>
+</body>
+</html>

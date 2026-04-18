@@ -20,25 +20,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;padding:0 40px;d
 .nav-links a{font-size:.65rem;color:#666;letter-spacing:.03em;text-transform:uppercase;cursor:pointer;transition:color .2s}
 .nav-links a:hover{color:#1a1a1a}
 .nav-sep{width:1px;height:16px;background:rgba(0,0,0,.12);margin:0 4px}
-.nav-ext{color:#7c3aed!important;font-weight:600;font-size:.65rem!important;letter-spacing:.03em;text-transform:uppercase}
+.nav-ext{color:#7c3aed!important;font-weight:600;font-size:.65rem!important}
 .nav-ext:hover{color:#5b21b6!important}
 .lang-sw{display:flex;gap:2px}
 .lang-sw button{font-size:.65rem;padding:4px 9px;background:transparent;color:#999;border:1px solid #ddd;cursor:pointer;border-radius:4px}
 .lang-sw button.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
-.talk-btn{padding:9px 20px;background:#7c3aed;color:#fff;border-radius:30px;font-size:.65rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase;border:none;cursor:pointer;display:flex;align-items:center;gap:6px;white-space:nowrap}
-.talk-btn::after{content:'→'}
-/* Hamburger */
-.nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none}
-.nav-burger span{display:block;width:22px;height:2px;background:#1a1a1a;border-radius:2px;transition:all .2s}
-.nav-mobile{display:none;position:fixed;top:60px;left:0;right:0;background:rgba(248,246,253,.98);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.08);padding:16px 24px;flex-direction:column;gap:12px;z-index:99}
-.nav-mobile.open{display:flex}
-.nav-mobile a,.nav-mobile button{font-size:.78rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:#333;background:none;border:none;cursor:pointer;text-align:left;padding:6px 0;border-bottom:1px solid rgba(0,0,0,.05)}
-.nav-mobile .nm-mu{color:#0284c7!important}
-.nav-mobile .nm-rex{color:#7c3aed!important}
-.nav-mobile-bottom{display:flex;gap:8px;padding-top:8px}
-.nm-lang{padding:5px 14px;border-radius:20px;font-size:.72rem;font-weight:600;border:1.5px solid #ddd;background:transparent;color:#999;cursor:pointer}
-.nm-lang.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
-.nm-cta{padding:9px 20px;background:#7c3aed;color:#fff;border-radius:30px;font-size:.72rem;font-weight:600;border:none;cursor:pointer}
+.talk-btn{padding:9px 20px;background:#7c3aed;color:#fff;border-radius:30px;font-size:.72rem;font-weight:600;border:none;cursor:pointer;display:flex;align-items:center;gap:6px}
 .talk-btn::after{content:'→'}
 .page{max-width:1200px;margin:0 auto;padding:80px 40px 60px}
 .hero-section{min-height:auto;display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:center;padding:20px 0 40px;border-bottom:1px solid rgba(0,0,0,.08);margin-bottom:40px}
@@ -147,8 +134,6 @@ footer{text-align:center;padding:24px;font-size:.6rem;color:#bbb;letter-spacing:
 .ac-grid,.svgrid{grid-template-columns:1fr}
 .tli{grid-template-columns:1fr}
 .nav-links{display:none}
-.nav-c{display:none}
-.nav-burger{display:flex}
 .page{padding:70px 18px 40px}
 }
 </style>
@@ -159,31 +144,16 @@ footer{text-align:center;padding:24px;font-size:.6rem;color:#bbb;letter-spacing:
   <div class="nav-c">
     <div class="nav-links" id="navLinks"></div>
     <div class="nav-sep"></div>
-    <a href="blog-rex.html" class="nav-ext" id="navRex">Blog Projets IT</a>
-    <a href="messagerie.html" class="nav-ext" id="navMu" style="padding:5px 12px;background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.25);border-radius:20px;color:#0284c7!important">Communication Unifiée</a>
+    <a href="blog-rex.html" class="nav-ext" id="navBlog" style="font-size:.65rem;letter-spacing:.03em;text-transform:uppercase;font-weight:600;color:#7c3aed;transition:color .2s;white-space:nowrap">Blog IT</a>
+    <a href="methodo.html" class="nav-ext" id="navMeth" style="font-size:.65rem;letter-spacing:.03em;text-transform:uppercase;font-weight:600;color:#059669;transition:color .2s;white-space:nowrap;padding:5px 12px;background:rgba(5,150,105,.08);border:1px solid rgba(5,150,105,.2);border-radius:20px">Méthodo IT</a>
+    <a href="messagerie.html" class="nav-ext" id="navMu" style="font-size:.65rem;letter-spacing:.03em;text-transform:uppercase;font-weight:600;color:#0284c7;transition:color .2s;white-space:nowrap;padding:5px 12px;background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.25);border-radius:20px">Communication Unifiée</a>
     <div class="lang-sw">
       <button id="bFR" class="on" onclick="setLang('fr')">FR</button>
       <button id="bEN" onclick="setLang('en')">EN</button>
     </div>
     <button class="talk-btn" onclick="s('contact')" id="talkBtn"></button>
   </div>
-  <!-- Hamburger mobile -->
-  <button class="nav-burger" id="navBurger" onclick="toggleMobileNav()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
 </nav>
-<!-- Menu mobile -->
-<div class="nav-mobile" id="navMobile">
-  <a href="blog-rex.html" class="nm-rex" id="nmRex">Blog Projets IT</a>
-  <a href="messagerie.html" class="nm-mu" id="nmMu">Communication Unifiée</a>
-  <button onclick="s('about');toggleMobileNav()" id="nmAbout">À propos</button>
-  <button onclick="s('contact');toggleMobileNav()" id="nmContact">Contact</button>
-  <div class="nav-mobile-bottom">
-    <button class="nm-lang on" id="nmFR" onclick="setLang('fr');document.getElementById('nmFR').classList.add('on');document.getElementById('nmEN').classList.remove('on')">FR</button>
-    <button class="nm-lang" id="nmEN" onclick="setLang('en');document.getElementById('nmEN').classList.add('on');document.getElementById('nmFR').classList.remove('on')">EN</button>
-    <button class="nm-cta" onclick="s('contact');toggleMobileNav()" id="nmCta">Parlons-en →</button>
-  </div>
-</div>
 <div class="page">
   <section class="hero-section" id="about">
     <div class="hero-left">
@@ -380,8 +350,8 @@ fr:{
   sayHiLbl:"Qui suis-je ?",
   sayHiTxt:"Bienvenue sur mon portfolio. Vous trouverez ici mes missions récentes, mes compétences IT & IA, et mes prestations freelance. N'hésitez pas à me contacter pour discuter de vos projets.",
   cbLbl:"Ils m'ont fait confiance",
-  msLblTitle:"Accompagnements & Audit",msStarLbl:"Mission en cours · 2025",msStarBadge:"Client IDEMIA",
-  msTtl:"Mission d'Audit — GSMA-SM",msRole:"Local Security Officer · Datacenter & Security Manager · Equinix PA3/PA4",msDesc:"Installation et certification d'une cage sécurisée from scratch sur le datacenter Equinix PA3/PA4. Gestion du procurement matériel, pilotage de la sécurité physique & logique, et application stricte des normes GSMA-SM sur site. Mission internationale avec coordination des équipes en Roumanie (BCP).",
+  msLblTitle:"Accompagnements & Audit",msStarLbl:"Mission en cours · 2025",msStarBadge:"IDEMIA — Mission en cours",
+  msTtl:"Mission d'Audit — IDEMIA",msRole:"Local Security Officer · Datacenter & Security Manager · Equinix PA3/PA4",msDesc:"Installation et certification d'une cage sécurisée from scratch sur le datacenter Equinix PA3/PA4. Gestion du procurement matériel, pilotage de la sécurité physique & logique, et application stricte des normes GSMA-SM sur site. Mission internationale avec coordination des équipes en Roumanie (BCP).",
   msPoints:[
     {ic:"🔐",ti:"Certification GSMA-SM",desc:"Cage Equinix, Key Custodian, EAP/TLS, Crypto Card."},
     {ic:"🏗️",ti:"Sécurité physique & logique",desc:"CCTV, accès, Azure DRP, BCP Roumanie."},
@@ -402,7 +372,7 @@ fr:{
   hl:[{t:"Portfolio",d:"Demand Mgt → RUN"},{t:"Infra & DC",d:"Azure, AWS, Equinix"},{t:"Cybersécurité",d:"GSMA-SM, CES+, PCI"},{t:"International",d:"FR/EN — 10+ pays"}],
   exTtl:"Expériences",
   exps:[
-    {d:"Oct.2025→Présent",co:"IDEMIA — Audit Cybersécurité GSMA/SM",ro:"Local Security Officer",desc:"Certification cage Equinix, GSMA-SM, Key Custodian, CCTV, BCP Roumanie.",tags:["Equinix","GSMA-SM","International"]},
+    {d:"Dec.2025→Présent",co:"IDEMIA — Audit Cybersécurité GSMA/SM",ro:"Local Security Officer",desc:"Certification cage Equinix, GSMA-SM, Key Custodian, CCTV, BCP Roumanie.",tags:["Equinix","GSMA-SM","International"]},
     {d:"Oct.2020→Déc.2025",co:"AREVA Group — Orano, Framatome, SinerGIE",ro:"IT Project & Program Leader",desc:"Portefeuille Infrastructure, SI & Applications. Réseau France/Chine, migrations DC, Teams/SBC, CES+.",tags:["MS Azure","Equinix","CES+","International"]},
     {d:"2013→2020",co:"ENGIE IT — Saint-Ouen",ro:"IT Project & Program Leader",desc:"~60 projets infra : AWS/Azure, Office 365 T2T, SD-WAN. France, Europe, Amériques.",tags:["AWS","Azure","SD-WAN","International"]},
     {d:"2011→2013",co:"Société Générale — RESG/GTS/EUS",ro:"IT Program Leader — IOTA",desc:"~30 projets. Coordination AME/ASI/UK. Citrix, AD, VMware.",tags:["Citrix","AD","VMware","International"]},
@@ -432,7 +402,7 @@ fr:{
   ctSocTtl:"Connectons-nous et parlons de votre projet",
   ctText:"Disponible pour missions freelance IT & IA, audits cybersécurité, coordination internationale. Réponse sous 24h. Que vous ayez un projet à cadrer, un programme à sécuriser ou une transformation IT à piloter, je m'adapte à vos contraintes : mission courte ou longue durée, France ou international, remote ou sur site.",
   langs:["🇫🇷 Français — natif","🇬🇧 English — fluent"],
-  foot:"© 2025 Philippe Damas · Senior IT Program Manager & AI Automation Consultant · PMP® · ITIL · GSMA-SM",navRex:"Blog Projets IT",navMu:"Communication Unifiée",nmAbout:"À propos",nmContact:"Contact",nmCta:"Parlons-en →"
+  foot:"© 2025 Philippe Damas · Senior IT Program Manager & AI Automation Consultant · PMP® · ITIL · GSMA-SM",navBlog:"Blog IT",navMeth:"Méthodo IT",navMu:"Communication Unifiée"
 },
 en:{
   nav:["About","Contact"],
@@ -445,8 +415,8 @@ en:{
   sayHiLbl:"Who am I?",
   sayHiTxt:"Welcome to my portfolio. Here you'll find my recent missions, IT & AI skills, and freelance services. Feel free to reach out to discuss your projects.",
   cbLbl:"Trusted by",
-  msLblTitle:"Engagements & Audit",msStarLbl:"Ongoing mission · 2025",msStarBadge:"Client IDEMIA",
-  msTtl:"Audit Mission — GSMA-SM",msRole:"Local Security Officer · Datacenter & Security Manager · Equinix PA3/PA4",msDesc:"Installation and certification of a secure cage from scratch at Equinix PA3/PA4 datacenter. Hardware procurement management, physical & logical security oversight, and strict enforcement of GSMA-SM standards on site. International mission with coordination of teams in Romania (BCP).",
+  msLblTitle:"Engagements & Audit",msStarLbl:"Ongoing mission · 2025",msStarBadge:"IDEMIA — Ongoing mission",
+  msTtl:"Audit Mission — IDEMIA",msRole:"Local Security Officer · Datacenter & Security Manager · Equinix PA3/PA4",msDesc:"Installation and certification of a secure cage from scratch at Equinix PA3/PA4 datacenter. Hardware procurement management, physical & logical security oversight, and strict enforcement of GSMA-SM standards on site. International mission with coordination of teams in Romania (BCP).",
   msPoints:[
     {ic:"🔐",ti:"GSMA-SM Certification",desc:"Equinix cage, Key Custodian, EAP/TLS, Crypto Card."},
     {ic:"🏗️",ti:"Physical & Logical Security",desc:"CCTV, access control, Azure DRP, BCP Romania."},
@@ -467,7 +437,7 @@ en:{
   hl:[{t:"Portfolio",d:"Demand Mgt → RUN"},{t:"Infra & DC",d:"Azure, AWS, Equinix"},{t:"Cybersecurity",d:"GSMA-SM, CES+, PCI"},{t:"International",d:"FR/EN — 10+ countries"}],
   exTtl:"Experience",
   exps:[
-    {d:"Oct.2025→Present",co:"IDEMIA — Cybersecurity Audit GSMA/SM",ro:"Local Security Officer",desc:"Equinix cage, GSMA-SM, Key Custodian, CCTV, BCP Romania.",tags:["Equinix","GSMA-SM","International"]},
+    {d:"Dec.2025→Present",co:"IDEMIA — Cybersecurity Audit GSMA/SM",ro:"Local Security Officer",desc:"Equinix cage, GSMA-SM, Key Custodian, CCTV, BCP Romania.",tags:["Equinix","GSMA-SM","International"]},
     {d:"Oct.2020→Dec.2025",co:"AREVA Group — Orano, Framatome, SinerGIE",ro:"IT Project & Program Leader",desc:"Infrastructure, IS & Applications portfolio. Network France/China, DC migrations, Teams/SBC, CES+.",tags:["MS Azure","Equinix","CES+","International"]},
     {d:"2013→2020",co:"ENGIE IT — Saint-Ouen",ro:"IT Project & Program Leader",desc:"~60 infra projects: AWS/Azure, Office 365 T2T, SD-WAN. France, Europe, Americas.",tags:["AWS","Azure","SD-WAN","International"]},
     {d:"2011→2013",co:"Société Générale — RESG/GTS/EUS",ro:"IT Program Leader — IOTA",desc:"~30 projects. AME/ASI/UK. Citrix, AD, VMware.",tags:["Citrix","AD","VMware","International"]},
@@ -497,7 +467,7 @@ en:{
   ctSocTtl:"Let's connect and talk about your project",
   ctText:"Available for freelance IT & AI management, cybersecurity audits, international coordination. Response within 24h. Whether you need to scope a project, secure a program or drive an IT transformation, I adapt to your constraints: short or long-term mission, France or international, remote or on-site.",
   langs:["🇫🇷 Français — natif","🇬🇧 English — fluent"],
-  foot:"© 2025 Philippe Damas · Senior IT Program Manager & AI Automation Consultant · PMP® · ITIL · GSMA-SM",navRex:"IT Project Blog",navMu:"Unified Communications",nmAbout:"About",nmContact:"Contact",nmCta:"Let's talk →"
+  foot:"© 2025 Philippe Damas · Senior IT Program Manager & AI Automation Consultant · PMP® · ITIL · GSMA-SM",navBlog:"IT Blog",navMeth:"IT Methodology",navMu:"Unified Communications"
 }
 };
 
@@ -525,13 +495,9 @@ function render(){
   document.getElementById('bFR').className=lang==='fr'?'on':'';
   document.getElementById('bEN').className=lang==='en'?'on':'';
   document.getElementById('talkBtn').textContent=t.talkBtn;
-  document.getElementById('navRex').textContent=t.navRex;
+  document.getElementById('navBlog').textContent=t.navBlog;
+  document.getElementById('navMeth').textContent=t.navMeth;
   document.getElementById('navMu').textContent=t.navMu;
-  document.getElementById('nmRex').textContent=t.navRex;
-  document.getElementById('nmMu').textContent=t.navMu;
-  document.getElementById('nmAbout').textContent=t.nmAbout;
-  document.getElementById('nmContact').textContent=t.nmContact;
-  document.getElementById('nmCta').textContent=t.nmCta;
   document.getElementById('hBadge').textContent=t.badge;
   document.getElementById('hRole').textContent=t.role;
   document.getElementById('hDesc').textContent=t.desc;
@@ -590,7 +556,6 @@ function render(){
   document.getElementById('foot').textContent=t.foot;
 }
 function setLang(l){lang=l;render();}
-function toggleMobileNav(){var m=document.getElementById('navMobile');m.classList.toggle('open');}
 render();
 </script>
 </body>
