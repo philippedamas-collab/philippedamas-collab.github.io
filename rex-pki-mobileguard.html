@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>REX #7 — PKI / IDNOMIC / MobileGuard | Philippe Damas</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=DM+Sans:wght@400;500;700&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:#F8F6FD;color:#1a1a1a;font-family:'Inter',Arial,sans-serif;font-size:15px;font-weight:300;line-height:1.7}
+a{text-decoration:none;color:inherit}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:60px;padding:0 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(248,246,253,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06)}
+.logo{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:1rem;letter-spacing:.06em;text-transform:uppercase}
+.logo span{color:#7c3aed}
+.nav-right{display:flex;align-items:center;gap:14px}
+.nav-link{font-size:.65rem;color:#666;letter-spacing:.03em;text-transform:uppercase}
+.back-btn{padding:7px 16px;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.25);border-radius:20px;font-size:.65rem;font-weight:600;color:#7c3aed;letter-spacing:.03em;text-transform:uppercase}
+
+/* PAGE */
+.page{max-width:860px;margin:0 auto;padding:90px 32px 80px}
+
+/* HERO */
+.hero{padding-bottom:40px;border-bottom:1px solid rgba(0,0,0,.08);margin-bottom:48px}
+.meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.rex-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.25);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:#7c3aed}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:blink 2s infinite;flex-shrink:0}
+.dp{padding:4px 10px;border-radius:20px;font-size:.6rem;letter-spacing:.06em;background:#ece7dd;color:#666}
+h1{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:clamp(1.8rem,4vw,2.7rem);line-height:1.15;letter-spacing:-.02em;margin-bottom:16px;color:#1a1a1a}
+h1 em{color:#7c3aed;font-style:normal}
+.subtitle{font-size:.88rem;color:#555;line-height:1.8;max-width:680px;padding-left:16px;border-left:3px solid rgba(124,58,237,.25);margin-bottom:32px}
+
+/* KPI */
+.kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:#e0dbd0;border-radius:16px;overflow:hidden}
+.ki{background:#F8F6FD;padding:18px 12px;text-align:center}
+.ki:hover{background:#fff}
+.kv{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:1.4rem;color:#7c3aed;line-height:1}
+.kl{font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:#999;margin-top:4px}
+
+/* SECTION HEADERS */
+.sh{display:flex;align-items:baseline;gap:12px;margin-bottom:22px;padding-bottom:12px;border-bottom:1px solid rgba(0,0,0,.08)}
+.sh-n{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:2.4rem;color:#e0dbd0;line-height:1}
+.sh-t{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:1.25rem;letter-spacing:-.01em;color:#1a1a1a}
+.sh-s{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:#999;margin-left:auto}
+section{margin-bottom:50px}
+
+/* PROSE */
+p{font-size:.87rem;color:#555;line-height:1.8;margin-bottom:12px}
+strong{color:#1a1a1a;font-weight:500}
+
+/* INSIGHT */
+.insight{background:#fff;border:1px solid rgba(124,58,237,.18);border-left:3px solid #7c3aed;border-radius:12px;padding:18px 22px;margin:18px 0;font-size:.87rem;font-style:italic;color:#444;line-height:1.8}
+
+/* SER cards */
+.ser-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.ser-card{background:#1a1a1a;border-radius:16px;padding:22px;position:relative;overflow:hidden}
+.ser-card::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;background:radial-gradient(circle,rgba(124,58,237,.25) 0%,transparent 70%)}
+.ser-n{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:1.6rem;color:rgba(255,255,255,.18);line-height:1;margin-bottom:4px}
+.ser-badge{display:inline-block;padding:3px 10px;border-radius:20px;background:rgba(124,58,237,.3);border:1px solid rgba(124,58,237,.5);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:#ddd6fe;margin-bottom:8px}
+.ser-title{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:.88rem;color:#fff;margin-bottom:5px}
+.ser-desc{font-size:.75rem;color:rgba(255,255,255,.78);line-height:1.55}
+
+/* ARCH */
+.arch-wrap{background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:16px;padding:26px 22px;margin:18px 0;overflow-x:auto}
+.arch-lbl{font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:#999;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.arch-lbl::after{content:'';flex:1;height:1px;background:rgba(0,0,0,.06)}
+
+/* PHASES */
+.phases{display:flex;flex-direction:column;gap:12px;margin-top:14px}
+.phase-card{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:16px;padding:20px 24px;display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:start;transition:border-color .2s}
+.phase-card:hover{border-color:rgba(124,58,237,.3)}
+.p-num{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:2.1rem;color:#e0dbd0;line-height:1}
+.p-per{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:#7c3aed;margin-bottom:4px}
+.p-tit{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:.93rem;color:#1a1a1a;margin-bottom:10px}
+.p-list{list-style:none;display:flex;flex-direction:column;gap:5px}
+.p-list li{font-size:.8rem;color:#555;padding-left:14px;position:relative;line-height:1.55}
+.p-list li::before{content:'›';position:absolute;left:0;color:#7c3aed;font-weight:700}
+
+/* MS note */
+.ms-note{background:#f0f7ff;border:1px solid rgba(2,132,199,.2);border-left:3px solid #0284c7;border-radius:10px;padding:14px 18px;margin:12px 0;display:flex;gap:12px;align-items:flex-start}
+.ms-logo{width:30px;height:30px;border-radius:7px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(0,0,0,.06)}
+.ms-txt{font-size:.79rem;color:#444;line-height:1.65}
+.ms-txt strong{color:#0a1a2e}
+
+/* ACTORS */
+.actors-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:8px;margin-top:14px}
+.actor-item{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:8px;font-size:.78rem;color:#555}
+.adot{width:6px;height:6px;border-radius:50%;background:#7c3aed;flex-shrink:0}
+.actor-item.ms{border-color:rgba(2,132,199,.3);background:rgba(2,132,199,.03)}
+.actor-item.ms .adot{background:#0284c7}
+
+/* RESULTS */
+.results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(225px,1fr));gap:10px;margin-top:14px}
+.result-card{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:15px 17px;display:flex;gap:11px;align-items:flex-start;transition:all .2s}
+.result-card:hover{border-color:rgba(124,58,237,.3);transform:translateY(-1px)}
+.ri{font-size:.95rem;flex-shrink:0;margin-top:1px}
+.rt{font-size:.79rem;color:#555;line-height:1.55}
+.rt strong{color:#1a1a1a}
+
+/* TAGS */
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:14px}
+.tag{padding:4px 10px;border-radius:20px;font-size:.6rem;letter-spacing:.04em;background:#ece7dd;color:#666}
+.tag-v{background:rgba(124,58,237,.12);color:#7c3aed}
+
+/* FOOTER */
+.post-footer{border-top:1px solid rgba(0,0,0,.08);padding-top:26px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px}
+.author-block{display:flex;align-items:center;gap:12px}
+.avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#5b21b6);display:flex;align-items:center;justify-content:center;font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:.7rem;color:#fff;flex-shrink:0}
+.a-name{font-family:'DM Sans',Arial,sans-serif;font-weight:700;font-size:.87rem;color:#1a1a1a}
+.a-role{font-size:.63rem;color:#999;letter-spacing:.03em}
+.post-meta{font-size:.6rem;color:#bbb;letter-spacing:.06em;text-transform:uppercase}
+
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+@media(max-width:640px){
+  .kpi-strip{grid-template-columns:repeat(2,1fr)}
+  .ser-grid,.phase-card{grid-template-columns:1fr}
+  nav{padding:0 18px}
+  .page{padding:80px 18px 60px}
+  .sh-s{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">P.<span>Damas</span></div>
+  <div class="nav-right">
+    <a href="blog-rex.html" class="nav-link">Blog Projets IT</a>
+    <a href="index.html" class="back-btn">← Portfolio</a>
+  </div>
+</nav>
+
+<div class="page">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="meta-row">
+    <span class="rex-pill"><span class="live-dot"></span>REX #7</span>
+    <span class="dp">Sécurité &amp; PKI</span>
+    <span class="dp">Mobilité Android</span>
+    <span class="dp">Industrie · Multi-sites</span>
+  </div>
+  <h1>Zéro mot de passe sur 2 000 tablettes&nbsp;:<br>
+  <em>build d'une chaîne PKI automatisée</em><br>
+  pour l'authentification mobile industrielle</h1>
+  <p class="subtitle">
+    Remplacement d'une authentification par comptes de service génériques par des certificats numériques déployés automatiquement via MDM sur 2 000 tablettes Android — de la CA Root au Wi-Fi en passant par IDNOMIC SaaS, MobileGuard et Microsoft NPS Radius.
+  </p>
+  <div class="kpi-strip">
+    <div class="ki"><div class="kv">2 000</div><div class="kl">Tablettes Android</div></div>
+    <div class="ki"><div class="kv">6</div><div class="kl">Sites industriels</div></div>
+    <div class="ki"><div class="kv">12 mois</div><div class="kl">Infra → POC → Deploy</div></div>
+    <div class="ki"><div class="kv">300 k€</div><div class="kl">Budget projet</div></div>
+    <div class="ki"><div class="kv">2 SER</div><div class="kl">Exceptions levées</div></div>
+  </div>
+</div>
+
+<!-- 01 CONTEXTE -->
+<section>
+  <div class="sh"><span class="sh-n">01</span><span class="sh-t">Contexte &amp; enjeux sécurité</span><span class="sh-s">Origine du projet</span></div>
+  <p>Dans les environnements industriels, les tablettes Android des opérateurs et prestataires terrain recourent souvent à des <strong>comptes de service partagés</strong> (login/mot de passe générique) pour s'authentifier sur le réseau. Cette pratique accumule deux non-conformités majeures qui ont déclenché l'ouverture de deux Security Exception Requests (SER) distinctes.</p>
+
+  <div class="ser-grid">
+    <div class="ser-card">
+      <div class="ser-n">SER 1</div>
+      <div class="ser-badge">Security Exception Request</div>
+      <div class="ser-title">Usage d'un compte générique login / mot de passe</div>
+      <div class="ser-desc">L'authentification par identifiants partagés contourne les politiques IAM et rend impossible toute traçabilité individuelle des accès réseau.</div>
+    </div>
+    <div class="ser-card">
+      <div class="ser-n">SER 2</div>
+      <div class="ser-badge">Security Exception Request</div>
+      <div class="ser-title">Même compte générique utilisé sur plusieurs tablettes simultanément</div>
+      <div class="ser-desc">La réutilisation d'un identifiant unique sur plusieurs terminaux multiplie la surface d'attaque et empêche toute révocation ciblée en cas d'incident.</div>
+    </div>
+  </div>
+
+  <p>L'objectif est de basculer 2 000 tablettes vers une <strong>authentification forte par certificat numérique individuel</strong> (802.1X / EAP-TLS), sans rupture de service, sans geste supplémentaire pour les utilisateurs terrain, et avec un renouvellement automatique géré par le MDM.</p>
+
+  <div class="insight">
+    « Remplacer des comptes partagés par 2 000 certificats individuels, c'est trivial en théorie. Le faire proprement — PKI d'entreprise, MDM industriel, Radius Microsoft et annuaire AD — c'est un projet d'architecture coordonné sur 12 mois et 6 sites. »
+  </div>
+</section>
+
+<!-- 02 ARCHITECTURE -->
+<section>
+  <div class="sh"><span class="sh-n">02</span><span class="sh-t">Architecture de la solution</span><span class="sh-s">Deux flux distincts</span></div>
+
+  <p>La solution articule deux flux techniques complémentaires. Le <strong>flux de provisioning</strong> génère et distribue automatiquement les certificats depuis la PKI jusqu'aux tablettes. Le <strong>flux d'authentification</strong> est initié par la tablette via le Radius — qui est le premier point de contrôle lors de toute tentative de connexion Wi-Fi.</p>
+
+  <!-- SCHEMA PROVISIONING -->
+  <div class="arch-wrap">
+    <div class="arch-lbl">Flux de provisioning — génération &amp; distribution des certificats (PKI → Tablette)</div>
+    <svg viewBox="0 0 780 124" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:660px;height:auto;display:block">
+      <defs>
+        <marker id="ap" markerWidth="8" markerHeight="7" refX="6" refY="3.5" orient="auto">
+          <path d="M0,0 L0,7 L8,3.5 z" fill="#7c3aed" opacity="0.55"/>
+        </marker>
+      </defs>
+      <!-- PKI -->
+      <rect x="8" y="26" width="108" height="64" rx="9" fill="#fff" stroke="#e0dbd0" stroke-width="1.4"/>
+      <rect x="8" y="26" width="108" height="5" rx="9" fill="#7c3aed" opacity="0.65"/>
+      <text x="62" y="62" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700" font-size="11" fill="#1a1a1a">PKI Client</text>
+      <text x="62" y="78" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#999">CA Root · P12 · SSL</text>
+      <!-- arrow -->
+      <line x1="116" y1="58" x2="148" y2="58" stroke="#7c3aed" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#ap)"/>
+      <text x="132" y="51" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#bbb">API/SOAP</text>
+      <!-- CMS IDNOMIC -->
+      <rect x="150" y="14" width="132" height="90" rx="9" fill="#faf8ff" stroke="#c4b5fd" stroke-width="1.5"/>
+      <text x="216" y="44" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700" font-size="11" fill="#1a1a1a">CMS / ID CMS</text>
+      <text x="216" y="58" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#7c3aed">IDNOMIC SaaS</text>
+      <text x="216" y="72" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#bbb">OT EE · OT RA · OT CA</text>
+      <text x="216" y="84" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#bbb">SCWP · OT Logs</text>
+      <!-- arrow -->
+      <line x1="282" y1="59" x2="314" y2="59" stroke="#7c3aed" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#ap)"/>
+      <text x="298" y="52" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#bbb">HTTPS</text>
+      <!-- MobileGuard -->
+      <rect x="316" y="26" width="118" height="64" rx="9" fill="#fff" stroke="#c4b5fd" stroke-width="1.4"/>
+      <rect x="316" y="26" width="118" height="5" rx="9" fill="#7c3aed" opacity="0.45"/>
+      <text x="375" y="62" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700" font-size="11" fill="#1a1a1a">MobileGuard</text>
+      <text x="375" y="76" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#999">Composant IDNOMIC</text>
+      <!-- arrow -->
+      <line x1="434" y1="58" x2="466" y2="58" stroke="#7c3aed" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#ap)"/>
+      <text x="450" y="51" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#bbb">HTTPS</text>
+      <!-- MDM -->
+      <rect x="468" y="26" width="118" height="64" rx="9" fill="#fff" stroke="#e0dbd0" stroke-width="1.4"/>
+      <text x="527" y="58" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700" font-size="11" fill="#1a1a1a">MDM AirWatch</text>
+      <text x="527" y="72" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#999">Workspace ONE</text>
+      <!-- arrow -->
+      <line x1="586" y1="58" x2="618" y2="58" stroke="#7c3aed" stroke-width="1.4" stroke-dasharray="4,3" opacity="0.6" marker-end="url(#ap)"/>
+      <text x="602" y="51" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#bbb">Push</text>
+      <!-- Tablette -->
+      <rect x="620" y="26" width="118" height="64" rx="9" fill="#fff" stroke="#e0dbd0" stroke-width="1.4"/>
+      <rect x="620" y="26" width="118" height="5" rx="9" fill="#22c55e" opacity="0.65"/>
+      <text x="679" y="58" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700" font-size="11" fill="#1a1a1a">Tablette Android</text>
+      <text x="679" y="72" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#555">Cert. P12 installé ✓</text>
+      <!-- footnote -->
+      <text x="390" y="116" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#ccc">Le certificat est généré par la PKI, orchestré par IDNOMIC/MobileGuard et poussé automatiquement sur la tablette via MDM</text>
+    </svg>
+  </div>
+
+  <!-- SCHEMA AUTH -->
+  <div class="arch-wrap">
+    <div class="arch-lbl">Flux d'authentification Wi-Fi — 802.1X / EAP-TLS (Radius en entrée de chaîne)</div>
+    <svg viewBox="0 0 780 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:660px;height:auto;display:block">
+      <defs>
+        <marker id="aa" markerWidth="8" markerHeight="7" refX="6" refY="3.5" orient="auto">
+          <path d="M0,0 L0,7 L8,3.5 z" fill="#0284c7" opacity="0.65"/>
+        </marker>
+        <marker id="ag" markerWidth="8" markerHeight="7" refX="6" refY="3.5" orient="auto">
+          <path d="M0,0 L0,7 L8,3.5 z" fill="#16a34a" opacity="0.8"/>
+        </marker>
+      </defs>
+
+      <!-- Step labels -->
+      <text x="62" y="12" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#bbb">① Connexion Wi-Fi</text>
+      <text x="220" y="12" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#0284c7">② Vérif. certificat</text>
+      <text x="372" y="12" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#bbb">③ Compte &amp; groupe</text>
+      <text x="524" y="12" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#bbb">④ Validation CA</text>
+      <text x="686" y="12" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#16a34a">⑤ Accès accordé</text>
+
+      <!-- Tablette -->
+      <rect x="8" y="24" width="108" height="60" rx="9" fill="#fff" stroke="#e0dbd0" stroke-width="1.4"/>
+      <rect x="8" y="24" width="108" height="5" rx="9" fill="#7c3aed" opacity="0.5"/>
+      <text x="62" y="56" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700" font-size="10.5" fill="#1a1a1a">Tablette Android</text>
+      <text x="62" y="70" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#999">Cert. P12 embarqué</text>
+
+      <!-- arrow 1 -->
+      <line x1="116" y1="54" x2="146" y2="54" stroke="#0284c7" stroke-width="1.5" opacity="0.65" marker-end="url(#aa)"/>
+      <text x="131" y="47" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#bbb">802.1X</text>
+      <text x="131" y="67" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#bbb">EAP-TLS</text>
+
+      <!-- RADIUS MS NPS -->
+      <rect x="148" y="14" width="146" height="82" rx="9" fill="#f0f7ff" stroke="#0284c7" stroke-width="1.8"/>
+      <rect x="148" y="14" width="146" height="5" rx="9" fill="#0284c7" opacity="0.75"/>
+      <text x="221" y="44" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700" font-size="11" fill="#1a1a1a">Radius</text>
+      <text x="221" y="58" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" fill="#0284c7">Microsoft NPS</text>
+      <text x="221" y="72" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#666">Contrôle 802.1X</text>
+      <text x="221" y="84" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#aaa">+ Case MS ouverte</text>
+      <!-- MS logo small -->
+      <rect x="282" y="58" width="8" height="8" rx="0" fill="#f25022"/>
+      <rect x="291" y="58" width="8" height="8" rx="0" fill="#7fba00"/>
+      <rect x="282" y="67" width="8" height="8" rx="0" fill="#00a4ef"/>
+      <rect x="291" y="67" width="8" height="8" rx="0" fill="#ffb900"/>
+
+      <!-- arrow 2 -->
+      <line x1="294" y1="55" x2="318" y2="55" stroke="#0284c7" stroke-width="1.5" opacity="0.65" marker-end="url(#aa)"/>
+      <text x="306" y="48" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#bbb">LDAP</text>
+
+      <!-- AD -->
+      <rect x="320" y="24" width="108" height="62" rx="9" fill="#fff" stroke="#e0dbd0" stroke-width="1.4"/>
+      <text x="374" y="52" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700" font-size="10.5" fill="#1a1a1a">Active Directory</text>
+      <text x="374" y="66" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#999">Compte &amp; groupes</text>
+
+      <!-- arrow 3 -->
+      <line x1="428" y1="55" x2="452" y2="55" stroke="#0284c7" stroke-width="1.5" opacity="0.65" marker-end="url(#aa)"/>
+      <text x="440" y="47" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#bbb">CRL/CA</text>
+
+      <!-- PKI CA -->
+      <rect x="454" y="24" width="110" height="62" rx="9" fill="#fff" stroke="#e0dbd0" stroke-width="1.4"/>
+      <text x="509" y="52" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700" font-size="10.5" fill="#1a1a1a">PKI / CA Root</text>
+      <text x="509" y="66" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#999">Validation chaîne</text>
+
+      <!-- arrow 4 green -->
+      <line x1="564" y1="55" x2="590" y2="55" stroke="#16a34a" stroke-width="1.8" marker-end="url(#ag)"/>
+      <text x="577" y="47" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#16a34a">OK ✓</text>
+
+      <!-- Accès -->
+      <rect x="592" y="14" width="148" height="82" rx="9" fill="#f0fff4" stroke="#22c55e" stroke-width="1.6"/>
+      <rect x="592" y="14" width="148" height="5" rx="9" fill="#22c55e" opacity="0.65"/>
+      <text x="666" y="46" text-anchor="middle" font-family="DM Sans,sans-serif" font-weight="700" font-size="10.5" fill="#1a1a1a">Réseau Wi-Fi CORP</text>
+      <text x="666" y="60" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" fill="#166534">Apps Métiers On premise</text>
+      <text x="666" y="74" text-anchor="middle" font-family="Inter,sans-serif" font-size="8" fill="#aaa">CMS Selfcare (SCWP)</text>
+
+      <!-- RADIUS label note -->
+      <rect x="136" y="106" width="170" height="18" rx="6" fill="rgba(2,132,199,0.07)" stroke="rgba(2,132,199,0.18)" stroke-width="1"/>
+      <text x="221" y="118" text-anchor="middle" font-family="Inter,sans-serif" font-size="7.5" fill="#0284c7">Premier point de contrôle du flux d'auth.</text>
+    </svg>
+  </div>
+
+  <p>Le <strong>Radius Microsoft NPS</strong> est le point d'entrée du flux d'authentification : il reçoit en premier la demande EAP-TLS de la tablette, interroge l'Active Directory pour vérifier le compte et les groupes, valide le certificat présenté contre la CA Root de la PKI, puis accorde ou refuse l'accès au réseau Wi-Fi Corporate.</p>
+</section>
+
+<!-- 03 DÉROULEMENT -->
+<section>
+  <div class="sh"><span class="sh-n">03</span><span class="sh-t">Déroulement du projet</span><span class="sh-s">12 mois · 3 phases</span></div>
+  <div class="phases">
+
+    <div class="phase-card">
+      <div class="p-num">01</div>
+      <div>
+        <div class="p-per">Mois 1–4 · Infrastructure</div>
+        <div class="p-tit">Build &amp; intégration de la plateforme</div>
+        <ul class="p-list">
+          <li>Déploiement de la plateforme IDNOMIC SaaS (OT EE, OT RA, OT CA, SCWP, ID CMS)</li>
+          <li>Intégration du composant MobileGuard et configuration des connecteurs API/SOAP vers la PKI</li>
+          <li>Ouverture et qualification des flux réseau (HTTPS, TCP, API/SOAP) avec l'infogérant</li>
+          <li>Mise en place de la CA Root et définition des templates de certificats (P12, SSL)</li>
+          <li>Configuration des profils MDM AirWatch — enrôlement Android et politique de certificats</li>
+          <li>Coordination architectes réseau, équipe AD/NPS Radius, infogérant PF</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase-card">
+      <div class="p-num">02</div>
+      <div>
+        <div class="p-per">Mois 5–7 · POC</div>
+        <div class="p-tit">Validation bout en bout — dont escalade Microsoft</div>
+        <ul class="p-list">
+          <li>Test de génération des certificats P12/SSL via IDNOMIC CMS en recette</li>
+          <li>Push des certificats sur un lot pilote de tablettes Android via MDM AirWatch</li>
+          <li>Validation du flux 802.1X complet : tablette → Radius NPS → AD → PKI CA → accès Wi-Fi</li>
+          <li>Vérification de la chaîne de confiance de bout en bout (CA Root → certificat feuille)</li>
+          <li>Test et validation du renouvellement automatique des certificats à expiration</li>
+          <li>Rédaction du rapport de POC et présentation aux décideurs sécurité</li>
+        </ul>
+
+        <div class="ms-note">
+          <div class="ms-logo">
+            <svg viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg" width="18" height="18">
+              <rect x="1" y="1" width="9" height="9" fill="#f25022"/>
+              <rect x="11" y="1" width="9" height="9" fill="#7fba00"/>
+              <rect x="1" y="11" width="9" height="9" fill="#00a4ef"/>
+              <rect x="11" y="11" width="9" height="9" fill="#ffb900"/>
+            </svg>
+          </div>
+          <div class="ms-txt">
+            <strong>Escalade Microsoft — NPS Radius</strong> — La validation EAP-TLS entre le Radius Microsoft NPS et les certificats générés par IDNOMIC a nécessité l'ouverture de <strong>cases de support Microsoft</strong>. L'équipe MS a accompagné la qualification de la configuration NPS, le mapping des attributs de certificat et la résolution des problèmes de révocation CRL — permettant de débloquer et finaliser la validation du POC.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase-card">
+      <div class="p-num">03</div>
+      <div>
+        <div class="p-per">Mois 8–12 · Déploiement</div>
+        <div class="p-tit">Généralisation sur 6 sites &amp; levée des 2 SER</div>
+        <ul class="p-list">
+          <li>Industrialisation : push MDM automatisé sur 2 000 tablettes Android par vague de déploiement</li>
+          <li>Ouverture des flux réseaux site par site (coordination NOC, équipes locales, architectes)</li>
+          <li>Activation des profils MDM par vague, avec plan de rollback documenté par site</li>
+          <li>Retrait progressif et définitif des 2 comptes de service génériques partagés</li>
+          <li>Levée formelle des 2 SER — validation co-signée RSSI &amp; équipe compliance</li>
+          <li>Passation de l'architecture documentée et procédures d'exploitation à l'équipe Run</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 04 ACTEURS -->
+<section>
+  <div class="sh"><span class="sh-n">04</span><span class="sh-t">Parties prenantes</span><span class="sh-s">8 expertises coordonnées</span></div>
+  <p>Le projet a mobilisé simultanément huit domaines d'expertise, chacun propriétaire d'une brique critique — avec ses propres contraintes de gouvernance, de disponibilité et d'escalade.</p>
+  <div class="actors-grid">
+    <div class="actor-item"><span class="adot"></span>Infogérant PF / CMS / MobileGuard</div>
+    <div class="actor-item"><span class="adot"></span>Experts PKI &amp; CA Root</div>
+    <div class="actor-item"><span class="adot"></span>Architectes réseau &amp; sécurité</div>
+    <div class="actor-item"><span class="adot"></span>Équipe Active Directory</div>
+    <div class="actor-item ms"><span class="adot"></span>Microsoft Support (NPS Radius)</div>
+    <div class="actor-item"><span class="adot"></span>Experts MDM AirWatch</div>
+    <div class="actor-item"><span class="adot"></span>RSSI / Équipe Compliance</div>
+    <div class="actor-item"><span class="adot"></span>Éditeur IDNOMIC</div>
+  </div>
+</section>
+
+<!-- 05 COMPLEXITÉS -->
+<section>
+  <div class="sh"><span class="sh-n">05</span><span class="sh-t">Points d'attention</span><span class="sh-s">Retours d'expérience</span></div>
+
+  <p><strong>La chaîne de confiance, un contrat multi-acteurs.</strong> Chaque maillon a son propriétaire. La CA Root appartient à la sécurité, le MDM à l'équipe workplace, le Radius au NOC. Le chef de projet joue un rôle d'intégrateur : s'assurer que les templates IDNOMIC correspondent exactement aux attentes NPS, et que le Radius accepte cette CA spécifique.</p>
+
+  <p><strong>NPS, un écosystème exigeant.</strong> Le protocole EAP-TLS sur Microsoft NPS comporte des subtilités (mapping SAN, gestion des CRL, politiques réseau) qui ont nécessité une escalade support. Cette étape, anticipée mais sous-estimée en durée, a allongé le POC de plusieurs semaines — un enseignement direct pour tout projet de ce type.</p>
+
+  <p><strong>Le POC incomplet, le piège classique.</strong> Un POC PKI/MDM peut sembler validé alors qu'il ne l'est qu'à moitié : certificat bien poussé, mais renouvellement automatique non testé. Sur 2 000 tablettes, une expiration massive non gérée constitue un incident majeur. Le critère d'acceptation incluait explicitement la validation du renouvellement automatique.</p>
+
+  <p><strong>Les 2 SER, moteur et jalon.</strong> Les deux Security Exception Requests étaient à la fois la pression déclenchante et le critère de succès final. Leur levée formelle, co-signée par le RSSI, a constitué le jalonnement ultime — transformant une contrainte compliance en indicateur de valeur livrable concret.</p>
+</section>
+
+<!-- 06 RÉSULTATS -->
+<section>
+  <div class="sh"><span class="sh-n">06</span><span class="sh-t">Résultats</span><span class="sh-s">Bilan final</span></div>
+  <div class="results-grid">
+    <div class="result-card"><span class="ri">✅</span><span class="rt"><strong>Chaîne automatisée bout en bout</strong> : génération PKI → push MDM → renouvellement, sans intervention manuelle</span></div>
+    <div class="result-card"><span class="ri">📱</span><span class="rt"><strong>2 000 tablettes Android</strong> authentifiées par certificat individuel sur 6 sites industriels, sans rupture de service</span></div>
+    <div class="result-card"><span class="ri">🔄</span><span class="rt">Renouvellement des certificats <strong>entièrement automatisé</strong> via MDM — zéro action utilisateur à l'échéance</span></div>
+    <div class="result-card"><span class="ri">🗑️</span><span class="rt"><strong>2 comptes de service génériques</strong> supprimés définitivement du périmètre mobile</span></div>
+    <div class="result-card"><span class="ri">🛡️</span><span class="rt"><strong>2 SER levées</strong> formellement — conformité sécurité rétablie, validée et co-signée par le RSSI</span></div>
+    <div class="result-card"><span class="ri">📋</span><span class="rt">Architecture documentée et procédures d'exploitation transmises à l'équipe Run</span></div>
+  </div>
+</section>
+
+<!-- 07 COMPÉTENCES -->
+<section>
+  <div class="sh"><span class="sh-n">07</span><span class="sh-t">Compétences mobilisées</span></div>
+  <div class="tags">
+    <span class="tag tag-v">PKI / CA Root</span>
+    <span class="tag tag-v">Certificats P12 / SSL</span>
+    <span class="tag tag-v">IDNOMIC SaaS</span>
+    <span class="tag tag-v">MobileGuard</span>
+    <span class="tag tag-v">AirWatch / Workspace ONE</span>
+    <span class="tag tag-v">Enrôlement Android MDM</span>
+    <span class="tag tag-v">802.1X / EAP-TLS</span>
+    <span class="tag tag-v">Microsoft NPS Radius</span>
+    <span class="tag">Active Directory</span>
+    <span class="tag">Architecture réseau sécurisée</span>
+    <span class="tag">Gestion d'infogérant</span>
+    <span class="tag">POC → Production</span>
+    <span class="tag">Compliance / SER</span>
+    <span class="tag">Pilotage multi-experts</span>
+    <span class="tag">Déploiement multi-sites</span>
+    <span class="tag">Escalade support Microsoft</span>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="post-footer">
+  <div class="author-block">
+    <div class="avatar">PD</div>
+    <div>
+      <div class="a-name">Philippe Damas</div>
+      <div class="a-role">Senior IT Program Manager · PMP® · PRINCE2 · ITIL v3</div>
+    </div>
+  </div>
+  <div class="post-meta">REX #7 — Série Blog Projets IT</div>
+</div>
+
+</div>
+</body>
+</html>
